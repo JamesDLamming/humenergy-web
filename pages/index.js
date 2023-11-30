@@ -6,7 +6,7 @@ export default function Home() {
     <div>
       <Head>
         <title>My App</title>
-        <meta name="description" content="Welcome to Hum" />
+        <meta name="description" content="Welcome to Hum Energy" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
