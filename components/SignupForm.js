@@ -25,49 +25,44 @@ const SignupForm = () => {
     return (
         <div>
             <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="flex space-x-4">
-                    <div>
-                        <label htmlFor="firstName" className="block">
-                        </label>
+                <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <div className="flex-1">
                         <input
                             type="text"
                             id="firstName"
                             name="firstName"
-                            placeholder = "First Name"
+                            placeholder="First Name"
                             value={formData.firstName}
                             onChange={handleChange}
-                            className="p-2 border rounded-md"
+                            className="p-2 border rounded-md w-full"
                             required
                         />
                     </div>
-                    <div>
-                        <label htmlFor="lastName" className="block"></label>
+                    <div className="flex-1">
                         <input
                             type="text"
                             id="lastName"
                             name="lastName"
-                            placeholder = "Last Name"
+                            placeholder="Last Name"
                             value={formData.lastName}
                             onChange={handleChange}
-                            className="p-2 border rounded-md"
-                            
+                            className="p-2 border rounded-md w-full"
                         />
                     </div>
                 </div>
                 <div>
-                    <label htmlFor="email" className="block"></label>
                     <input
                         type="email"
                         id="email"
                         name="email"
+                        placeholder="Email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="p-2 border rounded-md"
-                        placeholder='Email'
+                        className="p-2 border rounded-md w-full"
                         required
                     />
                 </div>
-                <Button text="Join the waitlist" onClick={handleSubmit} />
+                <Button text="Submit" type="submit" className="w-full" />
             </form>
         </div>
     );
