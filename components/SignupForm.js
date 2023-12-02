@@ -156,7 +156,7 @@ const SignupForm = () => {
         <Button
           text={isSubmitted ? 'Submitted' : 'Submit'}
           type="submit"
-          className={`w-full ${
+          className={`${
             isSubmitted
               ? ' bg-green-500 text-black text-bold'
               : 'bg-blue-500 text-white'
