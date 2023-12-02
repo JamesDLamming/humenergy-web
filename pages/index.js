@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Head from 'next/head';
 import Button from '../components/Button'
-import SignupForm from '../components/signupForm';
+import SignupForm from '../components/SignupForm';
 
 
 
