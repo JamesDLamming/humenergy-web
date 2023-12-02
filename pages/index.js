@@ -16,7 +16,7 @@ export default function Home() {
 
       <div className="flex justify-center items-center h-screen bg-gray-100">
         {!isModalOpen && (
-          <div className="bg-white p-8 rounded-lg shadow-md sm:w-9/12 w-11/12 h-1/3 items-center justify-center flex">
+          <div className="bg-white p-8 rounded-lg shadow-md sm:w-9/12 w-11/12 max-w-3xl h-1/4 items-center justify-center flex">
             <div>
               <h1 className="text-2xl font-bold text-center mb-4">
                 Welcome to <span className="text-blue-600">Hum</span>
