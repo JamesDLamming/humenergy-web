@@ -158,7 +158,7 @@ const SignupForm = () => {
           type="submit"
           className={`${
             isSubmitted
-              ? ' !bg-white !text-black !text-bold hover:!bg-blue-200 '
+              ? ' !bg-white !text-black !text-bold !px-0 hover:!bg-blue-200 '
               : ''
           }`}
         />
