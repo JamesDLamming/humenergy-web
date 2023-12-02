@@ -157,9 +157,7 @@ const SignupForm = () => {
           text={isSubmitted ? 'Submitted' : 'Submit'}
           type="submit"
           className={`${
-            isSubmitted
-              ? ' bg-white !important text-black !important text-bold !important'
-              : ''
+            isSubmitted ? ' !bg-white !text-black !text-bold ' : ''
           }`}
         />
       </form>
