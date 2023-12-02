@@ -20,27 +20,27 @@ export default function Home() {
         <div className="flex justify-center items-center h-screen bg-gray-100">
             
           {!isModalOpen && (
-            <div className="bg-white p-8 rounded-lg shadow-md w-9/12">
-            <h1 className="text-2xl font-bold text-center mb-4">Welcome to <span className="text-blue-600">Hum</span></h1>
-            <div className="flex justify-center">
+           <div className="bg-white p-8 rounded-lg shadow-md sm:w-9/12 w-11/12 h-1/3 items-center justify-center flex">
             <div>
-            <Button  text="Join the wailtlist" onClick={() => setIsModalOpen(true)}></Button>
-                    </div>
-                </div>
-            </div>
+           <h1 className="text-2xl font-bold text-center mb-4">Welcome to <span className="text-blue-600">Hum</span></h1>
+           <div className="flex justify-center">
+             <Button text="Join the wailtlist" onClick={() => setIsModalOpen(true)} />
+           </div>
+         </div>
+         </div>
           )}
 
             {isModalOpen && (
-                <div className="modal bg-white shadow-md p-10 pt-12 rounded-lg w-9/12">
+                <div className="modal relative bg-white shadow-md p-10 pt-12 rounded-lg md:w-9/12 w-11/12">
 
-<div className="relative bg-white rounded-lg  max-w-md w-full m-auto">
+                  <div className="absolute top-1.5 left-3.5  ">
 
-            <button
-                onClick={() => { setIsModalOpen(false) }}
-                className="absolute -top-10 left-1 -mt-18 -ml-8 mb-1 mr-1 text-2xl font-semibold"
-            >
-                &times;
-            </button>
+                    <button
+                        onClick={() => { setIsModalOpen(false) }}
+                        className="text-2xl font-semibold"
+                    >
+                        &times;
+                    </button>
             </div>
                     <SignupForm />
                 </div>
