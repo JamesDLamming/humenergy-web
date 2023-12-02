@@ -158,8 +158,8 @@ const SignupForm = () => {
           type="submit"
           className={`${
             isSubmitted
-              ? ' bg-green-500 text-black text-bold'
-              : 'bg-blue-500 text-white'
+              ? ' bg-white !important text-black !important text-bold !important'
+              : ''
           }`}
         />
       </form>
