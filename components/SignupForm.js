@@ -156,10 +156,8 @@ const SignupForm = () => {
         <Button
           text={isSubmitted ? 'Submitted' : 'Submit'}
           type="submit"
-          className={`${
-            isSubmitted
-              ? ' !bg-white !text-black !text-bold !px-0 hover:!bg-blue-200 '
-              : ''
+          submittedStyle={`${
+            isSubmitted ? ' !bg-white !text-black !font-bold !px-0 ' : ''
           }`}
         />
       </form>
