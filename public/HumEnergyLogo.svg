@@ -1,12 +1,110 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="150" cy="150" r="150" fill="##bfbfbf" />
-  <circle cx="120" cy="120" r="7" fill="white" />
-  <circle cx="180" cy="120" r="7" fill="white" />
-  <circle cx="120" cy="180" r="7" fill="white" />
-  <circle cx="180" cy="180" r="7" fill="white" />
-  <circle cx="150" cy="150" r="7" fill="white" />
-  <circle cx="120" cy="150" r="7" fill="white" />
-  <circle cx="180" cy="150" r="7" fill="white" />
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="300"
+   height="300"
+   viewBox="0 0 300 300"
+   version="1.1"
+   id="svg18"
+   sodipodi:docname="Hum Energy Logo.svg"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+  <metadata
+     id="metadata24">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs22" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     id="namedview20"
+     showgrid="false"
+     inkscape:zoom="0.17916667"
+     inkscape:cx="-1310.6979"
+     inkscape:cy="-1251.0754"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg18" />
+  <circle
+     cx="150"
+     cy="150"
+     r="150"
+     fill="##bfbfbf"
+     id="circle2" />
+  <g
+     id="g42"
+     transform="translate(-3.81427)">
+    <circle
+       cx="103.73256"
+       cy="81.406975"
+       fill="#ffffff"
+       id="circle4"
+       style="stroke-width:2.21429"
+       r="15.5" />
+    <circle
+       cx="203.89598"
+       cy="81.406975"
+       fill="#ffffff"
+       id="circle6"
+       style="stroke-width:2.21428"
+       r="15.5" />
+    <ellipse
+       cx="103.73256"
+       cy="218.18353"
+       fill="#ffffff"
+       id="circle8"
+       rx="15.5"
+       ry="15.909491"
+       style="stroke-width:2.24334" />
+    <circle
+       cx="203.89598"
+       cy="217.77405"
+       fill="#ffffff"
+       id="circle10"
+       style="stroke-width:2.21429"
+       r="15.5" />
+    <circle
+       cx="153.81427"
+       cy="149.59052"
+       fill="#ffffff"
+       id="circle12"
+       style="stroke-width:2.21429"
+       r="15.5" />
+    <circle
+       cx="103.73256"
+       cy="149.59052"
+       fill="#ffffff"
+       id="circle14"
+       style="stroke-width:2.21428"
+       r="15.5" />
+    <circle
+       cx="203.89598"
+       cy="149.59052"
+       fill="#ffffff"
+       id="circle16"
+       style="stroke-width:2.21429"
+       r="15.5" />
+  </g>
 </svg>
