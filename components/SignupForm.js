@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Button from './Button';
+import DefaultButton from './DefaultButton';
 
-const SignupForm = () => {
+const SignupForm = ({ isInModal = false, onFormSubmitted = () => {} }) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -92,6 +92,9 @@ const SignupForm = () => {
         console.log('isSubmitted set to true');
 
         // Handle the response if necessary, such as showing a thank you message
+        setTimeout(() => {
+          onFormSubmitted();
+        }, 2000);
       } else {
         console.error('Form submission error:', response);
         // Handle HTTP errors
@@ -153,13 +156,19 @@ const SignupForm = () => {
             <p className="text-red-500 text-xs mt-1">{errors.email}</p>
           )}
         </div>
-        <Button
-          text={isSubmitted ? 'Submitted' : 'Submit'}
+        <DefaultButton
           type="submit"
+          className={
+            isInModal
+              ? 'inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium sm:text-sm'
+              : ''
+          }
           submittedStyle={`${
             isSubmitted ? ' !bg-white !text-black !font-bold !px-0 ' : ''
           }`}
-        />
+        >
+          {isSubmitted ? 'Submitted' : 'Submit'}
+        </DefaultButton>
       </form>
     </div>
   );
