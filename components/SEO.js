@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 const SEO = ({
   title = 'Welcome to Hum Energy',
-  image = '/HumEnergyLogo.svg',
+  image = '/HumEnergyLogoSquare.svg',
   url = 'www.humenergyapp.com',
   description = 'Welcome to Hum Energy',
-  favicon = '/HumEnergyLogo.svg',
+  favicon = '/HumEnergyLogoSquare.svg',
 }) => {
   return (
     <Head>

@@ -8,7 +8,7 @@ const Nav = () => {
           <a href="" class="flex flex-wrap items-center lg:flex-1 gap-x-2">
             <img
               class="w-auto h-8"
-              src="/HumEnergyLogo.svg"
+              src="/HumEnergyLogoSquare.svg"
               alt="Hum Energy logo"
             ></img>
             <p class="font-sans font-bold text-gray-900 text-xl md:text-2xl">
