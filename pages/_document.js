@@ -6,6 +6,10 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           {/* Put here any global scripts, styles or meta tags */}
+          <link
+            href="https://fonts.cdnfonts.com/css/sf-pro-display"
+            rel="stylesheet"
+          />
         </Head>
         <body>
           <Main />

@@ -8,61 +8,73 @@ const Hero = () => {
   const [modalVisibility, setModalVisibility] = useState(false);
 
   return (
-    <div class="section-spacing">
+    <div className="section-spacing">
       <section
         id="hero"
-        class="overflow-hidden lg:relative pt-12 sm:pt-20 md:pt-24 lg:pt-32"
+        className="overflow-hidden lg:relative pt-12 sm:pt-20 md:pt-24 lg:pt-32"
         sectionname="hero"
         sectionlabel="Hero"
         sortorder="0"
       >
-        <div class="max-w-md px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24 relative z-10">
-          <div class="relative z-[1]">
-            <div class="">
-              <div class="mt-6 sm:max-w-xl">
-                <h1 class="text-4xl font-black tracking-tight text-gray-900 sm:text-6xl xl:text-7xl  relative">
+        <div className="max-w-md px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24 relative z-10">
+          <div className="relative z-[1]">
+            <div className="">
+              <div className="mt-6 sm:max-w-xl">
+                <h1 className="text-4xl font-black tracking-tight text-gray-900 sm:text-6xl xl:text-7xl  relative">
                   Take control of your home energy use
                 </h1>
-                <h2 class="prose prose-user mt-6 text-lg text-gray-500 sm:text-xl  relative">
+                <h2 className="font-medium font-cabin mt-6 text-lg text-gray-500 sm:text-xl  relative">
                   Manage and optimize your energy consumption with Hum Energy,
                   the user-friendly app designed to help you save money and
                   reduce your environmental footprint
                 </h2>
               </div>
             </div>
-            <div class="mt-10 space-y-4">
+            <div className="mt-10 space-y-4">
               <DefaultButton onClick={() => setModalVisibility(true)}>
                 Join the Waitlist
               </DefaultButton>{' '}
             </div>
-            <div
-              class="ratings mt-6 preview-menu-wrapper relative"
-              data-testid="ratings"
-            >
-              <div class="flex items-center gap-3 divide-x divide-gray-300 text-center sm:text-left">
-                <div class="flex flex-wrap flex-shrink-0">
-                  <img src="/stars.svg" class="w-5 h-5 text-yellow-400"></img>
-                  <img src="/stars.svg" class="w-5 h-5 text-yellow-400"></img>
-                  <img src="/stars.svg" class="w-5 h-5 text-yellow-400"></img>
-                  <img src="/stars.svg" class="w-5 h-5 text-yellow-400"></img>
-                  <img src="/stars.svg" class="w-5 h-5 text-yellow-400"></img>
+            <div className="ratings mt-6 relative" data-testid="ratings">
+              <div className="flex items-center gap-3 divide-x divide-gray-300 text-center sm:text-left">
+                <div className="flex flex-wrap flex-shrink-0">
+                  <img
+                    src="/stars.svg"
+                    className="w-5 h-5 text-yellow-400"
+                  ></img>
+                  <img
+                    src="/stars.svg"
+                    className="w-5 h-5 text-yellow-400"
+                  ></img>
+                  <img
+                    src="/stars.svg"
+                    className="w-5 h-5 text-yellow-400"
+                  ></img>
+                  <img
+                    src="/stars.svg"
+                    className="w-5 h-5 text-yellow-400"
+                  ></img>
+                  <img
+                    src="/stars.svg"
+                    className="w-5 h-5 text-yellow-400"
+                  ></img>
                 </div>
-                <div class="min-w-0 py-1 text-xs sm:text-sm text-gray-500 pl-3">
+                <div className="min-w-0 py-1 text-xs sm:text-sm text-gray-500 pl-3">
                   Energy monitoring
                 </div>
-                <div class="min-w-0 py-1 text-xs sm:text-sm text-gray-500 pl-3">
+                <div className="min-w-0 py-1 text-xs sm:text-sm text-gray-500 pl-3">
                   Personalized tips
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="sm:pl-6">
-          <div class="pt-12 sm:relative sm:mt-12 sm:pt-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 z-20">
-            <div class="hidden sm:block">
-              <div class="absolute inset-y-0 w-screen left-1/2 bg-gray-50 rounded-l-3xl lg:left-80 lg:right-0 lg:w-full"></div>
+        <div className="sm:pl-6">
+          <div className="pt-12 sm:relative sm:mt-12 sm:pt-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 z-20">
+            <div className="hidden sm:block">
+              <div className="absolute inset-y-0 w-screen left-1/2 bg-gray-50 rounded-l-3xl lg:left-80 lg:right-0 lg:w-full"></div>
               <svg
-                class="absolute -mr-3 top-8 right-1/2 lg:m-0 lg:left-0"
+                className="absolute -mr-3 top-8 right-1/2 lg:m-0 lg:left-0"
                 width="404"
                 height="392"
                 fill="none"
@@ -82,7 +94,7 @@ const Hero = () => {
                       y="0"
                       width="4"
                       height="4"
-                      class="text-gray-200"
+                      className="text-gray-200"
                       fill="currentColor"
                     ></rect>
                   </pattern>
@@ -95,9 +107,9 @@ const Hero = () => {
               </svg>
             </div>
 
-            <div class="relative pl-4 ml-auto sm:max-w-4xl sm:px-0 lg:h-full lg:max-w-none lg:flex lg:items-center xl:pl-12 preview-menu-wrapper">
+            <div className="relative pl-4 ml-auto sm:max-w-4xl sm:px-0 lg:h-full lg:max-w-none lg:flex lg:items-center xl:pl-12 preview-menu-wrapper">
               <img
-                class="w-full rounded-l-3xl lg:w-auto 2xl:h-full 2xl:max-w-none 2xl:rounded-3xl"
+                className="w-full rounded-l-3xl lg:w-auto 2xl:h-full 2xl:max-w-none 2xl:rounded-3xl"
                 src="https://images.unsplash.com/photo-1490730141103-6cac27aaab94?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wzMzczODV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDE3MTAzODl8&amp;ixlib=rb-4.0.3&amp;q=80&amp;w=1080"
                 alt="Hum Energy"
               ></img>
