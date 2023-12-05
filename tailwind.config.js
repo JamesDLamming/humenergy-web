@@ -9,6 +9,13 @@ module.exports = {
         inter: 'Inter',
         cabin: ['Cabin', 'sans-serif'],
       },
+      colors: {
+        bgMain: '#ececec',
+        accent: '#11E496',
+        accentSecondary: '#b8f7e0',
+        main: '#1E234F',
+        mainSecondary: '#4b4f72',
+      },
     },
   },
   variants: {

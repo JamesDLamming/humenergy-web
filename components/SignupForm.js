@@ -107,6 +107,9 @@ const SignupForm = ({ isInModal = false, onFormSubmitted = () => {} }) => {
 
   return (
     <div>
+      <h2 className="font-bold mb-2">
+        Coming soon - signup to be notified when we're live
+      </h2>
       <form onSubmit={handleSubmit} noValidate className="space-y-4">
         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
           <div className="flex-1">

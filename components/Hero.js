@@ -4,7 +4,6 @@ import SignupForm from './SignupForm';
 import Modal from './Modal';
 
 const Hero = () => {
-  const [modalOpen, setModalOpen] = useState(false);
   const [modalVisibility, setModalVisibility] = useState(false);
 
   return (
@@ -20,10 +19,10 @@ const Hero = () => {
           <div className="relative z-[1]">
             <div className="">
               <div className="mt-6 sm:max-w-xl">
-                <h1 className="text-4xl font-black tracking-tight text-gray-900 sm:text-6xl xl:text-7xl  relative">
-                  Take control of your home energy use
+                <h1 className="text-3xl font-black tracking-tight text-main sm:text-5xl xl:text-6xl  relative">
+                  Take control of your home energy
                 </h1>
-                <h2 className="font-medium font-cabin mt-6 text-lg text-gray-500 sm:text-xl  relative">
+                <h2 className=" font-cabin font-medium mt-6 text-lg text-mainSecondary sm:text-xl  relative">
                   Manage and optimize your energy consumption with Hum Energy,
                   the user-friendly app designed to help you save money and
                   reduce your environmental footprint
@@ -59,10 +58,10 @@ const Hero = () => {
                     className="w-5 h-5 text-yellow-400"
                   ></img>
                 </div>
-                <div className="min-w-0 py-1 text-xs sm:text-sm text-gray-500 pl-3">
+                <div className="min-w-0 py-1 text-xs sm:text-sm  pl-3">
                   Energy monitoring
                 </div>
-                <div className="min-w-0 py-1 text-xs sm:text-sm text-gray-500 pl-3">
+                <div className="min-w-0 py-1 text-xs sm:text-sm  pl-3">
                   Personalized tips
                 </div>
               </div>
@@ -107,7 +106,7 @@ const Hero = () => {
               </svg>
             </div>
 
-            <div className="relative pl-4 ml-auto sm:max-w-4xl sm:px-0 lg:h-full lg:max-w-none lg:flex lg:items-center xl:pl-12 preview-menu-wrapper">
+            <div className="relative pl-4 ml-auto sm:max-w-4xl sm:px-0 lg:h-full lg:max-w-none lg:flex lg:items-center xl:pl-12 ">
               <img
                 className="w-full rounded-l-3xl lg:w-auto 2xl:h-full 2xl:max-w-none 2xl:rounded-3xl"
                 src="https://images.unsplash.com/photo-1490730141103-6cac27aaab94?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wzMzczODV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDE3MTAzODl8&amp;ixlib=rb-4.0.3&amp;q=80&amp;w=1080"
