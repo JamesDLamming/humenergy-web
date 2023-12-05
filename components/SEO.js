@@ -27,10 +27,10 @@ const SEO = ({
 };
 
 SEO.propTypes = {
-  title: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  image: PropTypes.string,
+  url: PropTypes.string,
+  description: PropTypes.string,
   favicon: PropTypes.string,
 };
 
