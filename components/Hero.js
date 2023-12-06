@@ -71,7 +71,7 @@ const Hero = () => {
         <div className="sm:pl-6">
           <div className="pt-12 sm:relative sm:mt-12 sm:pt-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 z-20">
             <div className="hidden sm:block">
-              <div className="absolute inset-y-0 w-screen left-1/2 bg-gray-50 rounded-l-3xl lg:left-80 lg:right-0 lg:w-full"></div>
+              <div className="absolute inset-y-0 w-screen left-1/2 bg-mainSecondary rounded-l-3xl lg:left-80 lg:right-0 lg:w-full"></div>
               <svg
                 className="absolute -mr-3 top-8 right-1/2 lg:m-0 lg:left-0"
                 width="404"
@@ -93,7 +93,7 @@ const Hero = () => {
                       y="0"
                       width="4"
                       height="4"
-                      className="text-gray-200"
+                      className="text-accent"
                       fill="currentColor"
                     ></rect>
                   </pattern>
