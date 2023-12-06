@@ -10,7 +10,7 @@ const Hero = () => {
     <div className="section-spacing">
       <section
         id="hero"
-        className="overflow-hidden lg:relative pt-12 sm:pt-20 md:pt-24 lg:pt-32"
+        className=" lg:relative pt-12 sm:pt-20 md:pt-24 lg:pt-32"
         sectionname="hero"
         sectionlabel="Hero"
         sortorder="0"
@@ -22,7 +22,7 @@ const Hero = () => {
                 <h1 className="text-3xl font-black tracking-tight text-main sm:text-5xl xl:text-6xl  relative">
                   Take control of your home energy
                 </h1>
-                <h2 className=" font-cabin font-medium mt-6 text-lg text-mainSecondary sm:text-xl  relative">
+                <h2 className=" font-cabin mt-6 text-lg text-mainSecondary sm:text-xl  relative">
                   Manage and optimize your energy consumption with Hum Energy,
                   the user-friendly app designed to help you save money and
                   reduce your environmental footprint
@@ -71,7 +71,7 @@ const Hero = () => {
         <div className="sm:pl-6">
           <div className="pt-12 sm:relative sm:mt-12 sm:pt-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 z-20">
             <div className="hidden sm:block">
-              <div className="absolute inset-y-0 w-screen left-1/2 bg-mainSecondary rounded-l-3xl lg:left-80 lg:right-0 lg:w-full"></div>
+              <div className="absolute inset-y-0 w-screen left-1/2 bg-main min-h-[500px] rounded-l-3xl lg:left-80 lg:right-0 lg:w-full"></div>
               <svg
                 className="absolute -mr-3 top-8 right-1/2 lg:m-0 lg:left-0"
                 width="404"

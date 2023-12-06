@@ -49,7 +49,8 @@ export default function earn() {
                     />
                   </span>
                 </h1>
-                <h2 className="font-medium font-cabin mt-6 text-lg text-mainSecondary sm:text-xl  relative">
+
+                <h2 className="font-regular font-cabin mt-6 text-lg text-mainSecondary sm:text-xl  relative">
                   Connect your energy devices into Virtual Power Plants and
                   other utility schemes. Earn money from them while you sleep,
                   without impacting how you live your life
