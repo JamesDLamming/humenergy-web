@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <SEO title="Hum Energy" />
 
-      <div className="bg-white overflow-hidden">
+      <div className="bg-bgMain min-h-screen overflow-hidden">
         <Nav></Nav>
         <Hero></Hero>
       </div>
