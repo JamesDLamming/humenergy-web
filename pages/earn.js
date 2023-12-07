@@ -22,7 +22,7 @@ export default function earn() {
           sectionlabel="Hero"
           sortorder="0"
         >
-          <div className="max-w-lg px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-3 lg:gap-24 relative z-10">
+          <div className="max-w-xl px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-3 lg:gap-24 relative z-10">
             <div className="relative z-[1] col-span-2">
               <div className="mt-6  sm:max-w-2xl">
                 <h1 className="text-3xl font-black tracking-tight text-main sm:text-5xl xl:text-6xl  relative">
@@ -59,8 +59,8 @@ export default function earn() {
 
               <div className="mt-10 space-y-4">
                 <DefaultButton onClick={() => setModalVisibility(true)}>
-                  Find out how much you could make
-                </DefaultButton>{' '}
+                  Find local schemes
+                </DefaultButton>
               </div>
             </div>
             <div className="col-span-1"></div>

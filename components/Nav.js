@@ -12,7 +12,7 @@ const Nav = () => {
   };
   return (
     <div className="relative isolate z-50 shadow-sm bg-white">
-      <div className="px-4 py-6 sm:px-6 lg:px-8 max-w-md mx-auto sm:max-w-3xl lg:max-w-7xl  relative">
+      <div className="px-4 py-6 sm:px-6 lg:px-8 max-w-xl mx-auto sm:max-w-3xl lg:max-w-7xl  relative">
         <nav className="flex items-center justify-between" aria-label="Global">
           <a
             href="/"

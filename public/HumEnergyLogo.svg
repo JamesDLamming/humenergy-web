@@ -28,7 +28,7 @@
   <defs
      id="defs22" />
   <sodipodi:namedview
-     pagecolor="#ffffff"
+     pagecolor="#11E496"
      bordercolor="#666666"
      borderopacity="1"
      objecttolerance="10"
@@ -51,7 +51,7 @@
      cx="150"
      cy="150"
      r="150"
-     fill="##bfbfbf"
+     fill="#1E234F"
      id="circle2" />
   <g
      id="g42"
@@ -59,21 +59,21 @@
     <circle
        cx="103.73256"
        cy="81.406975"
-       fill="#ffffff"
+       fill="#11E496"
        id="circle4"
        style="stroke-width:2.21429"
        r="15.5" />
     <circle
        cx="203.89598"
        cy="81.406975"
-       fill="#ffffff"
+       fill="#11E496"
        id="circle6"
        style="stroke-width:2.21428"
        r="15.5" />
     <ellipse
        cx="103.73256"
        cy="218.18353"
-       fill="#ffffff"
+       fill="#11E496"
        id="circle8"
        rx="15.5"
        ry="15.909491"
@@ -81,28 +81,28 @@
     <circle
        cx="203.89598"
        cy="217.77405"
-       fill="#ffffff"
+       fill="#11E496"
        id="circle10"
        style="stroke-width:2.21429"
        r="15.5" />
     <circle
        cx="153.81427"
        cy="149.59052"
-       fill="#ffffff"
+       fill="#11E496"
        id="circle12"
        style="stroke-width:2.21429"
        r="15.5" />
     <circle
        cx="103.73256"
        cy="149.59052"
-       fill="#ffffff"
+       fill="#11E496"
        id="circle14"
        style="stroke-width:2.21428"
        r="15.5" />
     <circle
        cx="203.89598"
        cy="149.59052"
-       fill="#ffffff"
+       fill="#11E496"
        id="circle16"
        style="stroke-width:2.21429"
        r="15.5" />

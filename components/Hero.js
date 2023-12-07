@@ -15,7 +15,7 @@ const Hero = () => {
         sectionlabel="Hero"
         sortorder="0"
       >
-        <div className="max-w-md px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24 relative z-10">
+        <div className="max-w-xl px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24 relative z-10">
           <div className="relative z-[1]">
             <div className="">
               <div className="mt-6 sm:max-w-xl">
