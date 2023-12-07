@@ -52,14 +52,16 @@ export default function earn() {
 
                 <h2 className="font-regular font-cabin mt-6 text-lg text-mainSecondary sm:text-xl  relative">
                   Connect your energy devices into Virtual Power Plants and
-                  other utility schemes. Earn money from them while you sleep,
+                  other utility programs. Earn money from them while you sleep,
                   without impacting how you live your life
                 </h2>
               </div>
 
               <div className="mt-10 space-y-4">
-                <DefaultButton onClick={() => setModalVisibility(true)}>
-                  Find local schemes
+                <DefaultButton
+                  onClick={() => (window.location.href = '/VPPFinder')}
+                >
+                  Find local programs
                 </DefaultButton>
               </div>
             </div>

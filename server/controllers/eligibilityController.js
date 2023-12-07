@@ -11,8 +11,8 @@ async function checkEligibility(req, res) {
     const filteredRows = rows.filter(
       (row) =>
         row.get('State/Region') === stateRegion &&
-        row.get('Sector') === sectorOption //&&
-      //        row.get('Status') != 'Ended'
+        (row.get('Sector').includes(sectorOption) || row.get('Sector') === '')
+      //      &&  row.get('Status') != 'Ended'
     );
 
     res.json(

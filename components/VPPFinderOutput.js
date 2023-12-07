@@ -6,7 +6,7 @@ function VPPFinderOutput({ data, visible }) {
     return null;
   }
   if (!data || data.length === 0) {
-    return <p>No data available</p>;
+    return <p>No programs available</p>;
   }
 
   const handleSignUpClick = (url) => {
@@ -17,19 +17,23 @@ function VPPFinderOutput({ data, visible }) {
       {data.map((row, index) => (
         <div
           key={index}
-          className="flex max-w-7xl sm:max-w-xl text-sm sm:text-base items-center  p-0    shadow-sm rounded-lg h-auto mb-4 bg-white overflow-hidden"
+          className="flex max-w-7xl sm:max-w-3xl md:max-w-5xl lg:max-w-7xl text-sm sm:text-base items-center  p-0    shadow-sm rounded-lg h-auto mb-4 bg-white overflow-hidden"
         >
           <div
-            className="h-full flex p-2 w-1/4 items-center align-middle "
+            className="h-auto
+           flex flex-col p-2 w-1/4 items-center align-middle "
             id="imageContainer"
           >
             <img
-              className="items-center align-middle h-full p-2"
+              className="items-center align-middle h-full  max-h-20 max-w-20 p-2"
               src={row['Image URL'] || '/HumEnergyLogo.svg'}
             ></img>
           </div>
           <div className="p-2 sm:p-4 w-3/4 sm:w-1/2">
-            <div className="font-bold">{row['Program Name']}</div>
+            <div className="font-bold">
+              {row['Program Name'] ||
+                ` ${row['Utility/CCA']} ${row['DERs needed']} Program`}
+            </div>
             <div>
               Utility/CCA:{' '}
               {row['Utility/CCA'] || (
