@@ -10,17 +10,14 @@ export default function VPPFinder() {
   const [tableVisible, setTableVisible] = useState(false);
   const checkEligibility = async () => {
     try {
-      const response = await fetch(
-        'https://www.humenergy.app/check-eligibility',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          // Include any necessary request body here
-          body: JSON.stringify({ stateRegion, sectorOption }),
-        }
-      );
+      const response = await fetch('/check-eligibility', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // Include any necessary request body here
+        body: JSON.stringify({ stateRegion, sectorOption }),
+      });
       const jsonResponse = await response.json();
       setResponseData(jsonResponse);
       console.log(jsonResponse);
