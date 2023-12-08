@@ -10,7 +10,7 @@ export default function VPPFinder() {
   const [tableVisible, setTableVisible] = useState(false);
   const checkEligibility = async () => {
     try {
-      const response = await fetch('/check-eligibility', {
+      const response = await fetch('/API/check-eligibility', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
