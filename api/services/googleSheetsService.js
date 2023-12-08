@@ -16,6 +16,8 @@ const doc = new GoogleSpreadsheet(
   serviceAccountAuth
 );
 
+console.log(doc);
+
 async function accessSpreadsheet() {
   // await doc.useServiceAccountAuth({
   //   client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
