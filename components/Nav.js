@@ -7,8 +7,7 @@ const navLinks = [{ href: '/earn', label: 'Earn' }];
 const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-    console.log(menuOpen); // creates a function that toggles menuOPen to be the opposite value
+    setMenuOpen(!menuOpen); // creates a function that toggles menuOPen to be the opposite value
   };
   return (
     <div className="relative isolate z-50 shadow-sm bg-white">

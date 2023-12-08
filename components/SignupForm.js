@@ -89,7 +89,6 @@ const SignupForm = ({ isInModal = false, onFormSubmitted = () => {} }) => {
       if (response.ok) {
         console.log('Form submitted:', jsonResponse);
         setIsSubmitted(true);
-        console.log('isSubmitted set to true');
 
         // Handle the response if necessary, such as showing a thank you message
         setTimeout(() => {
