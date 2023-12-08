@@ -8,8 +8,10 @@ import VPPFinderOutput from '../components/VPPFinderOutput';
 export default function VPPFinder() {
   const [responseData, setResponseData] = useState('');
   const [tableVisible, setTableVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const checkEligibility = async () => {
     try {
+      setLoading(true); //start loading
       const response = await fetch('/api/check-eligibility', {
         method: 'POST',
         headers: {
@@ -20,8 +22,10 @@ export default function VPPFinder() {
       });
       const jsonResponse = await response.json();
       setResponseData(jsonResponse);
+      setLoading(false); //stop loading
     } catch (error) {
       console.error('Error fetching data:', error);
+      setLoading(false); //stop loading
     }
   };
 
@@ -40,10 +44,6 @@ export default function VPPFinder() {
     setSectorOption(event.target.value);
   };
 
-  const headers = '';
-  if (responseData.length > 0) {
-    const headers = Object.keys(responseData[0]); // Get column names from the first row
-  }
   return (
     <>
       <SEO title="Hum Energy - VPP finder" />
@@ -108,7 +108,12 @@ export default function VPPFinder() {
             </div>
           </div>
           <div className="mt-10 flex-col flex items-center ">
-            <VPPFinderOutput data={responseData} visible={tableVisible} />
+            {loading && <div className="loading-icon">Loading...</div>}
+
+            <VPPFinderOutput
+              data={responseData}
+              visible={{ tableVisible } && !{ loading }}
+            />
           </div>
         </div>
       </div>
