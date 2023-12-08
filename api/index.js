@@ -8,7 +8,7 @@ app.use(express.json());
 const cors = require('cors');
 app.use(cors());
 
-app.use(eligibilityRoutess);
+app.use(eligibilityRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
