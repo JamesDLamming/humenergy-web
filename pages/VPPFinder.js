@@ -20,7 +20,6 @@ export default function VPPFinder() {
       });
       const jsonResponse = await response.json();
       setResponseData(jsonResponse);
-      console.log(jsonResponse);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -39,7 +38,6 @@ export default function VPPFinder() {
 
   const handleOptionChange = (event) => {
     setSectorOption(event.target.value);
-    console.log(sectorOption);
   };
 
   const headers = '';

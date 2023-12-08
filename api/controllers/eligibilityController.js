@@ -20,14 +20,12 @@ async function checkEligibility(req, res) {
         return {
           'Program Name': row.get('Program Name'),
           'Program URL': row.get('Program URL'),
-          // ... other columns you might want to include
           'State/Region': row.get('State/Region'),
           'DERs needed': row.get('DERs'),
           'Utility/CCA': row.get('Utility/CCA'),
           'Image URL': row.get('Image URL'),
           Enrollment: row.get('Enrolling?'),
           Status: row.get('Status'),
-          // ...
         };
       })
     );
