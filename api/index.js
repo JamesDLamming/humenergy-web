@@ -8,13 +8,7 @@ app.use(express.json());
 const cors = require('cors');
 app.use(cors());
 
-app.use(eligibilityRoutes);
-
-// app.use(
-//   router.post('/api/test2', (req, res) => {
-//     res.json({ message: 'Test endpoint reached' });
-//   })
-// );
+app.use(eligibilityRoutess);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
