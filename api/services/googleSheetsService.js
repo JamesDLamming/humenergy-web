@@ -11,18 +11,10 @@ const serviceAccountAuth = new JWT({
 console.log(process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL);
 console.log(process.env.GOOGLE_PRIVATE_KEY.split(String.raw`\n`).join('\n'));
 
-if (doc == '') {
-  console.log('Doc not present');
-}
-
 const doc = new GoogleSpreadsheet(
   '1O5KoU970ckqtfBQXWGeFKPq1dDb5NSf0btvs3Xub3fQ',
   serviceAccountAuth
 );
-
-if (doc != '') {
-  console.log('Doc present');
-}
 
 async function accessSpreadsheet() {
   // await doc.useServiceAccountAuth({
