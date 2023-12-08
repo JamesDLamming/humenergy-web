@@ -11,7 +11,7 @@ export default function VPPFinder() {
   const checkEligibility = async () => {
     try {
       const response = await fetch(
-        'https://www.humenergy.app/check-eligibility',
+        'https://www.humenergy.app/api/check-eligibility',
         {
           method: 'POST',
           headers: {
