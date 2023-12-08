@@ -110,10 +110,7 @@ export default function VPPFinder() {
           <div className="mt-10 flex-col flex items-center ">
             {loading && <div className="loading-icon">Loading...</div>}
 
-            <VPPFinderOutput
-              data={responseData}
-              visible={{ tableVisible } && !{ loading }}
-            />
+            <VPPFinderOutput data={responseData} visible={{ tableVisible }} />
           </div>
         </div>
       </div>
