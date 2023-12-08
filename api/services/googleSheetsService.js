@@ -8,6 +8,9 @@ const serviceAccountAuth = new JWT({
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 
+console.log(process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL);
+console.log(process.env.GOOGLE_PRIVATE_KEY.split(String.raw`\n`).join('\n'));
+
 const doc = new GoogleSpreadsheet(
   '1O5KoU970ckqtfBQXWGeFKPq1dDb5NSf0btvs3Xub3fQ',
   serviceAccountAuth
