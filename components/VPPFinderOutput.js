@@ -59,7 +59,7 @@ function VPPFinderOutput({ data, visible }) {
                 Enrollment Closed
               </DefaultButton>
             ) : row['Status'] === 'Ended' ? (
-              <DefaultButton className="w-auto px-2 py-0 mt-2 sm:hidden !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100">
+              <DefaultButton className="w-auto px-2 py-0 mt-2 sm:hidden !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 !pointer-events-none">
                 Enrollment Closed
               </DefaultButton>
             ) : row['Status'] === 'Planned' ? (
