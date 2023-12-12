@@ -37,7 +37,7 @@ export default function VPPFinder() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Call the function to check eligibility
-    checkEligibility(stateRegion, sectorOption);
+    getUtilitiesFromState(stateRegion, sectorOption);
     setTableVisible(true);
   };
 
