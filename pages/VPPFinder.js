@@ -9,9 +9,11 @@ export default function VPPFinder() {
   const [responseData, setResponseData] = useState('');
   const [tableVisible, setTableVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const checkEligibility = async () => {
     try {
       setLoading(true); //start loading
+
       const response = await fetch('/api/check-eligibility', {
         method: 'POST',
         headers: {

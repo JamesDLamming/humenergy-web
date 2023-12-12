@@ -15,7 +15,6 @@ const doc = new GoogleSpreadsheet(
 
 async function accessSpreadsheet() {
   await doc.loadInfo();
-
   return doc;
 }
 

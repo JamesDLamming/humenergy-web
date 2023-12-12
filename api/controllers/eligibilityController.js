@@ -4,6 +4,7 @@ const { accessSpreadsheet } = require('../services/googleSheetsService');
 async function checkEligibility(req, res) {
   try {
     const { stateRegion, sectorOption } = req.body;
+
     const doc = await accessSpreadsheet();
     const sheet = doc.sheetsByIndex[0]; // or use sheetsById or sheetsByTitle
     const rows = await sheet.getRows();
@@ -15,7 +16,7 @@ async function checkEligibility(req, res) {
           row.get('Sector') === '') &&
         row.get('Status') != 'Ended'
     );
-
+    console.log(filteredRows[0]);
     res.json(
       filteredRows.map((row) => {
         return {
