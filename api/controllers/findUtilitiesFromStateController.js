@@ -17,15 +17,16 @@ async function findUtilitiesFromState(req, res) {
         row.get('Status') != 'Ended'
     );
     res.json(
-      _.uniq(
-        filteredRows.map((row) => {
-          return {
-            'State/Region': row.get('State/Region'),
-            'Utility/CCA': row.get('Utility/CCA'),
-          };
-        }),
-        false
-      )
+      // _.uniq(
+      filteredRows.map((row) => {
+        return {
+          'State/Region': row.get('State/Region'),
+          'Utility/CCA': row.get('Utility/CCA'),
+        };
+      })
+      //   ,
+      //   false
+      // )
     );
   } catch (error) {
     console.error('Error:', error);
