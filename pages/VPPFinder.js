@@ -73,15 +73,15 @@ export default function VPPFinder() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if ((!Utility || Utility.trim() === '') && utilityVisible) {
-      setUtilityError('Please select a Utility/CCA.');
+      setUtilityError('Please select a Utility/CCA');
       return; // Prevent form submission
     }
     if ((!sectorOption || sectorOption.trim() === '') && propertyTypeVisible) {
-      setPropertyTypeError('Please select a Property Type.');
+      setPropertyTypeError('Please select a Property Type');
       return; // Prevent form submission
     }
     if (!stateRegion || stateRegion.trim() === '') {
-      setStateError('Please select a State.');
+      setStateError('Please select a State');
       return; // Prevent form submission
     }
 
@@ -118,6 +118,7 @@ export default function VPPFinder() {
                     setStateRegion(newStateRegion); // Update the state
                     setPropertyTypeVisible(true);
                     setStateError('');
+                    setTableVisible(false);
                     getUtilities(newStateRegion, sectorOption);
                   }}
                 ></StateSelector>
@@ -144,6 +145,9 @@ export default function VPPFinder() {
                             setSectorOption(newSectorOption);
                             setSectorOption(e.target.value);
                             setPropertyTypeError('');
+                            setTableVisible(false);
+
+                            setTableVisible(false);
                             getUtilities(stateRegion, newSectorOption);
                             setUtilityVisible(true);
                           }}
@@ -164,6 +168,7 @@ export default function VPPFinder() {
                             setSectorOption(e.target.value);
                             getUtilities(stateRegion, newSectorOption);
                             setUtilityVisible(true);
+                            setTableVisible(false);
                           }}
                         />
                         <span className="ml-2">Multi-family</span>
@@ -182,6 +187,8 @@ export default function VPPFinder() {
                             setSectorOption(e.target.value);
                             getUtilities(stateRegion, newSectorOption);
                             setUtilityVisible(true);
+
+                            setTableVisible(false);
                           }}
                         />
                         <span className="ml-2">C&I</span>
@@ -207,6 +214,8 @@ export default function VPPFinder() {
                       const newUtiltyValue = e.target.value;
                       setUtility(newUtiltyValue);
                       setUtilityError('');
+
+                      setTableVisible(false);
                     }}
                   />
                 </label>
