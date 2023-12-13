@@ -187,7 +187,7 @@ export default function VPPFinder() {
                 <label className="mt-2 flex gap-x-3 items-center">
                   <div className="font-semibold w-1/3">Utility/CCA:</div>
                   <UtilitySelector
-                    className="w-2/3"
+                    className="!w-2/3"
                     data={utilityData}
                     visible={utilityVisible}
                     value={Utility}
