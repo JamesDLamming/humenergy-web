@@ -13,15 +13,15 @@ function VPPFinderOutput({ data, visible }) {
     window.location.href = url; // This will navigate to the specified URL
   };
   return (
-    <div className="">
+    <div className="w-full sm:w-11/12 lg:w-3/4">
       {data.map((row, index) => (
         <div
           key={index}
-          className="flex max-w-7xl sm:max-w-3xl md:max-w-5xl lg:max-w-7xl text-sm sm:text-base items-center  p-0    shadow-sm rounded-lg h-auto mb-4 bg-white overflow-hidden"
+          className=" flex max-w-7xl sm:max-w-3xl md:max-w-5xl lg:max-w-7xl text-sm sm:text-base items-center  p-0    shadow-sm rounded-lg h-auto mb-4 bg-white overflow-hidden"
         >
           <div
             className="h-auto
-           flex flex-col p-2 w-1/4 items-center align-middle "
+           flex flex-col p-2 w-1/3 sm:w-1/4 items-center align-middle "
             id="imageContainer"
           >
             <img
