@@ -10,7 +10,7 @@ function VPPFinderOutput({ data, visible }) {
   }
 
   const handleSignUpClick = (url) => {
-    window.location.href = url; // This will navigate to the specified URL
+    window.open(url, '_blank').focus(); // This will navigate to the specified URL
   };
   return (
     <div className="w-full sm:w-11/12 lg:w-3/4">
@@ -25,7 +25,7 @@ function VPPFinderOutput({ data, visible }) {
             id="imageContainer"
           >
             <img
-              className="w-full h-auto max-h-20 max-w-20 object-contain"
+              className="max-h-20 max-w-20 object-contain"
               src={row['Image URL'] || '/HumEnergyLogo.svg'}
             ></img>
           </div>
