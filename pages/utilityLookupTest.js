@@ -21,7 +21,7 @@ export default function VPPFinder() {
 
   const getUtilities = async (stateRegion, sectorOption) => {
     try {
-      const response = await fetch('http://localhost:3001/api/getUtilities', {
+      const response = await fetch('/api/getUtilities', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,17 +41,14 @@ export default function VPPFinder() {
     try {
       setLoading(true); //start loading
 
-      const response = await fetch(
-        'http://localhost:3001/api/check-eligibility',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          // Include any necessary request body here
-          body: JSON.stringify({ stateRegion, sectorOption, Utility }),
-        }
-      );
+      const response = await fetch('/api/check-eligibility', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // Include any necessary request body here
+        body: JSON.stringify({ stateRegion, sectorOption, Utility }),
+      });
       const jsonResponse = await response.json();
       setProgramData(jsonResponse);
       setLoading(false); //stop loading
