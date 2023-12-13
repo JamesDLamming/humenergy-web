@@ -8,7 +8,7 @@ import UtilitySelector from '../components/UtililtySelector';
 require('dotenv').config();
 
 export default function VPPFinder() {
-  const [programData, setProgramData] = useState('');
+  const [programData, setProgramData] = useState([]);
   const [utilityData, setUtilityData] = useState('');
   const [tableVisible, setTableVisible] = useState(false);
   const [utilityVisible, setUtilityVisible] = useState(false);

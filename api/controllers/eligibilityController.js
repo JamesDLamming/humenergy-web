@@ -47,9 +47,6 @@ async function checkEligibility(req, res) {
     solarPresent === true ? (solar = 'Solar') : (solar = '');
     generatorPresent === true ? (generator = 'Generators') : (generator = '');
 
-    console.log(selectionsBattery.NoBattery, selectionsBattery.TeslaPowerwall);
-    console.log(battery, powerwall, solar, smartThermostat);
-
     const derArray = [
       smartThermostat,
       battery,
@@ -61,22 +58,31 @@ async function checkEligibility(req, res) {
       generator,
     ];
 
-    console.log(derArray);
-
     const filteredRows = rows.filter(
       (row) =>
         row.get('State/Region') === stateRegion &&
         (row.get('Sector').includes(sectorOption) ||
           row.get('Sector') === '') &&
         row.get('Status') != 'Ended' &&
-        row.get('Utility/CCA') === Utility &&
+        row.get('Utility/CCA') === Utility
+    );
+
+    const taggedRows = filteredRows.map((row) => {
+      // Check if 'DERs' exists and split it into an array, then check if any DER is in derArray
+      const derExists =
+        row.get('DERs') &&
         row
           .get('DERs')
           .split(', ')
-          .some((der) => derArray.includes(der)) // split DERs and check if present in derArray
-    );
+          .some((der) => derArray.includes(der));
+
+      // Assign 'Eligible' or 'Ineligible' based on the existence of DERs
+      row.tag = derExists ? 'Eligible' : 'Ineligible';
+
+      return row;
+    });
     res.json(
-      filteredRows.map((row) => {
+      taggedRows.map((row, index) => {
         return {
           'Program Name': row.get('Program Name'),
           'Program URL': row.get('Program URL'),
@@ -86,6 +92,7 @@ async function checkEligibility(req, res) {
           'Image URL': row.get('Image URL'),
           Enrollment: row.get('Enrolling?'),
           Status: row.get('Status'),
+          tag: row.tag,
         };
       })
     );
