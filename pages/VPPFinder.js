@@ -5,6 +5,7 @@ import DefaultButton from '../components/DefaultButton';
 import StateSelector from '../components/StateSelector';
 import VPPFinderOutput from '../components/VPPFinderOutput';
 import UtilitySelector from '../components/UtililtySelector';
+require('dotenv').config();
 
 export default function VPPFinder() {
   const [programData, setProgramData] = useState('');
@@ -21,16 +22,19 @@ export default function VPPFinder() {
   const [utilityError, setUtilityError] = useState('');
 
   const [stateError, setStateError] = useState('');
-
+  console.log('environemtn', process.env.NEXT_PUBLIC_BASE_API_URL);
   const getUtilities = async (stateRegion, sectorOption) => {
     try {
-      const response = await fetch('/api/getUtilities', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ stateRegion, sectorOption }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/getUtilities`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ stateRegion, sectorOption }),
+        }
+      );
       const jsonResponse = await response.json();
       setUtilityData(jsonResponse);
       // Reset the Utility state every time new utility data is fetched
@@ -44,14 +48,17 @@ export default function VPPFinder() {
     try {
       setLoading(true); //start loading
 
-      const response = await fetch('/api/check-eligibility', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // Include any necessary request body here
-        body: JSON.stringify({ stateRegion, sectorOption, Utility }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/check-eligibility`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          // Include any necessary request body here
+          body: JSON.stringify({ stateRegion, sectorOption, Utility }),
+        }
+      );
       const jsonResponse = await response.json();
       setProgramData(jsonResponse);
       setLoading(false); //stop loading
@@ -98,7 +105,7 @@ export default function VPPFinder() {
               <div className="mt-2 flex gap-x-3 items-center">
                 <div className="w-1/3 font-semibold">State:</div>
                 <StateSelector
-                  className="w-2/3"
+                  className="!w-2/3"
                   value={stateRegion}
                   onChange={(e) => {
                     const newStateRegion = e.target.value;

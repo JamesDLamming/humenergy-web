@@ -77,7 +77,7 @@ const SignupForm = ({ isInModal = false, onFormSubmitted = () => {} }) => {
     };
 
     try {
-      const response = await fetch('/api/submit-to-hubspot', {
+      const response = await fetch(`/api/submit-to-hubspot`, {
         method: 'POST',
         body: JSON.stringify(hubspotData),
         headers: {
