@@ -21,6 +21,8 @@ export default function VPPFinder() {
   const [Utility, setUtility] = useState('');
   const [utilityError, setUtilityError] = useState('');
 
+  const [propertyTypeError, setPropertyTypeError] = useState('');
+
   const [stateError, setStateError] = useState('');
   console.log('environemtn', process.env.NEXT_PUBLIC_BASE_API_URL);
   const getUtilities = async (stateRegion, sectorOption) => {
@@ -70,8 +72,12 @@ export default function VPPFinder() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!Utility || Utility.trim() === '') {
+    if ((!Utility || Utility.trim() === '') && utilityVisible) {
       setUtilityError('Please select a Utility/CCA.');
+      return; // Prevent form submission
+    }
+    if ((!sectorOption || sectorOption.trim() === '') && propertyTypeVisible) {
+      setPropertyTypeError('Please select a Property Type.');
       return; // Prevent form submission
     }
     if (!stateRegion || stateRegion.trim() === '') {
@@ -137,6 +143,7 @@ export default function VPPFinder() {
                             const newSectorOption = e.target.value;
                             setSectorOption(newSectorOption);
                             setSectorOption(e.target.value);
+                            setPropertyTypeError('');
                             getUtilities(stateRegion, newSectorOption);
                             setUtilityVisible(true);
                           }}
@@ -183,6 +190,11 @@ export default function VPPFinder() {
                   </div>
                 </div>
               )}
+              {propertyTypeError && (
+                <div className="text-red-500 mt-2 -mb-2 text-sm text-right">
+                  {propertyTypeError}
+                </div>
+              )}
               {utilityVisible && (
                 <label className="mt-2 flex gap-x-3 items-center">
                   <div className="font-semibold w-1/3">Utility/CCA:</div>
@@ -205,8 +217,17 @@ export default function VPPFinder() {
                 </div>
               )}
 
-              <DefaultButton type="submit" className="mt-4 w-full">
-                Find local programs
+              <DefaultButton
+                type="submit"
+                className={
+                  Utility != 'Unavailable'
+                    ? 'mt-4 w-full'
+                    : 'mt-4 w-full !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none'
+                }
+              >
+                {Utility != 'Unavailable'
+                  ? '   Find local programs'
+                  : 'Your utility does not currently offer any programs'}
               </DefaultButton>
             </form>
           </div>
