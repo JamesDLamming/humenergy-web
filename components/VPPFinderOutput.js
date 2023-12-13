@@ -25,7 +25,7 @@ function VPPFinderOutput({ data, visible }) {
             id="imageContainer"
           >
             <img
-              className="items-center align-middle w-full"
+              className="w-full h-auto max-h-20 max-w-20 object-contain"
               src={row['Image URL'] || '/HumEnergyLogo.svg'}
             ></img>
           </div>
