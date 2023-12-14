@@ -340,232 +340,234 @@ export default function VPPFinder() {
                     </div>
                   </div>
 
-                  {deviceSectionOpen && (
-                    <div className="block">
-                      <div className="mt-2">
-                        <p className="mb-0 font-medium">Smart Thermostat</p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                  <div
+                    className={` block overflow-hidden ${
+                      deviceSectionOpen
+                        ? 'deviceSection open'
+                        : ' deviceSection closed'
+                    }`}
+                  >
+                    <div className="mt-2">
+                      <p className="mb-0 font-medium">Smart Thermostat</p>
+                      <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                        <label className="flex items-baseline">
+                          <input
+                            type="checkbox"
+                            name="Honeywell"
+                            checked={selectionsThermostat.Honeywell}
+                            onChange={handleCheckboxChangeThermostat}
+                          />
+                          <span className="ml-1 ">Honeywell</span>
+                        </label>
+                        <label className="flex items-baseline">
+                          <input
+                            type="checkbox"
+                            name="Nest"
+                            checked={selectionsThermostat.Nest}
+                            onChange={handleCheckboxChangeThermostat}
+                          />
+                          <span className="ml-1">Nest</span>
+                        </label>
+                        <label className="flex items-baseline">
+                          <input
+                            type="checkbox"
+                            name="OtherThermostat"
+                            checked={selectionsThermostat.OtherThermostat}
+                            onChange={handleCheckboxChangeThermostat}
+                          />
+                          <span className="ml-1">Other</span>
+                        </label>
+                        <label className="flex items-baseline">
+                          <input
+                            type="radio"
+                            name="NoThermostat"
+                            checked={selectionsThermostat.NoThermostat}
+                            onChange={handleNoneChangeThermostat}
+                          />
+                          <span className="ml-1">None</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <p className="mb-0 font-medium">Battery</p>
+                      <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                        <div>
                           <label className="flex items-baseline">
                             <input
                               type="checkbox"
-                              name="Honeywell"
-                              checked={selectionsThermostat.Honeywell}
-                              onChange={handleCheckboxChangeThermostat}
+                              name="Generac"
+                              checked={selectionsBattery.Generac}
+                              onChange={handleCheckboxChangeBattery}
                             />
-                            <span className="ml-1 ">Honeywell</span>
+                            <span className="ml-1">Generac</span>
                           </label>
+                        </div>
+                        <div>
                           <label className="flex items-baseline">
                             <input
                               type="checkbox"
-                              name="Nest"
-                              checked={selectionsThermostat.Nest}
-                              onChange={handleCheckboxChangeThermostat}
+                              name="TeslaPowerwall"
+                              checked={selectionsBattery.TeslaPowerwall}
+                              onChange={handleCheckboxChangeBattery}
                             />
-                            <span className="ml-1">Nest</span>
+                            <span className="ml-1">Tesla Powerwall</span>
                           </label>
+                        </div>
+                        <div>
                           <label className="flex items-baseline">
                             <input
                               type="checkbox"
-                              name="OtherThermostat"
-                              checked={selectionsThermostat.OtherThermostat}
-                              onChange={handleCheckboxChangeThermostat}
+                              name="OtherBattery"
+                              checked={selectionsBattery.OtherBattery}
+                              onChange={handleCheckboxChangeBattery}
                             />
                             <span className="ml-1">Other</span>
                           </label>
+                        </div>
+                        <div>
                           <label className="flex items-baseline">
                             <input
                               type="radio"
-                              name="NoThermostat"
-                              checked={selectionsThermostat.NoThermostat}
-                              onChange={handleNoneChangeThermostat}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
-                        </div>
-                      </div>
-                      <div className="mt-2">
-                        <p className="mb-0 font-medium">Battery</p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <div>
-                            <label className="flex items-baseline">
-                              <input
-                                type="checkbox"
-                                name="Generac"
-                                checked={selectionsBattery.Generac}
-                                onChange={handleCheckboxChangeBattery}
-                              />
-                              <span className="ml-1">Generac</span>
-                            </label>
-                          </div>
-                          <div>
-                            <label className="flex items-baseline">
-                              <input
-                                type="checkbox"
-                                name="TeslaPowerwall"
-                                checked={selectionsBattery.TeslaPowerwall}
-                                onChange={handleCheckboxChangeBattery}
-                              />
-                              <span className="ml-1">Tesla Powerwall</span>
-                            </label>
-                          </div>
-                          <div>
-                            <label className="flex items-baseline">
-                              <input
-                                type="checkbox"
-                                name="OtherBattery"
-                                checked={selectionsBattery.OtherBattery}
-                                onChange={handleCheckboxChangeBattery}
-                              />
-                              <span className="ml-1">Other</span>
-                            </label>
-                          </div>
-                          <div>
-                            <label className="flex items-baseline">
-                              <input
-                                type="radio"
-                                name="NoBattery"
-                                checked={selectionsBattery.NoBattery}
-                                onChange={handleNoneChangeBattery}
-                              />
-                              <span className="ml-1">None</span>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-2">
-                        <p className="mb-0 font-medium">Heat Pump</p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="heatpump"
-                              value="heatpumpPresent"
-                              checked={heatpumpPresent === true}
-                              onChange={() => setHeatpumpPresent(true)}
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
-
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="heatpump"
-                              value="noHeatpumpPresent"
-                              checked={heatpumpPresent === false}
-                              onChange={() => setHeatpumpPresent(false)}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
-                        </div>
-                      </div>
-                      <div className="mt-2">
-                        <p className="mb-0 font-medium">
-                          Electric Water Heater
-                        </p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="waterheater"
-                              value="waterheaterPresent"
-                              checked={waterheaterPresent === true}
-                              onChange={() => setWaterheaterPresent(true)}
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
-
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="waterheater"
-                              value="nowaterheaterPresent"
-                              checked={waterheaterPresent === false}
-                              onChange={() => setWaterheaterPresent(false)}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
-                        </div>
-                      </div>
-                      <div className="mt-2">
-                        <p className="mb-0 font-medium">Solar</p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <label className="">
-                            <input
-                              type="radio"
-                              name="solarPresent"
-                              value="solarPresent"
-                              checked={solarPresent === true}
-                              onChange={() => setSolarPresent(true)}
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
-
-                          <label className="flex items-baseline">
-                            <input
-                              type="radio"
-                              name="solar"
-                              value="noSolarPresent"
-                              checked={solarPresent === false}
-                              onChange={() => setSolarPresent(false)}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
-                        </div>
-                      </div>
-                      <div className="mt-2">
-                        <p className="mb-0 font-medium">Electric Vehicle</p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <label className="">
-                            <input
-                              type="radio"
-                              name="EVPresent"
-                              value="EVPresent"
-                              checked={EVPresent === true}
-                              onChange={() => setEVPresent(true)}
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
-
-                          <label className="flex items-baseline">
-                            <input
-                              type="radio"
-                              name="EV"
-                              value="noEVPresent"
-                              checked={EVPresent === false}
-                              onChange={() => setEVPresent(false)}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
-                        </div>
-                      </div>
-                      <div className="mt-2">
-                        <p className="mb-0 font-medium">Generator</p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <label className="">
-                            <input
-                              type="radio"
-                              name="generatorPresent"
-                              value="generatorPresent"
-                              checked={generatorPresent === true}
-                              onChange={() => setGeneratorPresent(true)}
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
-
-                          <label className="flex items-baseline">
-                            <input
-                              type="radio"
-                              name="generator"
-                              value="noGeneratorPresent"
-                              checked={generatorPresent === false}
-                              onChange={() => setGeneratorPresent(false)}
+                              name="NoBattery"
+                              checked={selectionsBattery.NoBattery}
+                              onChange={handleNoneChangeBattery}
                             />
                             <span className="ml-1">None</span>
                           </label>
                         </div>
                       </div>
                     </div>
-                  )}
+                    <div className="mt-2">
+                      <p className="mb-0 font-medium">Heat Pump</p>
+                      <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="heatpump"
+                            value="heatpumpPresent"
+                            checked={heatpumpPresent === true}
+                            onChange={() => setHeatpumpPresent(true)}
+                          />
+                          <span className="ml-2">Yes</span>
+                        </label>
+
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="heatpump"
+                            value="noHeatpumpPresent"
+                            checked={heatpumpPresent === false}
+                            onChange={() => setHeatpumpPresent(false)}
+                          />
+                          <span className="ml-1">None</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <p className="mb-0 font-medium">Electric Water Heater</p>
+                      <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="waterheater"
+                            value="waterheaterPresent"
+                            checked={waterheaterPresent === true}
+                            onChange={() => setWaterheaterPresent(true)}
+                          />
+                          <span className="ml-2">Yes</span>
+                        </label>
+
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="waterheater"
+                            value="nowaterheaterPresent"
+                            checked={waterheaterPresent === false}
+                            onChange={() => setWaterheaterPresent(false)}
+                          />
+                          <span className="ml-1">None</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <p className="mb-0 font-medium">Solar</p>
+                      <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                        <label className="">
+                          <input
+                            type="radio"
+                            name="solarPresent"
+                            value="solarPresent"
+                            checked={solarPresent === true}
+                            onChange={() => setSolarPresent(true)}
+                          />
+                          <span className="ml-2">Yes</span>
+                        </label>
+
+                        <label className="flex items-baseline">
+                          <input
+                            type="radio"
+                            name="solar"
+                            value="noSolarPresent"
+                            checked={solarPresent === false}
+                            onChange={() => setSolarPresent(false)}
+                          />
+                          <span className="ml-1">None</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <p className="mb-0 font-medium">Electric Vehicle</p>
+                      <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                        <label className="">
+                          <input
+                            type="radio"
+                            name="EVPresent"
+                            value="EVPresent"
+                            checked={EVPresent === true}
+                            onChange={() => setEVPresent(true)}
+                          />
+                          <span className="ml-2">Yes</span>
+                        </label>
+
+                        <label className="flex items-baseline">
+                          <input
+                            type="radio"
+                            name="EV"
+                            value="noEVPresent"
+                            checked={EVPresent === false}
+                            onChange={() => setEVPresent(false)}
+                          />
+                          <span className="ml-1">None</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className="mt-2">
+                      <p className="mb-0 font-medium">Generator</p>
+                      <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                        <label className="">
+                          <input
+                            type="radio"
+                            name="generatorPresent"
+                            value="generatorPresent"
+                            checked={generatorPresent === true}
+                            onChange={() => setGeneratorPresent(true)}
+                          />
+                          <span className="ml-2">Yes</span>
+                        </label>
+
+                        <label className="flex items-baseline">
+                          <input
+                            type="radio"
+                            name="generator"
+                            value="noGeneratorPresent"
+                            checked={generatorPresent === false}
+                            onChange={() => setGeneratorPresent(false)}
+                          />
+                          <span className="ml-1">None</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                 </label>
               )}
               <DefaultButton
@@ -592,6 +594,22 @@ export default function VPPFinder() {
           </div>
         </div>
       </div>
+      <style>
+        {`
+          .deviceSection {
+            transition: 0.5s ease;
+            overflow: hidden;
+          }
+
+          .deviceSection.open {
+            max-height: 0px
+          }
+
+          .deviceSection.closed {
+            max-height: 500px
+          }
+        `}
+      </style>
     </>
   );
 }
