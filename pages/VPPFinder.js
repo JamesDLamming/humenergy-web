@@ -209,107 +209,119 @@ export default function VPPFinder() {
                 </div>
               )}
 
-              {propertyTypeVisible && (
-                <div className="mt-4 flex gap-x-3">
-                  <div className="font-semibold w-1/3">Property Type:</div>
-                  <div className="w-2/3">
-                    <div>
-                      <label className="flex items-baseline">
-                        <input
-                          type="radio"
-                          name="propertyType"
-                          value="Residential"
-                          checked={sectorOption === 'Residential'}
-                          onChange={(e) => {
-                            const newSectorOption = e.target.value;
-                            setSectorOption(newSectorOption);
-                            setSectorOption(e.target.value);
-                            setPropertyTypeError('');
-                            setTableVisible(false);
+              <div
+                className={` flex gap-x-3 overflow-hidden propertySection ${
+                  propertyTypeVisible ? ' open' : ' closed'
+                }`}
+              >
+                <div className="font-semibold w-1/3">Property Type:</div>
+                <div className="w-2/3">
+                  <div>
+                    <label className="flex items-baseline">
+                      <input
+                        type="radio"
+                        name="propertyType"
+                        value="Residential"
+                        checked={sectorOption === 'Residential'}
+                        onChange={(e) => {
+                          const newSectorOption = e.target.value;
+                          setSectorOption(newSectorOption);
+                          setSectorOption(e.target.value);
+                          setPropertyTypeError('');
+                          setTableVisible(false);
 
-                            setTableVisible(false);
-                            getUtilities(stateRegion, newSectorOption);
-                            setUtilityVisible(true);
-                          }}
-                        />
-                        <span className="ml-2">Residential</span>
-                      </label>
-                    </div>
-                    <div>
-                      <label className="flex items-baseline">
-                        <input
-                          type="radio"
-                          name="propertyType"
-                          value="Multifamily"
-                          checked={sectorOption === 'Multifamily'}
-                          onChange={(e) => {
-                            const newSectorOption = e.target.value;
-                            setSectorOption(newSectorOption);
-                            setSectorOption(e.target.value);
-                            getUtilities(stateRegion, newSectorOption);
-                            setUtilityVisible(true);
-                            setTableVisible(false);
-                          }}
-                        />
-                        <span className="ml-2">Multi-family</span>
-                      </label>
-                    </div>
-                    <div>
-                      <label className="flex items-baseline">
-                        <input
-                          type="radio"
-                          name="propertyType"
-                          value="C&I"
-                          checked={sectorOption === 'C&I'}
-                          onChange={(e) => {
-                            const newSectorOption = e.target.value;
-                            setSectorOption(newSectorOption);
-                            setSectorOption(e.target.value);
-                            getUtilities(stateRegion, newSectorOption);
-                            setUtilityVisible(true);
+                          setTableVisible(false);
+                          getUtilities(stateRegion, newSectorOption);
+                          setUtilityVisible(true);
+                        }}
+                      />
+                      <span className="ml-2">Residential</span>
+                    </label>
+                  </div>
+                  <div>
+                    <label className="flex items-baseline">
+                      <input
+                        type="radio"
+                        name="propertyType"
+                        value="Multifamily"
+                        checked={sectorOption === 'Multifamily'}
+                        onChange={(e) => {
+                          const newSectorOption = e.target.value;
+                          setSectorOption(newSectorOption);
+                          setSectorOption(e.target.value);
+                          getUtilities(stateRegion, newSectorOption);
+                          setUtilityVisible(true);
+                          setTableVisible(false);
+                        }}
+                      />
+                      <span className="ml-2">Multi-family</span>
+                    </label>
+                  </div>
+                  <div>
+                    <label className="flex items-baseline">
+                      <input
+                        type="radio"
+                        name="propertyType"
+                        value="C&I"
+                        checked={sectorOption === 'C&I'}
+                        onChange={(e) => {
+                          const newSectorOption = e.target.value;
+                          setSectorOption(newSectorOption);
+                          setSectorOption(e.target.value);
+                          getUtilities(stateRegion, newSectorOption);
+                          setUtilityVisible(true);
 
-                            setTableVisible(false);
-                          }}
-                        />
-                        <span className="ml-2">C&I</span>
-                      </label>
-                    </div>
+                          setTableVisible(false);
+                        }}
+                      />
+                      <span className="ml-2">C&I</span>
+                    </label>
                   </div>
                 </div>
-              )}
+              </div>
+
               {propertyTypeError && (
                 <div className="text-red-500 mt-2 -mb-2 text-sm text-right">
                   {propertyTypeError}
                 </div>
               )}
-              {utilityVisible && (
-                <label className="mt-2 flex gap-x-3 items-center">
-                  <div className="font-semibold w-1/3">Utility/CCA:</div>
-                  <UtilitySelector
-                    className="!w-2/3"
-                    data={utilityData}
-                    visible={utilityVisible}
-                    value={Utility}
-                    onChange={(e) => {
-                      const newUtiltyValue = e.target.value;
-                      setUtility(newUtiltyValue);
-                      setUtilityError('');
-                      setDevicesVisible(true);
-                      setTableVisible(false);
-                    }}
-                  />
-                </label>
-              )}
+
+              <label
+                className={` flex gap-x-3 items-center utilitySection  ${
+                  utilityVisible ? 'open' : 'closed'
+                }`}
+              >
+                <div className="font-semibold w-1/3">Utility/CCA:</div>
+                <UtilitySelector
+                  className="!w-2/3"
+                  data={utilityData}
+                  visible={utilityVisible}
+                  value={Utility}
+                  onChange={(e) => {
+                    const newUtiltyValue = e.target.value;
+                    setUtility(newUtiltyValue);
+                    setUtilityError('');
+                    setDevicesVisible(true);
+                    setTableVisible(false);
+                  }}
+                />
+              </label>
+
               {utilityError && (
                 <div className="text-red-500 mt-2 -mb-2 text-sm text-right">
                   {utilityError}
                 </div>
               )}
-              {devicesVisible && Utility != 'Unavailable' && (
-                <label className="mt-2 block gap-x-3 items-top">
-                  <div className="relative w-full">
+
+              {Utility != 'Unavailable' && (
+                <label className={`block gap-x-3 items-top `}>
+                  <div
+                    className={`relative overflow-hidden  w-full deviceTitleSection ${
+                      devicesVisible ? 'open' : 'closed'
+                    }`}
+                  >
                     <div className="text-xl pt-2 font-black items-center text-center">
-                      Add devices{' '}
+                      Add devices
                       <button
                         type="button"
                         onClick={toggleDeviceSection}
@@ -341,10 +353,8 @@ export default function VPPFinder() {
                   </div>
 
                   <div
-                    className={` block overflow-hidden ${
-                      deviceSectionOpen
-                        ? 'deviceSection open'
-                        : ' deviceSection closed'
+                    className={` block overflow-hidden deviceSection ${
+                      deviceSectionOpen && devicesVisible ? ' open' : 'closed'
                     }`}
                   >
                     <div className="mt-2">
@@ -597,17 +607,48 @@ export default function VPPFinder() {
       <style>
         {`
           .deviceSection {
+            transition: 0.7s ease;
+            overflow: hidden;
+          }
+          .propertySection {
             transition: 0.5s ease;
             overflow: hidden;
           }
 
-          .deviceSection.open {
-            max-height: 0px
+          .utilitySection {
+            transition: 0.5s ease;
+            overflow: hidden;
+          }
+          
+          .deviceTitleSection{
+            transition: 0.5s ease;
           }
 
-          .deviceSection.closed {
+          .deviceTitleSection.open {
+            max-height: 100px;
+            margin-top: 0.5rem
+          }
+
+          .utilitySection.open {
+            margin-top: 0.5rem;
+            max-height: 100px
+          }
+          .deviceSection.open {
             max-height: 500px
           }
+          .propertySection.open {
+            margin-top: 1rem;
+            max-height: 150px
+          }
+          .closed {
+            max-height: 0px
+            
+          }
+
+
+
+
+
         `}
       </style>
     </>
