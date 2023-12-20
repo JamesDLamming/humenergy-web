@@ -6,11 +6,63 @@ import StateSelector from '../components/StateSelector';
 import VPPFinderOutput from '../components/VPPFinderOutput';
 import UtilitySelector from '../components/UtililtySelector';
 import MultiSelector from '../components/MultiSelector';
-import SingleSelector from '../components/SingleSelector';
 import SingleSelectorTest from '../components/SingleSelectorTest';
+
 require('dotenv').config();
 
 export default function VPPFinder() {
+  const states = [
+    { value: 'AL', label: 'AL' },
+    { value: 'AK', label: 'AK' },
+    { value: 'AR', label: 'AR' },
+    { value: 'AZ', label: 'AZ' },
+    { value: 'CA', label: 'CA' },
+    { value: 'CO', label: 'CO' },
+    { value: 'CT', label: 'CT' },
+    { value: 'DE', label: 'DE' },
+    { value: 'FL', label: 'FL' },
+    { value: 'GA', label: 'GA' },
+    { value: 'HI', label: 'HI' },
+    { value: 'IA', label: 'IA' },
+    { value: 'ID', label: 'ID' },
+    { value: 'IL', label: 'IL' },
+    { value: 'IN', label: 'IN' },
+    { value: 'KS', label: 'KS' },
+    { value: 'KY', label: 'KY' },
+    { value: 'LA', label: 'LA' },
+    { value: 'MA', label: 'MA' },
+    { value: 'MD', label: 'MD' },
+    { value: 'ME', label: 'ME' },
+    { value: 'MI', label: 'MI' },
+    { value: 'MN', label: 'MN' },
+    { value: 'MO', label: 'MO' },
+    { value: 'MS', label: 'MS' },
+    { value: 'MT', label: 'MT' },
+    { value: 'NC', label: 'NC' },
+    { value: 'ND', label: 'ND' },
+    { value: 'NE', label: 'NE' },
+    { value: 'NH', label: 'NH' },
+    { value: 'NJ', label: 'NJ' },
+    { value: 'NM', label: 'NM' },
+    { value: 'NV', label: 'NV' },
+    { value: 'NY', label: 'NY' },
+    { value: 'OH', label: 'OH' },
+    { value: 'OK', label: 'OK' },
+    { value: 'OR', label: 'OR' },
+    { value: 'PA', label: 'PA' },
+    { value: 'RI', label: 'RI' },
+    { value: 'SC', label: 'SC' },
+    { value: 'SD', label: 'SD' },
+    { value: 'TN', label: 'TN' },
+    { value: 'TX', label: 'TX' },
+    { value: 'UT', label: 'UT' },
+    { value: 'VA', label: 'VA' },
+    { value: 'VT', label: 'VT' },
+    { value: 'WA', label: 'WA' },
+    { value: 'WI', label: 'WI' },
+    { value: 'WV', label: 'WV' },
+    { value: 'WY', label: 'WY' },
+  ];
   const [programData, setProgramData] = useState([]);
   const [utilityData, setUtilityData] = useState('');
   const [tableVisible, setTableVisible] = useState(false);
@@ -18,8 +70,7 @@ export default function VPPFinder() {
   const [propertyTypeVisible, setPropertyTypeVisible] = useState(false);
   const [devicesVisible, setDevicesVisible] = useState(false);
   const [heatpumpPresent, setHeatpumpPresent] = useState(false);
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedUtility, setSelectedUtility] = useState();
+
   const [thermostatPresent, setThermostatPresent] = useState(false);
 
   const [batteryPresent, setBatteryPresent] = useState(false);
@@ -32,7 +83,7 @@ export default function VPPFinder() {
   const [generatorPresent, setGeneratorPresent] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const [utilityState, setUtilityState] = useState([]);
+  const [utilityState, setUtilityState] = useState('');
   const newStateRegion = useState('');
   const [stateRegion, setStateRegion] = useState('');
   const [Utility, setUtility] = useState('');
@@ -46,33 +97,37 @@ export default function VPPFinder() {
 
   const [deviceSectionOpen, setDeviceSectionOpen] = useState(true);
 
-  const handleStateSelectionChange = (option) => {
-    setSelectedState(option);
-    const newState = option;
-    setSelectedState(newState);
-    clearUtility();
-    setUtilityError('');
-    setPropertyTypeVisible(true);
-    setTableVisible(false);
-    console.log(newState);
-    getUtilities(newState.value, sectorOption);
-  };
-
-  const handleUtilitySelectionChange = (option) => {
-    setSelectedUtility(option);
-    const newUtility = option;
-    setSelectedUtility(newUtility);
-  };
-  function clearUtility() {
-    setSelectedUtility(null);
-  }
-
   // Function to toggle the section
   const toggleDeviceSection = () => {
     setDeviceSectionOpen(!deviceSectionOpen);
   };
-  const getUtilities = async (stateRegion, sectorOption) => {
+
+  const handleStateSelectionChange = (option) => {
+    setStateRegion(option);
+    const newState = option;
+    setStateRegion(newState);
+    clearUtility();
     console.log(stateRegion);
+    setPropertyTypeVisible(true);
+    setStateError('');
+    setTableVisible(false);
+    getUtilities(newState.value, sectorOption);
+  };
+
+  const handleUtilitySelectionChange = (option) => {
+    setUtility(option);
+    const newUtility = option;
+    setUtility(newUtility);
+    setUtilityError('');
+    setDevicesVisible(true);
+    setTableVisible(false);
+  };
+
+  function clearUtility() {
+    setUtility(null);
+  }
+
+  const getUtilities = async (stateRegion, sectorOption) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/getUtilities`,
@@ -85,7 +140,20 @@ export default function VPPFinder() {
         }
       );
       const jsonResponse = await response.json();
-      setUtilityData(jsonResponse);
+      setUtilityData(
+        jsonResponse.map((item) => ({
+          value: item.Value,
+          label: item.Utility,
+        }))
+      );
+      console.log(jsonResponse);
+      console.log(
+        jsonResponse.map((item) => ({
+          value: item.Value,
+          label: item.Utility,
+        }))
+      );
+
       // Reset the Utility state every time new utility data is fetched
       setUtility(''); // Reset to default or empty value
     } catch (error) {
@@ -93,56 +161,11 @@ export default function VPPFinder() {
     }
   };
 
-  // const getUtilities = async (selectedState, sectorOption) => {
-  //   try {
-  //     console.log('Utility data state input ', selectedState);
-  //     console.log('Utility data sector input ', sectorOption);
-  //     const response = await fetch(
-  //       `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/getUtilities`,
-  //       {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify({ selectedState, sectorOption }),
-  //       }
-  //     );
-  //     const jsonResponse = await response.json();
-  //     setUtilityData(jsonResponse);
-  //     console.log('utilityData from API: ', utilityData);
-  //     console.log(
-  //       'utilityData from API map: ',
-  //       Array.isArray(utilityData)
-  //         ? utilityData.map((item) => ({
-  //             value: item.Value,
-  //             label: item.Utility,
-  //           }))
-  //         : []
-  //     );
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // };
-
   const checkEligibility = async () => {
-    console.log(
-      JSON.stringify({
-        stateRegion,
-        sectorOption,
-        Utility,
-        thermostatPresent,
-        batteryPresent,
-        selectionsThermostat: selectedThermostats,
-        selectionsBattery: selectedBatteries,
-        heatpumpPresent,
-        waterheaterPresent,
-        solarPresent,
-        EVPresent,
-        generatorPresent,
-      })
-    );
     try {
       setLoading(true); //start loading
+      console.log('eligbiltiy API state: ', stateRegion.value);
+      console.log('eligbiltiy API utility: ', Utility.value);
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/check-eligibility`,
@@ -153,9 +176,9 @@ export default function VPPFinder() {
           },
           // Include any necessary request body here
           body: JSON.stringify({
-            stateRegion,
+            stateRegion: stateRegion.value,
             sectorOption,
-            Utility,
+            Utility: Utility.value,
             thermostatPresent,
             batteryPresent,
             selectionsThermostat: selectedThermostats,
@@ -182,7 +205,10 @@ export default function VPPFinder() {
 
     let isError = false; // Flag to indicate if there's any error
 
-    if ((!Utility || Utility === '') && utilityVisible) {
+    if (
+      (!Utility || !Utility.value || Utility.value.trim() === '') &&
+      utilityVisible
+    ) {
       setUtilityError('Please select a Utility/CCA');
       isError = true;
     } else {
@@ -196,7 +222,7 @@ export default function VPPFinder() {
       setPropertyTypeError(''); // Reset error
     }
 
-    if (!stateRegion || stateRegion.trim() === '') {
+    if (!stateRegion || !stateRegion.value || stateRegion.value.trim() === '') {
       setStateError('Please select a State');
       isError = true;
     } else {
@@ -265,64 +291,12 @@ export default function VPPFinder() {
     { value: 'Other', label: 'Other' },
   ];
 
-  const states = [
-    { value: 'AL', label: 'AL' },
-    { value: 'AK', label: 'AK' },
-    { value: 'AR', label: 'AR' },
-    { value: 'AZ', label: 'AZ' },
-    { value: 'CA', label: 'CA' },
-    { value: 'CO', label: 'CO' },
-    { value: 'CT', label: 'CT' },
-    { value: 'DE', label: 'DE' },
-    { value: 'FL', label: 'FL' },
-    { value: 'GA', label: 'GA' },
-    { value: 'HI', label: 'HI' },
-    { value: 'IA', label: 'IA' },
-    { value: 'ID', label: 'ID' },
-    { value: 'IL', label: 'IL' },
-    { value: 'IN', label: 'IN' },
-    { value: 'KS', label: 'KS' },
-    { value: 'KY', label: 'KY' },
-    { value: 'LA', label: 'LA' },
-    { value: 'MA', label: 'MA' },
-    { value: 'MD', label: 'MD' },
-    { value: 'ME', label: 'ME' },
-    { value: 'MI', label: 'MI' },
-    { value: 'MN', label: 'MN' },
-    { value: 'MO', label: 'MO' },
-    { value: 'MS', label: 'MS' },
-    { value: 'MT', label: 'MT' },
-    { value: 'NC', label: 'NC' },
-    { value: 'ND', label: 'ND' },
-    { value: 'NE', label: 'NE' },
-    { value: 'NH', label: 'NH' },
-    { value: 'NJ', label: 'NJ' },
-    { value: 'NM', label: 'NM' },
-    { value: 'NV', label: 'NV' },
-    { value: 'NY', label: 'NY' },
-    { value: 'OH', label: 'OH' },
-    { value: 'OK', label: 'OK' },
-    { value: 'OR', label: 'OR' },
-    { value: 'PA', label: 'PA' },
-    { value: 'RI', label: 'RI' },
-    { value: 'SC', label: 'SC' },
-    { value: 'SD', label: 'SD' },
-    { value: 'TN', label: 'TN' },
-    { value: 'TX', label: 'TX' },
-    { value: 'UT', label: 'UT' },
-    { value: 'VA', label: 'VA' },
-    { value: 'VT', label: 'VT' },
-    { value: 'WA', label: 'WA' },
-    { value: 'WI', label: 'WI' },
-    { value: 'WV', label: 'WV' },
-    { value: 'WY', label: 'WY' },
-  ];
-
   return (
     <>
       <SEO title="Hum Energy - VPP finder" />
       <div className="bg-bgMain overflow-hidden min-h-screen">
         <Nav></Nav>
+        <div className="w-full"></div>
 
         <div className="max-w-xl flex flex-col items-center px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
           <div className="p-4 px-8 w-full sm:w-96 rounded-lg shadow-sm bg-white text-main  mt-10">
@@ -332,36 +306,26 @@ export default function VPPFinder() {
             <form onSubmit={handleSubmit}>
               <div className="mt-2 flex gap-x-3 items-center">
                 <div className="w-1/3 font-semibold">State:</div>
-
                 <div className="w-2/3">
-                  {/* <SingleSelector
-
-                    onOptionSelected={(selectedOption) => {
-                     
-                      if (selectedOption) {
-                        const newStateRegion = selectedOption.value;
-                        setStateRegion(newStateRegion);
-                        getUtilities(newStateRegion, sectorOption);
-                      } else {
-                        setStateRegion('');
-                      }
-                      setUtility('');
-                      setUtilityError('');
-                      setPropertyTypeVisible(true);
-                      setTableVisible(false);
-                    }}
-
-                  ></SingleSelector> */}
                   <SingleSelectorTest
                     optionsList={states}
-                    selectedOption={selectedState}
+                    selectedOption={stateRegion}
                     onOptionSelected={handleStateSelectionChange}
-                    placeholderClosedText="Select State"
-                    placeholderOpenText="Search"
                   ></SingleSelectorTest>
                 </div>
+                {/* <StateSelector
+                  className="!w-2/3"
+                  value={stateRegion}
+                  onChange={(e) => {
+                    const newStateRegion = e.target.value;
+                    setStateRegion(newStateRegion); // Update the state
+                    setPropertyTypeVisible(true);
+                    setStateError('');
+                    setTableVisible(false);
+                    getUtilities(newStateRegion, sectorOption);
+                  }}
+                ></StateSelector>{' '} */}
               </div>
-
               {stateError && (
                 <div className="text-red-500 mt-2 -mb-2 text-sm text-right">
                   {stateError}
@@ -390,7 +354,7 @@ export default function VPPFinder() {
                           setTableVisible(false);
 
                           setTableVisible(false);
-                          getUtilities(selectedState, newSectorOption);
+                          getUtilities(stateRegion.value, newSectorOption);
                           setUtilityVisible(true);
                         }}
                       />
@@ -408,7 +372,7 @@ export default function VPPFinder() {
                           const newSectorOption = e.target.value;
                           setSectorOption(newSectorOption);
                           setSectorOption(e.target.value);
-                          getUtilities(selectedState, newSectorOption);
+                          getUtilities(stateRegion.value, newSectorOption);
                           setUtilityVisible(true);
                           setTableVisible(false);
                         }}
@@ -427,7 +391,7 @@ export default function VPPFinder() {
                           const newSectorOption = e.target.value;
                           setSectorOption(newSectorOption);
                           setSectorOption(e.target.value);
-                          getUtilities(selectedState, newSectorOption);
+                          getUtilities(stateRegion.value, newSectorOption);
                           setUtilityVisible(true);
 
                           setTableVisible(false);
@@ -443,7 +407,7 @@ export default function VPPFinder() {
                   {propertyTypeError}
                 </div>
               )}
-              <div
+              <label
                 className={` flex gap-x-3 items-center utilitySection  ${
                   utilityVisible ? 'open' : 'closed'
                 }`}
@@ -451,85 +415,14 @@ export default function VPPFinder() {
                 <div className="font-semibold w-1/3">Utility/CCA:</div>
                 <div className="w-2/3">
                   <SingleSelectorTest
-                    optionsList={
-                      Array.isArray(utilityData)
-                        ? utilityData.map((item) => ({
-                            value: item.Value,
-                            label: item.Utility,
-                          }))
-                        : []
-                    }
-                    selectedOption={selectedUtility}
+                    optionsList={utilityData}
+                    selectedOption={Utility}
                     onOptionSelected={handleUtilitySelectionChange}
-                    placeholderClosedText="Select Utility/CCA"
-                    placeholderOpenText="Search"
                     labelToBeAtBottom="My Utility/CCA is not in this list"
+                    placeholderClosedText="Select Utility/CCA"
                   ></SingleSelectorTest>
-
-                  {/* <SingleSelector
-                    optionsList={
-                      Array.isArray(utilityData)
-                        ? utilityData.map((item) => ({
-                            value: item.Value,
-                            label: item.Utility,
-                          }))
-                        : []
-                    }
-                    //selectedOption={Utility}
-                    value={Utility}
-
-                    onOptionSelected={(selectedOption) => {
-                      if (selectedOption) {
-                        const newUtiltyValue = selectedOption.value;
-                        setUtility(newUtiltyValue);
-                        setUtilityError('');
-                        setDevicesVisible(true);
-                        setTableVisible(false);
-                      }
-                    }}
-                  /> */}
                 </div>
-              </div>
-              <div className="w-2/3">
-                <SingleSelector
-                  optionsList={
-                    Array.isArray(utilityData)
-                      ? utilityData.map((item) => ({
-                          value: item.Value,
-                          label: item.Utility,
-                        }))
-                      : []
-                  }
-                  value={Utility}
-                  labelToBeAtBottom="My Utility/CCA is not in this list"
-                  selectedOption={Utility}
-                  onOptionSelected={(selectedOption) => {
-                    console.log(
-                      'Selected option for utility (form utility change):',
-                      selectedOption,
-                      'utility variable: ',
-                      Utility
-                    );
-                    console.log(
-                      'Selected option for state (utilty change):',
-                      stateRegion
-                    );
-
-                    if (selectedOption) {
-                      const newUtiltyValue = selectedOption.value;
-                      setUtility(newUtiltyValue);
-                      setUtilityError('');
-                      setDevicesVisible(true);
-                      setTableVisible(false);
-                    } else {
-                      setUtility([]);
-                    }
-                  }}
-                  placeholderClosedText="Select Utility/CCA"
-                  placeholderOpenText="Search"
-                />
-              </div>
-
+              </label>
               {utilityError && (
                 <div className="text-red-500 mt-2 -mb-2 text-sm text-right">
                   {utilityError}
@@ -855,11 +748,7 @@ export default function VPPFinder() {
 
           .utilitySection {
             transition: 0.5s ease;
-            overflow: hidden;
-          }
-
-          .utilitySection.open {
-            overflow: visible;
+            //overflow: hidden;
           }
           
           .deviceTitleSection{
@@ -895,6 +784,7 @@ export default function VPPFinder() {
           .utilitySection.open {
             margin-top: 1rem;
             max-height: 100px
+            overflow: visible
           }
           .deviceSection.open {
             max-height: 800px

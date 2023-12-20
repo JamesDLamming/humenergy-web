@@ -3,28 +3,32 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { components } from 'react-select';
 
-const MultiSelector = ({
+const SingleSelectorTest = ({
   optionsList,
-  selectedOptions,
-  setSelectedOptions,
+  selectedOption,
+  onOptionSelected,
   placeholderOpenText = 'Select...',
   placeholderClosedText = 'Search',
+  isClearable = false,
+  sortValues = true,
+  labelToBeAtBottom = 'Other',
   ...props
 }) => {
   // Custom sort function
   const sortOptions = (options) => {
     return options.sort((a, b) => {
-      if (a.label === 'Other') return 1;
-      if (b.label === 'Other') return -1;
+      if (a.label === labelToBeAtBottom) return 1;
+      if (b.label === labelToBeAtBottom) return -1;
       return a.label.localeCompare(b.label);
     });
   };
 
-  // Apply custom sort function to optionsList and selectedOptions
-  const sortedOptionsList = useMemo(
-    () => sortOptions([...optionsList]),
-    [optionsList]
-  );
+  const sortedOptionsList = useMemo(() => {
+    if (sortValues) {
+      return sortOptions([...optionsList]);
+    }
+    return optionsList;
+  }, [optionsList, sortValues]);
 
   // Handler for when new options are selected
   const handleSelectOptions = (selectedOptions) => {
@@ -60,7 +64,7 @@ const MultiSelector = ({
       borderRadius: '0.5rem', // Tailwind's 'rounded-lg'
       boxShadow: state.isFocused ? '0 0 0 1px var(--bgMain)' : 'none',
       padding: state.hasValue
-        ? '0.4rem 0.5rem 0.4rem 0.5rem'
+        ? '0.5rem 0.5rem 0.5rem 0.5rem'
         : '0.5rem 0.5rem 0.5rem 1rem', // Tailwind's 'py-2 px-4'
       minHeight: 'auto',
       lineHeight: '1.25',
@@ -87,12 +91,12 @@ const MultiSelector = ({
       ...provided,
       padding: '0px',
     }),
-    multiValue: (provided) => ({
+    singleValue: (provided) => ({
       ...provided,
-      backgroundColor: 'var(--bgMain)',
-      borderRadius: '2rem',
+      //   backgroundColor: 'var(--bgMain)',
+      //   borderRadius: '2rem',
     }),
-    multiValueLabel: (provided) => ({
+    singleValueLabel: (provided) => ({
       ...provided,
       padding: '0.1rem',
     }),
@@ -118,7 +122,10 @@ const MultiSelector = ({
     }),
     option: (provided, state) => ({
       ...provided,
+      backgroundColor: state.isSelected ? 'var(--bgMain)' : 'white', // Highlight selected option
       backgroundColor: state.isFocused ? 'var(--bgMain)' : 'white',
+      color: 'var(--main)',
+      //   backgroundColor: state.isFocused ? 'var(--bgMain)' : 'white',
       padding: '0.5rem 1rem', // Tailwind's 'py-2 px-4'
       '&:hover': {
         backgroundColor: 'var(--bgMain)',
@@ -132,16 +139,16 @@ const MultiSelector = ({
   return (
     <div>
       <Select
-        isMulti
         options={sortedOptionsList}
         components={{
           ...animatedComponents,
           DropdownIndicator: CustomDropdownIndicator,
         }}
-        value={selectedOptions}
-        onChange={setSelectedOptions}
+        value={selectedOption}
+        onChange={onOptionSelected}
         styles={customStyles}
-        className={`basic-multi-select !rounded-lg !shadow-sm border-gray-400 hover:border-gray-500 ${props.className} leading-tight focus:outline-none focus:shadow-outline`}
+        isClearable={isClearable}
+        className={`basic-single !rounded-lg !shadow-sm border-gray-400 hover:border-gray-500 ${props.className} leading-tight focus:outline-none focus:shadow-outline`}
         classNamePrefix="select"
         placeholder={menuIsOpen ? placeholderOpenText : placeholderClosedText}
         onMenuOpen={() => setMenuIsOpen(true)}
@@ -151,4 +158,4 @@ const MultiSelector = ({
   );
 };
 
-export default MultiSelector;
+export default SingleSelectorTest;
