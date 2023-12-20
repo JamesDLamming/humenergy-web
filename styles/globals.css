@@ -28,3 +28,11 @@ h6 {
     @apply text-mainSecondary;
   }
 }
+
+:root {
+  --bgMain: #ececec;
+  --accent: #11e496;
+  --accentSecondary: #b8f7e0;
+  --main: #1e234f;
+  --mainSecondary: #4b4f72;
+}

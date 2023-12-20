@@ -7,6 +7,8 @@ async function checkEligibility(req, res) {
       stateRegion,
       sectorOption,
       Utility,
+      thermostatPresent,
+      batteryPresent,
       selectionsThermostat,
       selectionsBattery,
       heatpumpPresent,
@@ -20,7 +22,7 @@ async function checkEligibility(req, res) {
     const sheet = doc.sheetsByIndex[0]; // or use sheetsById or sheetsByTitle
     const rows = await sheet.getRows();
 
-    let smartThermostat = '';
+    let thermostat = '';
     let battery = '';
     let powerwall = '';
     let heatpump = '';
@@ -29,13 +31,11 @@ async function checkEligibility(req, res) {
     let solar = '';
     let generator = '';
 
-    selectionsThermostat.NoThermostat === true
-      ? (smartThermostat = '')
-      : (smartThermostat = 'Thermostats');
-    selectionsBattery.NoBattery === true
-      ? (battery = '')
-      : (battery = 'Batteries');
-    selectionsBattery.TeslaPowerwall === true
+    thermostatPresent === true
+      ? (thermostat = 'Thermostats')
+      : (thermostat = '');
+    batteryPresent === true ? (battery = 'Batteries') : (battery = '');
+    selectionsBattery.some((item) => item.value === 'TeslaPowerwall') === true
       ? (powerwall = 'Powerwall')
       : (powerwall = '');
 
@@ -48,7 +48,7 @@ async function checkEligibility(req, res) {
     generatorPresent === true ? (generator = 'Generators') : (generator = '');
 
     const derArray = [
-      smartThermostat,
+      thermostat,
       battery,
       powerwall,
       heatpump,
@@ -73,8 +73,14 @@ async function checkEligibility(req, res) {
         row.get('DERs') &&
         row
           .get('DERs')
-          .split(', ')
-          .some((der) => derArray.includes(der));
+          .toLowerCase() // Convert to lowercase
+          .split(', ') // Split by comma and space
+          .map((der) => der.replace(/\s/g, '')) // Remove all spaces from each element
+          .some((der) =>
+            derArray
+              .map((da) => da.toLowerCase().replace(/\s/g, ''))
+              .includes(der)
+          ); // Compare with the processed derArray
 
       // Assign 'Eligible' or 'Ineligible' based on the existence of DERs
       row.tag = derExists ? 'Eligible' : 'Ineligible';

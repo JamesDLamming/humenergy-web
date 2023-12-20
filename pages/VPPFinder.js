@@ -5,6 +5,7 @@ import DefaultButton from '../components/DefaultButton';
 import StateSelector from '../components/StateSelector';
 import VPPFinderOutput from '../components/VPPFinderOutput';
 import UtilitySelector from '../components/UtililtySelector';
+import MultiSelector from '../components/MultiSelector';
 require('dotenv').config();
 
 export default function VPPFinder() {
@@ -16,6 +17,9 @@ export default function VPPFinder() {
   const [devicesVisible, setDevicesVisible] = useState(false);
   const [heatpumpPresent, setHeatpumpPresent] = useState(false);
 
+  const [thermostatPresent, setThermostatPresent] = useState(false);
+
+  const [batteryPresent, setBatteryPresent] = useState(false);
   const [waterheaterPresent, setWaterheaterPresent] = useState(false);
 
   const [EVPresent, setEVPresent] = useState(false);
@@ -32,6 +36,8 @@ export default function VPPFinder() {
   const [utilityError, setUtilityError] = useState('');
 
   const [propertyTypeError, setPropertyTypeError] = useState('');
+  const [batterySelectionError, setBatterySelectionError] = useState('');
+  const [thermostatSelectionError, setThermostatSelectionError] = useState('');
 
   const [stateError, setStateError] = useState('');
 
@@ -79,8 +85,10 @@ export default function VPPFinder() {
             stateRegion,
             sectorOption,
             Utility,
-            selectionsThermostat,
-            selectionsBattery,
+            thermostatPresent,
+            batteryPresent,
+            selectionsThermostat: selectedThermostats,
+            selectionsBattery: selectedBatteries,
             heatpumpPresent,
             waterheaterPresent,
             solarPresent,
@@ -100,21 +108,55 @@ export default function VPPFinder() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    let isError = false; // Flag to indicate if there's any error
+
     if ((!Utility || Utility.trim() === '') && utilityVisible) {
       setUtilityError('Please select a Utility/CCA');
-      return; // Prevent form submission
-    }
-    if ((!sectorOption || sectorOption.trim() === '') && propertyTypeVisible) {
-      setPropertyTypeError('Please select a Property Type');
-      return; // Prevent form submission
-    }
-    if (!stateRegion || stateRegion.trim() === '') {
-      setStateError('Please select a State');
-      return; // Prevent form submission
+      isError = true;
+    } else {
+      setUtilityError(''); // Reset error
     }
 
-    // Reset error message and continue with form submission
-    setUtilityError('');
+    if ((!sectorOption || sectorOption.trim() === '') && propertyTypeVisible) {
+      setPropertyTypeError('Please select a Property Type');
+      isError = true;
+    } else {
+      setPropertyTypeError(''); // Reset error
+    }
+
+    if (!stateRegion || stateRegion.trim() === '') {
+      setStateError('Please select a State');
+      isError = true;
+    } else {
+      setStateError(''); // Reset error
+    }
+
+    if (
+      thermostatPresent &&
+      Object.values(selectedThermostats).every((element) => element === false)
+    ) {
+      setThermostatSelectionError('Please add a thermostat');
+      isError = true;
+    } else {
+      setThermostatSelectionError(''); // Reset error
+    }
+
+    if (
+      batteryPresent &&
+      Object.values(selectedBatteries).every((element) => element === false)
+    ) {
+      setBatterySelectionError('Please add a battery');
+      isError = true;
+    } else {
+      setBatterySelectionError(''); // Reset error
+    }
+
+    if (isError) {
+      return; // Prevent form submission if there's any error
+    }
+
+    // No errors, proceed with form submission
     checkEligibility(stateRegion, sectorOption, Utility);
     setTableVisible(true);
     setDeviceSectionOpen(false);
@@ -122,59 +164,38 @@ export default function VPPFinder() {
 
   const [sectorOption, setSectorOption] = useState('');
 
-  const [selectionsThermostat, setSelectionsThermostat] = useState({
-    Honeywell: false,
-    Nest: false,
-    OtherThermostat: false,
-    NoThermostat: true, // 'None' option selected by default
-  });
+  const [selectedThermostats, setSelectedThermostats] = useState([]);
 
-  const [selectionsBattery, setSelectionsBattery] = useState({
-    Generac: false,
-    TeslaPowerwall: false,
-    OtherBattery: false,
-    NoBattery: true, // 'None' option selected by default
-  });
+  const [selectedBatteries, setSelectedBatteries] = useState([]);
 
-  const handleCheckboxChangeThermostat = (event) => {
-    setSelectionsThermostat({
-      ...selectionsThermostat,
-      [event.target.name]: event.target.checked,
-      NoThermostat: false, // Uncheck 'None' when any checkbox is checked
-    });
-  };
-
-  const handleCheckboxChangeBattery = (event) => {
-    setSelectionsBattery({
-      ...selectionsBattery,
-      [event.target.name]: event.target.checked,
-      NoBattery: false, // Uncheck 'None' when any checkbox is checked
-    });
-  };
+  console.log('Batteries: ', selectedBatteries);
+  console.log('Thermostats: ', selectedThermostats);
 
   // Handle 'None' radio button change
   const handleNoneChangeThermostat = () => {
-    setSelectionsThermostat({
-      Honeywell: false,
-      Nest: false,
-      OtherThermostat: false,
-
-      NoThermostat: true,
-    });
+    setSelectedThermostats([]);
   };
 
   const handleNoneChangeBattery = () => {
-    setSelectionsBattery({
-      Generac: false,
-      TeslaPowerwall: false,
-      OtherBattery: false,
-      NoBattery: true,
-    });
+    setSelectedBatteries([]);
   };
 
   useEffect(() => {
     setUtility('');
   }, [stateRegion, sectorOption]);
+
+  const batteryOptions = [
+    { value: 'Generac', label: 'Generac' },
+    { value: 'TeslaPowerwall', label: 'Tesla Powerwall' },
+    { value: 'Swell', label: 'Swell' },
+    { value: 'Other', label: 'Other' },
+  ];
+
+  const thermostatOptions = [
+    { value: 'Honeywell', label: 'Honeywell' },
+    { value: 'Nest', label: 'Nest' },
+    { value: 'Other', label: 'Other' },
+  ];
 
   return (
     <>
@@ -201,7 +222,7 @@ export default function VPPFinder() {
                     setTableVisible(false);
                     getUtilities(newStateRegion, sectorOption);
                   }}
-                ></StateSelector>
+                ></StateSelector>{' '}
               </div>
               {stateError && (
                 <div className="text-red-500 mt-2 -mb-2 text-sm text-right">
@@ -279,13 +300,11 @@ export default function VPPFinder() {
                   </div>
                 </div>
               </div>
-
               {propertyTypeError && (
                 <div className="text-red-500 mt-2 -mb-2 text-sm text-right">
                   {propertyTypeError}
                 </div>
               )}
-
               <label
                 className={` flex gap-x-3 items-center utilitySection  ${
                   utilityVisible ? 'open' : 'closed'
@@ -306,50 +325,48 @@ export default function VPPFinder() {
                   }}
                 />
               </label>
-
               {utilityError && (
                 <div className="text-red-500 mt-2 -mb-2 text-sm text-right">
                   {utilityError}
                 </div>
               )}
-
               {Utility != 'Unavailable' && (
-                <label className={`block gap-x-3 items-top `}>
+                <div className={`block gap-x-3 items-top `}>
                   <div
-                    className={`relative overflow-hidden  w-full deviceTitleSection ${
+                    className={`flex gap-x-0 mt-2  justify-center items-center overflow-hidden  w-full deviceTitleSection ${
                       devicesVisible ? 'open' : 'closed'
                     }`}
                   >
-                    <div className="text-xl pt-2 font-black items-center text-center">
+                    <div className="text-xl  font-black items-center text-center">
                       Add devices
-                      <button
-                        type="button"
-                        onClick={toggleDeviceSection}
-                        className="focus:outline-none"
-                      >
-                        {deviceSectionOpen ? (
-                          <div className="pointer-events-none absolute top-2 right-15 flex items-center px-2 text-main">
-                            <svg
-                              className="fill-current h-8 w-8"
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 20 20"
-                            >
-                              <path d="M5.516 7.548c.436-.446 1.045-.481 1.576 0L10 10.405l2.908-2.857c.531-.481 1.141-.446 1.576 0 .436.445.408 1.197 0 1.642l-3.417 3.356c-.27.267-.631.408-.997.408s-.728-.141-.997-.408l-3.417-3.356c-.408-.445-.436-1.197 0-1.642z" />
-                            </svg>
-                          </div>
-                        ) : (
-                          <div className="pointer-events-none absolute top-2 right-15 flex items-center px-2 text-main -rotate-90">
-                            <svg
-                              className="fill-current h-8 w-8"
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 20 20"
-                            >
-                              <path d="M5.516 7.548c.436-.446 1.045-.481 1.576 0L10 10.405l2.908-2.857c.531-.481 1.141-.446 1.576 0 .436.445.408 1.197 0 1.642l-3.417 3.356c-.27.267-.631.408-.997.408s-.728-.141-.997-.408l-3.417-3.356c-.408-.445-.436-1.197 0-1.642z" />
-                            </svg>
-                          </div>
-                        )}
-                      </button>
                     </div>
+                    {deviceSectionOpen ? (
+                      <div
+                        className="flex items-center  text-main"
+                        onClick={() => toggleDeviceSection()}
+                      >
+                        <svg
+                          className="fill-current h-8 w-8"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M5.516 7.548c.436-.446 1.045-.481 1.576 0L10 10.405l2.908-2.857c.531-.481 1.141-.446 1.576 0 .436.445.408 1.197 0 1.642l-3.417 3.356c-.27.267-.631.408-.997.408s-.728-.141-.997-.408l-3.417-3.356c-.408-.445-.436-1.197 0-1.642z" />
+                        </svg>
+                      </div>
+                    ) : (
+                      <div
+                        className="flex items-center  text-main -rotate-90"
+                        onClick={() => toggleDeviceSection()}
+                      >
+                        <svg
+                          className="fill-current h-8 w-8"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M5.516 7.548c.436-.446 1.045-.481 1.576 0L10 10.405l2.908-2.857c.531-.481 1.141-.446 1.576 0 .436.445.408 1.197 0 1.642l-3.417 3.356c-.27.267-.631.408-.997.408s-.728-.141-.997-.408l-3.417-3.356c-.408-.445-.436-1.197 0-1.642z" />
+                        </svg>
+                      </div>
+                    )}
                   </div>
 
                   <div
@@ -357,96 +374,108 @@ export default function VPPFinder() {
                       deviceSectionOpen && devicesVisible ? ' open' : 'closed'
                     }`}
                   >
+                    {/* Smart Thermostat */}
                     <div className="mt-2">
                       <p className="mb-0 font-medium">Smart Thermostat</p>
                       <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                        <label className="flex items-baseline">
-                          <input
-                            type="checkbox"
-                            name="Honeywell"
-                            checked={selectionsThermostat.Honeywell}
-                            onChange={handleCheckboxChangeThermostat}
-                          />
-                          <span className="ml-1 ">Honeywell</span>
-                        </label>
-                        <label className="flex items-baseline">
-                          <input
-                            type="checkbox"
-                            name="Nest"
-                            checked={selectionsThermostat.Nest}
-                            onChange={handleCheckboxChangeThermostat}
-                          />
-                          <span className="ml-1">Nest</span>
-                        </label>
-                        <label className="flex items-baseline">
-                          <input
-                            type="checkbox"
-                            name="OtherThermostat"
-                            checked={selectionsThermostat.OtherThermostat}
-                            onChange={handleCheckboxChangeThermostat}
-                          />
-                          <span className="ml-1">Other</span>
-                        </label>
-                        <label className="flex items-baseline">
+                        <label className="flex items-center">
                           <input
                             type="radio"
-                            name="NoThermostat"
-                            checked={selectionsThermostat.NoThermostat}
-                            onChange={handleNoneChangeThermostat}
+                            name="thermostat"
+                            value="thermostatPresent"
+                            checked={thermostatPresent === true}
+                            onChange={() => setThermostatPresent(true)}
+                          />
+                          <span className="ml-2">Yes</span>
+                        </label>
+
+                        <label className="flex items-center ">
+                          <input
+                            type="radio"
+                            name="thermostat"
+                            value="noThermostatPresent"
+                            checked={thermostatPresent === false}
+                            onChange={() => {
+                              setThermostatPresent(false);
+                              handleNoneChangeThermostat();
+                              setThermostatSelectionError('');
+                            }}
                           />
                           <span className="ml-1">None</span>
                         </label>
                       </div>
+                      <div
+                        className={`thermostatSelection ${
+                          thermostatPresent ? 'open' : 'closed'
+                        } `}
+                      >
+                        <MultiSelector
+                          optionsList={thermostatOptions}
+                          selectedOptions={selectedThermostats}
+                          setSelectedOptions={setSelectedThermostats}
+                          placeholderOpenText="Search"
+                          placeholderClosedText="Add thermostats..."
+                        ></MultiSelector>
+                      </div>
                     </div>
+
+                    {thermostatSelectionError && (
+                      <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                        {thermostatSelectionError}
+                      </div>
+                    )}
+                    {/*batteries*/}
                     <div className="mt-2">
                       <p className="mb-0 font-medium">Battery</p>
                       <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                        <div>
-                          <label className="flex items-baseline">
-                            <input
-                              type="checkbox"
-                              name="Generac"
-                              checked={selectionsBattery.Generac}
-                              onChange={handleCheckboxChangeBattery}
-                            />
-                            <span className="ml-1">Generac</span>
-                          </label>
-                        </div>
-                        <div>
-                          <label className="flex items-baseline">
-                            <input
-                              type="checkbox"
-                              name="TeslaPowerwall"
-                              checked={selectionsBattery.TeslaPowerwall}
-                              onChange={handleCheckboxChangeBattery}
-                            />
-                            <span className="ml-1">Tesla Powerwall</span>
-                          </label>
-                        </div>
-                        <div>
-                          <label className="flex items-baseline">
-                            <input
-                              type="checkbox"
-                              name="OtherBattery"
-                              checked={selectionsBattery.OtherBattery}
-                              onChange={handleCheckboxChangeBattery}
-                            />
-                            <span className="ml-1">Other</span>
-                          </label>
-                        </div>
-                        <div>
-                          <label className="flex items-baseline">
-                            <input
-                              type="radio"
-                              name="NoBattery"
-                              checked={selectionsBattery.NoBattery}
-                              onChange={handleNoneChangeBattery}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
-                        </div>
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="battery"
+                            value="batteryPresent"
+                            checked={batteryPresent === true}
+                            onChange={() => setBatteryPresent(true)}
+                          />
+                          <span className="ml-2">Yes</span>
+                        </label>
+
+                        <label className="flex items-center ">
+                          <input
+                            type="radio"
+                            name="battery"
+                            value="noBatteryPresent"
+                            checked={batteryPresent === false}
+                            onChange={() => {
+                              setBatteryPresent(false);
+                              handleNoneChangeBattery();
+                              setBatterySelectionError('');
+                            }}
+                          />
+                          <span className="ml-1">None</span>
+                        </label>
+                      </div>
+
+                      <div
+                        className={` batterySelection ${
+                          batteryPresent ? 'open' : 'closed'
+                        } `}
+                      >
+                        <MultiSelector
+                          optionsList={batteryOptions}
+                          selectedOptions={selectedBatteries}
+                          setSelectedOptions={setSelectedBatteries}
+                          placeholderOpenText="Search"
+                          placeholderClosedText="Add batteries..."
+                        ></MultiSelector>
                       </div>
                     </div>
+
+                    {batterySelectionError && (
+                      <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                        {batterySelectionError}
+                      </div>
+                    )}
+                    {/*heatpump*/}
                     <div className="mt-2">
                       <p className="mb-0 font-medium">Heat Pump</p>
                       <div className="flex gap-x-3 gap-y-1 flex-wrap">
@@ -473,6 +502,7 @@ export default function VPPFinder() {
                         </label>
                       </div>
                     </div>
+                    {/*water heater*/}
                     <div className="mt-2">
                       <p className="mb-0 font-medium">Electric Water Heater</p>
                       <div className="flex gap-x-3 gap-y-1 flex-wrap">
@@ -499,6 +529,7 @@ export default function VPPFinder() {
                         </label>
                       </div>
                     </div>
+                    {/*solar*/}
                     <div className="mt-2">
                       <p className="mb-0 font-medium">Solar</p>
                       <div className="flex gap-x-3 gap-y-1 flex-wrap">
@@ -525,6 +556,7 @@ export default function VPPFinder() {
                         </label>
                       </div>
                     </div>
+                    {/*EV*/}
                     <div className="mt-2">
                       <p className="mb-0 font-medium">Electric Vehicle</p>
                       <div className="flex gap-x-3 gap-y-1 flex-wrap">
@@ -551,6 +583,7 @@ export default function VPPFinder() {
                         </label>
                       </div>
                     </div>
+                    {/*generator*/}
                     <div className="mt-2">
                       <p className="mb-0 font-medium">Generator</p>
                       <div className="flex gap-x-3 gap-y-1 flex-wrap">
@@ -578,7 +611,7 @@ export default function VPPFinder() {
                       </div>
                     </div>
                   </div>
-                </label>
+                </div>
               )}
               <DefaultButton
                 type="submit"
@@ -623,25 +656,47 @@ export default function VPPFinder() {
           .deviceTitleSection{
             transition: 0.5s ease;
           }
+          .thermostatSelection{
+            transition: 0.7s ease;
+          }
+
+          
+          .thermostatSelection.open{
+            max-height: 100px;
+           margin-top: 0.5rem
+         
+          }
+
+          .batterySelection{
+            transition: 0.7s ease;
+          }
+
+          
+          .batterySelection.open{
+            max-height: 100px;
+            margin-top: 0.5rem
+         
+          }
 
           .deviceTitleSection.open {
             max-height: 100px;
-            margin-top: 0.5rem
+            margin-top: 1rem
           }
 
           .utilitySection.open {
-            margin-top: 0.5rem;
+            margin-top: 1rem;
             max-height: 100px
           }
           .deviceSection.open {
-            max-height: 500px
+            max-height: 800px
           }
           .propertySection.open {
             margin-top: 1rem;
             max-height: 150px
           }
           .closed {
-            max-height: 0px
+            max-height: 0px;
+            overflow: hidden
             
           }
 
