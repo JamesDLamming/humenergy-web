@@ -3,7 +3,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { components } from 'react-select';
 
-const SingleSelectorTest = ({
+const SingleSelector = ({
   optionsList,
   selectedOption,
   onOptionSelected,
@@ -144,7 +144,7 @@ const SingleSelectorTest = ({
           ...animatedComponents,
           DropdownIndicator: CustomDropdownIndicator,
         }}
-        value={selectedOption}
+        //value={selectedOption}
         onChange={onOptionSelected}
         styles={customStyles}
         isClearable={isClearable}
@@ -158,4 +158,4 @@ const SingleSelectorTest = ({
   );
 };
 
-export default SingleSelectorTest;
+export default SingleSelector;

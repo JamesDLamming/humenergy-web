@@ -6,8 +6,8 @@ import StateSelector from '../components/StateSelector';
 import VPPFinderOutput from '../components/VPPFinderOutput';
 import UtilitySelector from '../components/UtililtySelector';
 import MultiSelector from '../components/MultiSelector';
-import SingleSelector from '../components/SingleSelector';
-import SingleSelectorTest from '../components/SingleSelectorTest';
+import SingleSelector from '../components/SingleSelectorOld';
+import SingleSelectorTest from '../components/SingleSelector';
 require('dotenv').config();
 
 export default function test() {

@@ -144,7 +144,7 @@ const SingleSelector = ({
           ...animatedComponents,
           DropdownIndicator: CustomDropdownIndicator,
         }}
-        //value={selectedOption}
+        value={selectedOption}
         onChange={onOptionSelected}
         styles={customStyles}
         isClearable={isClearable}
