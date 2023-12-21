@@ -120,6 +120,10 @@ const SingleSelector = ({
       paddingTop: '0',
       marginTop: '0',
     }),
+    indicatorsContainer: (provided) => ({
+      ...provided,
+      pointerEvents: 'none',
+    }),
     option: (provided, state) => ({
       ...provided,
       backgroundColor: state.isSelected ? 'var(--bgMain)' : 'white', // Highlight selected option

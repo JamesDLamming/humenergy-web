@@ -106,6 +106,11 @@ const MultiSelector = ({
       width: '1rem',
       transform: state.selectProps.menuIsOpen,
     }),
+
+    indicatorsContainer: (provided) => ({
+      ...provided,
+      pointerEvents: 'none',
+    }),
     indicatorSeparator: () => ({
       display: 'none',
     }),
