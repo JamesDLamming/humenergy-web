@@ -85,7 +85,8 @@ export default function VPPFinder() {
   const [utilityState, setUtilityState] = useState('');
   const newStateRegion = useState('');
   const [stateRegion, setStateRegion] = useState('');
-  const [Utility, setUtility] = useState('');
+  const [Utility, setUtility] = useState([{ value: '', label: '' }]);
+  //const [Utility, setUtility] = useState([]);
   const [utilityError, setUtilityError] = useState('');
 
   const [propertyTypeError, setPropertyTypeError] = useState('');
@@ -119,10 +120,19 @@ export default function VPPFinder() {
     setUtilityError('');
     setDevicesVisible(true);
     setTableVisible(false);
+    checkUtilityLogs();
   };
 
   function clearUtility() {
-    setUtility(null);
+    setUtility({ value: '', label: '' });
+  }
+
+  function checkUtilityLogs() {
+    console.log(Utility);
+    console.log(Utility.value);
+
+    //  console.log('new utility: ', newUtility);
+    // console.log('new utility value: ', newUtility.value);
   }
 
   const getUtilities = async (stateRegion, sectorOption) => {
@@ -405,7 +415,7 @@ export default function VPPFinder() {
                   {utilityError}
                 </div>
               )}
-              {Utility != 'Unavailable' && (
+              {Utility.value != 'Unavailable' && (
                 <div className={`block gap-x-3 items-top `}>
                   <div
                     className={`flex gap-x-0 mt-2  justify-center items-center overflow-hidden  w-full deviceTitleSection ${
@@ -691,12 +701,12 @@ export default function VPPFinder() {
               <DefaultButton
                 type="submit"
                 className={
-                  Utility != 'Unavailable'
+                  Utility.value != 'Unavailable'
                     ? 'mt-4 w-full'
                     : 'mt-4 w-full !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none'
                 }
               >
-                {Utility != 'Unavailable'
+                {Utility.value != 'Unavailable'
                   ? '   Find local programs'
                   : 'Your utility does not currently offer any programs'}
               </DefaultButton>
