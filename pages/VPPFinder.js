@@ -714,67 +714,41 @@ export default function VPPFinder() {
       </div>
       <style>
         {`
-          .deviceSection {
-            transition: 0.7s ease;
+          .deviceSection, .propertySection, .utilitySection, .deviceTitleSection, .thermostatSelection, .batterySelection {
+            transition: max-height 0.7s ease, margin-top 0.5s ease;
             overflow: hidden;
           }
-          .propertySection {
-            transition: 0.5s ease;
-            overflow: hidden;
-          }
-
-          .utilitySection {
-            transition: 0.5s ease;
-            //overflow: hidden;
+          
+          .thermostatSelection.open, .batterySelection.open {
+            max-height: 100px; /* Adjust as needed */
+            margin-top: 0.5rem;
+            overflow:visible;
           }
           
-          .deviceTitleSection{
-            transition: 0.5s ease;
-          }
-          .thermostatSelection{
-            transition: 0.7s ease;
-          }
-
-          
-          .thermostatSelection.open{
-            max-height: 100px;
-           margin-top: 0.5rem
-         
-          }
-
-          .batterySelection{
-            transition: 0.7s ease;
-          }
-
-          
-          .batterySelection.open{
-            max-height: 100px;
-            margin-top: 0.5rem
-         
-          }
-
           .deviceTitleSection.open {
-            max-height: 100px;
-            margin-top: 1rem
+            max-height: 100px; /* Adjust as needed */
+            margin-top: 1rem;
           }
-
+          
           .utilitySection.open {
+            max-height: 100px; /* Adjust as needed */
             margin-top: 1rem;
-            max-height: 100px
-            overflow: visible
+            overflow:visible;
           }
+          
           .deviceSection.open {
-            max-height: 800px
+            max-height: 800px; /* Adjust as needed */
           }
+          
           .propertySection.open {
+            max-height: 150px; /* Adjust as needed */
             margin-top: 1rem;
-            max-height: 150px
           }
+          
           .closed {
             max-height: 0px;
-            overflow: hidden
-            
           }
+          
 
 
 

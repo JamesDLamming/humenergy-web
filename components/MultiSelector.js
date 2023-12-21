@@ -95,6 +95,7 @@ const MultiSelector = ({
     multiValueLabel: (provided) => ({
       ...provided,
       padding: '0.1rem',
+      marginLeft: '0.2rem',
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
