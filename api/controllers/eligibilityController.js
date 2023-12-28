@@ -19,7 +19,9 @@ async function checkEligibility(req, res) {
     } = req.body;
 
     const doc = await accessSpreadsheet();
-    const sheet = doc.sheetsByIndex[0]; // or use sheetsById or sheetsByTitle
+    //const sheet = doc.sheetsByIndex[0]; // or use sheetsById or sheetsByTitle
+    const sheet = doc.sheetsByTitle['VPPs']; // or use sheetsById or sheetsByTitle
+
     const rows = await sheet.getRows();
 
     let thermostat = '';

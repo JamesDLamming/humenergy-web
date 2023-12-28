@@ -7,6 +7,8 @@ const MultiSelector = ({
   optionsList,
   selectedOptions,
   setSelectedOptions,
+  menuIsOpen,
+  setMenuIsOpen,
   placeholderOpenText = 'Select...',
   placeholderClosedText = 'Search',
   ...props
@@ -33,8 +35,12 @@ const MultiSelector = ({
 
   const customDropdownSVG = () => {
     return (
-      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-        {/* Explicitly set the fill color to black */}
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <path
           fill="black"
           d="M5.516 7.548c.436-.446 1.045-.481 1.576 0L10 10.405l2.908-2.857c.531-.481 1.141-.446 1.576 0 .436.445.408 1.197 0 1.642l-3.417 3.356c-.27.267-.631.408-.997.408s-.728-.141-.997-.408l-3.417-3.356c-.408-.445-.436-1.197 0-1.642z"
@@ -101,16 +107,14 @@ const MultiSelector = ({
       ...provided,
       color: 'black',
       transition: 'all .2s ease',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
       padding: '0',
-      height: '1rem',
-      width: '1rem',
-      transform: state.selectProps.menuIsOpen,
-    }),
-
-    indicatorsContainer: (provided) => ({
-      ...provided,
+      margin: '0 0 0 0.25rem',
       pointerEvents: 'none',
     }),
+
     indicatorSeparator: () => ({
       display: 'none',
     }),
@@ -121,6 +125,14 @@ const MultiSelector = ({
         '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)', // Tailwind's 'shadow-sm'
       paddingTop: '0',
       marginTop: '0',
+      overflow: 'visible',
+    }),
+    menuList: (provided) => ({
+      ...provided,
+      // Handle overflow within the menuList
+      overflowY: 'auto', // Enable vertical scrolling
+      maxHeight: '300px', // Adjust to desired max height
+      borderRadius: '0.5rem', // Maintain rounded corners
     }),
     option: (provided, state) => ({
       ...provided,
@@ -133,7 +145,7 @@ const MultiSelector = ({
   };
 
   const animatedComponents = makeAnimated();
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
+  //const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   return (
     <div>

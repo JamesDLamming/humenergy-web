@@ -11,7 +11,7 @@ function VPPFinderOutput({ data, visible }) {
   if (!data || data.length === 0) {
     return (
       <div className="w-full sm:w-11/12 lg:w-3/4">
-        <div class="text-xl pb-2 font-black items-center  ">
+        <div className="text-xl pb-2 font-black items-center  ">
           Programs you may be eligible for:
         </div>
         <div className=" flex max-w-7xl sm:max-w-3xl md:max-w-5xl lg:max-w-7xl text-sm sm:text-base items-center  p-0    shadow-sm rounded-lg h-auto mb-4 bg-white overflow-hidden">
@@ -28,7 +28,7 @@ function VPPFinderOutput({ data, visible }) {
   };
   return (
     <div className="w-full sm:w-11/12 lg:w-3/4">
-      <div class="text-xl pb-2 font-black items-center  ">
+      <div className="text-xl pb-2 font-black items-center  ">
         Programs you may be eligible for:
       </div>
       {eligibleRows.length > 0 ? (
@@ -129,7 +129,7 @@ function VPPFinderOutput({ data, visible }) {
         </div>
       )}
 
-      <div class="text-xl pb-2 mt-8 font-black items-center  ">
+      <div className="text-xl pb-2 mt-8 font-black items-center  ">
         Programs you need to buy a device to be eligible for:
       </div>
       {ineligibleRows.length > 0 ? (

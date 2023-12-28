@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const eligibilityRoutes = require('./routes/eligibilityRoutes');
 const getUtilities = require('./routes/getUtilitiesRoute');
+const getDevices = require('./routes/devicesRoutes');
 
 const app = express();
 app.use(express.json());
@@ -11,6 +12,7 @@ app.use(cors());
 
 app.use(eligibilityRoutes);
 app.use(getUtilities);
+app.use(getDevices);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
