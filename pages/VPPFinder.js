@@ -403,6 +403,13 @@ export default function VPPFinder() {
     setSelectorBackgroundOverflowVisible('hidden');
   };
 
+  //Delay CSS animation rendering
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <>
       <SEO title="Hum Energy - VPP finder" />
@@ -434,455 +441,473 @@ export default function VPPFinder() {
                   {stateError}
                 </div>
               )}
-
-              <div
-                className={`  propertySection ${
-                  propertyTypeVisible ? 'open' : ' closed'
-                }`}
-              >
-                <div className="flex gap-x-3 mt-0">
-                  <div className="font-semibold w-1/3">Property Type:</div>
-                  <div className="w-2/3">
-                    <div>
-                      <label className="flex items-baseline">
-                        <input
-                          type="radio"
-                          name="propertyType"
-                          value="Residential"
-                          checked={sectorOption === 'Residential'}
-                          onChange={(e) => {
-                            const newSectorOption = e.target.value;
-                            setSectorOption(newSectorOption);
-                            setSectorOption(e.target.value);
-                            setPropertyTypeError('');
-                            setTableVisible(false);
-                            setTableVisible(false);
-                            getUtilities(stateRegion.value, newSectorOption);
-                            setUtilityVisible(true);
-                            openUtilitySelector();
-                          }}
-                        />
-                        <span className="ml-2">Residential</span>
-                      </label>
-                    </div>
-                    <div>
-                      <label className="flex items-baseline">
-                        <input
-                          type="radio"
-                          name="propertyType"
-                          value="Multifamily"
-                          checked={sectorOption === 'Multifamily'}
-                          onChange={(e) => {
-                            const newSectorOption = e.target.value;
-                            setSectorOption(newSectorOption);
-                            setSectorOption(e.target.value);
-                            getUtilities(stateRegion.value, newSectorOption);
-                            setUtilityVisible(true);
-                            setTableVisible(false);
-                            openUtilitySelector();
-                          }}
-                        />
-                        <span className="ml-2">Multi-family</span>
-                      </label>
-                    </div>
-                    <div>
-                      <label className="flex items-baseline">
-                        <input
-                          type="radio"
-                          name="propertyType"
-                          value="C&I"
-                          checked={sectorOption === 'C&I'}
-                          onChange={(e) => {
-                            const newSectorOption = e.target.value;
-                            setSectorOption(newSectorOption);
-                            setSectorOption(e.target.value);
-                            getUtilities(stateRegion.value, newSectorOption);
-                            setUtilityVisible(true);
-                            setTableVisible(false);
-                            openUtilitySelector();
-                          }}
-                        />
-                        <span className="ml-2">C&I</span>
-                      </label>
-                    </div>
-                  </div>{' '}
-                </div>
-              </div>
-              {propertyTypeError && (
-                <div className="text-red-500 mt-2 -mb-2 text-sm text-right">
-                  {propertyTypeError}
-                </div>
-              )}
-              <label
-                className={`  utilitySection  ${
-                  utilityVisible ? 'open' : 'closed'
-                }`}
-              >
-                <div
-                  className={`flex gap-x-3 items-center  `}
-                  style={{ overflow: utilitySelectorOverflow }}
-                >
-                  <div className="font-semibold w-1/3">Utility/CCA:</div>
-                  <div className="w-2/3 !overflow-visible">
-                    <SingleSelector
-                      optionsList={utilityData}
-                      selectedOption={Utility}
-                      onOptionSelected={handleUtilitySelectionChange}
-                      labelToBeAtBottom="My Utility/CCA is not in this list"
-                      placeholderClosedText="Select Utility/CCA"
-                      menuIsOpen={menuIsOpen}
-                      setMenuIsOpen={setMenuIsOpen}
-                    ></SingleSelector>
-                  </div>
-                </div>
-              </label>
-              {utilityError && (
-                <div className="text-red-500 mt-2 -mb-2 text-sm text-right">
-                  {utilityError}
-                </div>
-              )}
-              {Utility.value != 'Unavailable' && (
-                <div className={`block gap-x-3 items-top `}>
+              {isClient && (
+                <div className="content">
                   <div
-                    className={`flex gap-x-0 justify-center items-center overflow-hidden  w-full deviceTitleSection ${
-                      devicesVisible ? 'open ' : 'closed'
+                    className={`  propertySection ${
+                      propertyTypeVisible ? 'open' : ' closed'
                     }`}
                   >
-                    <div className="flex gap-x-0 justify-center items-center">
-                      <div className="text-xl  font-black items-center text-center">
-                        Add devices
-                      </div>
-                      {deviceSectionOpen ? (
-                        <div
-                          className="flex items-center  text-main"
-                          onClick={() => {
-                            toggleDeviceSection();
-                            closeSelectorBackgroundOverflowVisible();
-                          }}
-                        >
-                          <svg
-                            className="fill-current h-8 w-8"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M5.516 7.548c.436-.446 1.045-.481 1.576 0L10 10.405l2.908-2.857c.531-.481 1.141-.446 1.576 0 .436.445.408 1.197 0 1.642l-3.417 3.356c-.27.267-.631.408-.997.408s-.728-.141-.997-.408l-3.417-3.356c-.408-.445-.436-1.197 0-1.642z" />
-                          </svg>
+                    <div className="flex gap-x-3 mt-0">
+                      <div className="font-semibold w-1/3">Property Type:</div>
+                      <div className="w-2/3">
+                        <div>
+                          <label className="flex items-baseline">
+                            <input
+                              type="radio"
+                              name="propertyType"
+                              value="Residential"
+                              checked={sectorOption === 'Residential'}
+                              onChange={(e) => {
+                                const newSectorOption = e.target.value;
+                                setSectorOption(newSectorOption);
+                                setSectorOption(e.target.value);
+                                setPropertyTypeError('');
+                                setTableVisible(false);
+                                setTableVisible(false);
+                                getUtilities(
+                                  stateRegion.value,
+                                  newSectorOption
+                                );
+                                setUtilityVisible(true);
+                                openUtilitySelector();
+                              }}
+                            />
+                            <span className="ml-2">Residential</span>
+                          </label>
                         </div>
-                      ) : (
-                        <div
-                          className="flex items-center  text-main -rotate-90"
-                          onClick={() => {
-                            toggleDeviceSection();
-                            openSelectorBackgroundOverflowVisible();
-                          }}
-                        >
-                          <svg
-                            className="fill-current h-8 w-8"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M5.516 7.548c.436-.446 1.045-.481 1.576 0L10 10.405l2.908-2.857c.531-.481 1.141-.446 1.576 0 .436.445.408 1.197 0 1.642l-3.417 3.356c-.27.267-.631.408-.997.408s-.728-.141-.997-.408l-3.417-3.356c-.408-.445-.436-1.197 0-1.642z" />
-                          </svg>
+                        <div>
+                          <label className="flex items-baseline">
+                            <input
+                              type="radio"
+                              name="propertyType"
+                              value="Multifamily"
+                              checked={sectorOption === 'Multifamily'}
+                              onChange={(e) => {
+                                const newSectorOption = e.target.value;
+                                setSectorOption(newSectorOption);
+                                setSectorOption(e.target.value);
+                                getUtilities(
+                                  stateRegion.value,
+                                  newSectorOption
+                                );
+                                setUtilityVisible(true);
+                                setTableVisible(false);
+                                openUtilitySelector();
+                              }}
+                            />
+                            <span className="ml-2">Multi-family</span>
+                          </label>
                         </div>
-                      )}
+                        <div>
+                          <label className="flex items-baseline">
+                            <input
+                              type="radio"
+                              name="propertyType"
+                              value="C&I"
+                              checked={sectorOption === 'C&I'}
+                              onChange={(e) => {
+                                const newSectorOption = e.target.value;
+                                setSectorOption(newSectorOption);
+                                setSectorOption(e.target.value);
+                                getUtilities(
+                                  stateRegion.value,
+                                  newSectorOption
+                                );
+                                setUtilityVisible(true);
+                                setTableVisible(false);
+                                openUtilitySelector();
+                              }}
+                            />
+                            <span className="ml-2">C&I</span>
+                          </label>
+                        </div>
+                      </div>{' '}
                     </div>
                   </div>
-                  <div
-                    className={` block deviceSection ${
-                      deviceSectionOpen && devicesVisible ? ' open' : 'closed'
+
+                  {propertyTypeError && (
+                    <div className="text-red-500 mt-2 -mb-2 text-sm text-right">
+                      {propertyTypeError}
+                    </div>
+                  )}
+
+                  <label
+                    className={`  utilitySection  ${
+                      utilityVisible ? 'open' : 'closed'
                     }`}
                   >
                     <div
-                      className={`selectorSection  `}
-                      style={{ overflow: selectorBackgroundOverflowVisible }}
+                      className={`flex gap-x-3 items-center  `}
+                      style={{ overflow: utilitySelectorOverflow }}
                     >
-                      {/* Smart Thermostat */}
-                      <div className="mt-0">
-                        <p className="mb-0 font-medium">Smart Thermostat</p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="thermostat"
-                              value="thermostatPresent"
-                              checked={thermostatPresent === true}
-                              onChange={() => {
-                                setThermostatPresent(true);
-                                openThermostatSelector();
-                                getDevices('Thermostats');
-                              }}
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
-
-                          <label className="flex items-center ">
-                            <input
-                              type="radio"
-                              name="thermostat"
-                              value="noThermostatPresent"
-                              checked={thermostatPresent === false}
-                              onChange={() => {
-                                setThermostatPresent(false);
-                                handleNoneChangeThermostat();
-                                setThermostatSelectionError('');
-                                checkEligibility();
-                                closeThermostatSelector();
-                              }}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
-                        </div>
-                        <div
-                          className={` thermostatSelection  ${
-                            thermostatPresent ? 'open' : 'closed'
-                          } `}
-                        >
-                          <div
-                            className={`w-full
-                    `}
-                            style={{ overflow: thermostatSelectorOverflow }}
-                          >
-                            <MultiSelector
-                              optionsList={thermostatOptions}
-                              selectedOptions={selectedThermostats}
-                              setSelectedOptions={setSelectedThermostats}
-                              placeholderOpenText="Search"
-                              placeholderClosedText="Add thermostats..."
-                              menuIsOpen={thermostatMenuIsOpen}
-                              setMenuIsOpen={setThermostatMenuIsOpen}
-                            />
+                      <div className="font-semibold w-1/3">Utility/CCA:</div>
+                      <div className="w-2/3 !overflow-visible">
+                        <SingleSelector
+                          optionsList={utilityData}
+                          selectedOption={Utility}
+                          onOptionSelected={handleUtilitySelectionChange}
+                          labelToBeAtBottom="My Utility/CCA is not in this list"
+                          placeholderClosedText="Select Utility/CCA"
+                          menuIsOpen={menuIsOpen}
+                          setMenuIsOpen={setMenuIsOpen}
+                        ></SingleSelector>
+                      </div>
+                    </div>
+                  </label>
+                  {utilityError && (
+                    <div className="text-red-500 mt-2 -mb-2 text-sm text-right">
+                      {utilityError}
+                    </div>
+                  )}
+                  {Utility.value != 'Unavailable' && (
+                    <div className={`block gap-x-3 items-top `}>
+                      <div
+                        className={`flex gap-x-0 justify-center items-center overflow-hidden  w-full deviceTitleSection ${
+                          devicesVisible ? 'open ' : 'closed'
+                        }`}
+                      >
+                        <div className="flex gap-x-0 justify-center items-center">
+                          <div className="text-xl  font-black items-center text-center">
+                            Add devices
                           </div>
+                          {deviceSectionOpen ? (
+                            <div
+                              className="flex items-center  text-main"
+                              onClick={() => {
+                                toggleDeviceSection();
+                                closeSelectorBackgroundOverflowVisible();
+                              }}
+                            >
+                              <svg
+                                className="fill-current h-8 w-8"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M5.516 7.548c.436-.446 1.045-.481 1.576 0L10 10.405l2.908-2.857c.531-.481 1.141-.446 1.576 0 .436.445.408 1.197 0 1.642l-3.417 3.356c-.27.267-.631.408-.997.408s-.728-.141-.997-.408l-3.417-3.356c-.408-.445-.436-1.197 0-1.642z" />
+                              </svg>
+                            </div>
+                          ) : (
+                            <div
+                              className="flex items-center  text-main -rotate-90"
+                              onClick={() => {
+                                toggleDeviceSection();
+                                openSelectorBackgroundOverflowVisible();
+                              }}
+                            >
+                              <svg
+                                className="fill-current h-8 w-8"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M5.516 7.548c.436-.446 1.045-.481 1.576 0L10 10.405l2.908-2.857c.531-.481 1.141-.446 1.576 0 .436.445.408 1.197 0 1.642l-3.417 3.356c-.27.267-.631.408-.997.408s-.728-.141-.997-.408l-3.417-3.356c-.408-.445-.436-1.197 0-1.642z" />
+                              </svg>
+                            </div>
+                          )}
                         </div>
                       </div>
-
-                      {thermostatSelectionError && (
-                        <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
-                          {thermostatSelectionError}
-                        </div>
-                      )}
-                      {/*batteries*/}
-                      <div className="mt-2">
-                        <p className="mb-0 font-medium">Battery</p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="battery"
-                              value="batteryPresent"
-                              checked={batteryPresent === true}
-                              onChange={() => {
-                                setBatteryPresent(true);
-                                openBatterySelector();
-                                getDevices('Batteries');
-                              }}
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
-
-                          <label className="flex items-center ">
-                            <input
-                              type="radio"
-                              name="battery"
-                              value="noBatteryPresent"
-                              checked={batteryPresent === false}
-                              onChange={() => {
-                                setBatteryPresent(false);
-                                handleNoneChangeBattery();
-                                closeBatterySelector();
-                                setBatterySelectionError('');
-                              }}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
-                        </div>
-
+                      <div
+                        className={` block deviceSection ${
+                          deviceSectionOpen && devicesVisible
+                            ? ' open'
+                            : 'closed'
+                        }`}
+                      >
                         <div
-                          className={` batterySelection ${
-                            batteryPresent ? 'open' : 'closed'
-                          } `}
+                          className={`selectorSection  `}
+                          style={{
+                            overflow: selectorBackgroundOverflowVisible,
+                          }}
                         >
-                          <div
-                            className={`w-full
+                          {/* Smart Thermostat */}
+                          <div className="mt-0">
+                            <p className="mb-0 font-medium">Smart Thermostat</p>
+                            <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                              <label className="flex items-center">
+                                <input
+                                  type="radio"
+                                  name="thermostat"
+                                  value="thermostatPresent"
+                                  checked={thermostatPresent === true}
+                                  onChange={() => {
+                                    setThermostatPresent(true);
+                                    openThermostatSelector();
+                                    getDevices('Thermostats');
+                                  }}
+                                />
+                                <span className="ml-2">Yes</span>
+                              </label>
+
+                              <label className="flex items-center ">
+                                <input
+                                  type="radio"
+                                  name="thermostat"
+                                  value="noThermostatPresent"
+                                  checked={thermostatPresent === false}
+                                  onChange={() => {
+                                    setThermostatPresent(false);
+                                    handleNoneChangeThermostat();
+                                    setThermostatSelectionError('');
+                                    checkEligibility();
+                                    closeThermostatSelector();
+                                  }}
+                                />
+                                <span className="ml-1">None</span>
+                              </label>
+                            </div>
+                            <div
+                              className={` thermostatSelection  ${
+                                thermostatPresent ? 'open' : 'closed'
+                              } `}
+                            >
+                              <div
+                                className={`w-full
                     `}
-                            style={{ overflow: batterySelectorOverflow }}
-                          >
-                            <MultiSelector
-                              optionsList={batteryOptions}
-                              selectedOptions={selectedBatteries}
-                              setSelectedOptions={setSelectedBatteries}
-                              placeholderOpenText="Search"
-                              placeholderClosedText="Add batteries..."
-                              menuIsOpen={batteryMenuIsOpen}
-                              setMenuIsOpen={setBatteryMenuIsOpen}
-                            />
+                                style={{ overflow: thermostatSelectorOverflow }}
+                              >
+                                <MultiSelector
+                                  optionsList={thermostatOptions}
+                                  selectedOptions={selectedThermostats}
+                                  setSelectedOptions={setSelectedThermostats}
+                                  placeholderOpenText="Search"
+                                  placeholderClosedText="Add thermostats..."
+                                  menuIsOpen={thermostatMenuIsOpen}
+                                  setMenuIsOpen={setThermostatMenuIsOpen}
+                                />
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
 
-                      {batterySelectionError && (
-                        <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
-                          {batterySelectionError}
-                        </div>
-                      )}
-                      {/*heatpump*/}
-                      <div className="mt-2">
-                        <p className="mb-0 font-medium">Heat Pump</p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="heatpump"
-                              value="heatpumpPresent"
-                              checked={heatpumpPresent === true}
-                              onChange={() => {
-                                setHeatpumpPresent(true);
-                              }}
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
+                          {thermostatSelectionError && (
+                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                              {thermostatSelectionError}
+                            </div>
+                          )}
+                          {/*batteries*/}
+                          <div className="mt-2">
+                            <p className="mb-0 font-medium">Battery</p>
+                            <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                              <label className="flex items-center">
+                                <input
+                                  type="radio"
+                                  name="battery"
+                                  value="batteryPresent"
+                                  checked={batteryPresent === true}
+                                  onChange={() => {
+                                    setBatteryPresent(true);
+                                    openBatterySelector();
+                                    getDevices('Batteries');
+                                  }}
+                                />
+                                <span className="ml-2">Yes</span>
+                              </label>
 
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="heatpump"
-                              value="noHeatpumpPresent"
-                              checked={heatpumpPresent === false}
-                              onChange={() => {
-                                setHeatpumpPresent(false);
-                              }}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
-                        </div>
-                      </div>
-                      {/*water heater*/}
-                      <div className="mt-2">
-                        <p className="mb-0 font-medium">
-                          Electric Water Heater
-                        </p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="waterheater"
-                              value="waterheaterPresent"
-                              checked={waterheaterPresent === true}
-                              onChange={() => {
-                                setWaterheaterPresent(true);
-                              }}
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
+                              <label className="flex items-center ">
+                                <input
+                                  type="radio"
+                                  name="battery"
+                                  value="noBatteryPresent"
+                                  checked={batteryPresent === false}
+                                  onChange={() => {
+                                    setBatteryPresent(false);
+                                    handleNoneChangeBattery();
+                                    closeBatterySelector();
+                                    setBatterySelectionError('');
+                                  }}
+                                />
+                                <span className="ml-1">None</span>
+                              </label>
+                            </div>
 
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="waterheater"
-                              value="nowaterheaterPresent"
-                              checked={waterheaterPresent === false}
-                              onChange={() => {
-                                setWaterheaterPresent(false);
-                              }}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
-                        </div>
-                      </div>
-                      {/*solar*/}
-                      <div className="mt-2">
-                        <p className="mb-0 font-medium">Solar</p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <label className="">
-                            <input
-                              type="radio"
-                              name="solarPresent"
-                              value="solarPresent"
-                              checked={solarPresent === true}
-                              onChange={() => {
-                                setSolarPresent(true);
-                              }}
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
+                            <div
+                              className={` batterySelection ${
+                                batteryPresent ? 'open' : 'closed'
+                              } `}
+                            >
+                              <div
+                                className={`w-full
+                    `}
+                                style={{ overflow: batterySelectorOverflow }}
+                              >
+                                <MultiSelector
+                                  optionsList={batteryOptions}
+                                  selectedOptions={selectedBatteries}
+                                  setSelectedOptions={setSelectedBatteries}
+                                  placeholderOpenText="Search"
+                                  placeholderClosedText="Add batteries..."
+                                  menuIsOpen={batteryMenuIsOpen}
+                                  setMenuIsOpen={setBatteryMenuIsOpen}
+                                />
+                              </div>
+                            </div>
+                          </div>
 
-                          <label className="flex items-baseline">
-                            <input
-                              type="radio"
-                              name="solar"
-                              value="noSolarPresent"
-                              checked={solarPresent === false}
-                              onChange={() => {
-                                setSolarPresent(false);
-                              }}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
-                        </div>
-                      </div>
-                      {/*EV*/}
-                      <div className="mt-2">
-                        <p className="mb-0 font-medium">Electric Vehicle</p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <label className="">
-                            <input
-                              type="radio"
-                              name="EVPresent"
-                              value="EVPresent"
-                              checked={EVPresent === true}
-                              onChange={() => {
-                                setEVPresent(true);
-                              }}
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
+                          {batterySelectionError && (
+                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                              {batterySelectionError}
+                            </div>
+                          )}
+                          {/*heatpump*/}
+                          <div className="mt-2">
+                            <p className="mb-0 font-medium">Heat Pump</p>
+                            <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                              <label className="flex items-center">
+                                <input
+                                  type="radio"
+                                  name="heatpump"
+                                  value="heatpumpPresent"
+                                  checked={heatpumpPresent === true}
+                                  onChange={() => {
+                                    setHeatpumpPresent(true);
+                                  }}
+                                />
+                                <span className="ml-2">Yes</span>
+                              </label>
 
-                          <label className="flex items-baseline">
-                            <input
-                              type="radio"
-                              name="EV"
-                              value="noEVPresent"
-                              checked={EVPresent === false}
-                              onChange={() => {
-                                setEVPresent(false);
-                              }}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
-                        </div>
-                      </div>
-                      {/*generator*/}
-                      <div className="mt-2">
-                        <p className="mb-0 font-medium">Generator</p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <label className="">
-                            <input
-                              type="radio"
-                              name="generatorPresent"
-                              value="generatorPresent"
-                              checked={generatorPresent === true}
-                              onChange={() => {
-                                setGeneratorPresent(true);
-                              }}
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
+                              <label className="flex items-center">
+                                <input
+                                  type="radio"
+                                  name="heatpump"
+                                  value="noHeatpumpPresent"
+                                  checked={heatpumpPresent === false}
+                                  onChange={() => {
+                                    setHeatpumpPresent(false);
+                                  }}
+                                />
+                                <span className="ml-1">None</span>
+                              </label>
+                            </div>
+                          </div>
+                          {/*water heater*/}
+                          <div className="mt-2">
+                            <p className="mb-0 font-medium">
+                              Electric Water Heater
+                            </p>
+                            <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                              <label className="flex items-center">
+                                <input
+                                  type="radio"
+                                  name="waterheater"
+                                  value="waterheaterPresent"
+                                  checked={waterheaterPresent === true}
+                                  onChange={() => {
+                                    setWaterheaterPresent(true);
+                                  }}
+                                />
+                                <span className="ml-2">Yes</span>
+                              </label>
 
-                          <label className="flex items-baseline">
-                            <input
-                              type="radio"
-                              name="generator"
-                              value="noGeneratorPresent"
-                              checked={generatorPresent === false}
-                              onChange={() => {
-                                setGeneratorPresent(false);
-                              }}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
+                              <label className="flex items-center">
+                                <input
+                                  type="radio"
+                                  name="waterheater"
+                                  value="nowaterheaterPresent"
+                                  checked={waterheaterPresent === false}
+                                  onChange={() => {
+                                    setWaterheaterPresent(false);
+                                  }}
+                                />
+                                <span className="ml-1">None</span>
+                              </label>
+                            </div>
+                          </div>
+                          {/*solar*/}
+                          <div className="mt-2">
+                            <p className="mb-0 font-medium">Solar</p>
+                            <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                              <label className="">
+                                <input
+                                  type="radio"
+                                  name="solarPresent"
+                                  value="solarPresent"
+                                  checked={solarPresent === true}
+                                  onChange={() => {
+                                    setSolarPresent(true);
+                                  }}
+                                />
+                                <span className="ml-2">Yes</span>
+                              </label>
+
+                              <label className="flex items-baseline">
+                                <input
+                                  type="radio"
+                                  name="solar"
+                                  value="noSolarPresent"
+                                  checked={solarPresent === false}
+                                  onChange={() => {
+                                    setSolarPresent(false);
+                                  }}
+                                />
+                                <span className="ml-1">None</span>
+                              </label>
+                            </div>
+                          </div>
+                          {/*EV*/}
+                          <div className="mt-2">
+                            <p className="mb-0 font-medium">Electric Vehicle</p>
+                            <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                              <label className="">
+                                <input
+                                  type="radio"
+                                  name="EVPresent"
+                                  value="EVPresent"
+                                  checked={EVPresent === true}
+                                  onChange={() => {
+                                    setEVPresent(true);
+                                  }}
+                                />
+                                <span className="ml-2">Yes</span>
+                              </label>
+
+                              <label className="flex items-baseline">
+                                <input
+                                  type="radio"
+                                  name="EV"
+                                  value="noEVPresent"
+                                  checked={EVPresent === false}
+                                  onChange={() => {
+                                    setEVPresent(false);
+                                  }}
+                                />
+                                <span className="ml-1">None</span>
+                              </label>
+                            </div>
+                          </div>
+                          {/*generator*/}
+                          <div className="mt-2">
+                            <p className="mb-0 font-medium">Generator</p>
+                            <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                              <label className="">
+                                <input
+                                  type="radio"
+                                  name="generatorPresent"
+                                  value="generatorPresent"
+                                  checked={generatorPresent === true}
+                                  onChange={() => {
+                                    setGeneratorPresent(true);
+                                  }}
+                                />
+                                <span className="ml-2">Yes</span>
+                              </label>
+
+                              <label className="flex items-baseline">
+                                <input
+                                  type="radio"
+                                  name="generator"
+                                  value="noGeneratorPresent"
+                                  checked={generatorPresent === false}
+                                  onChange={() => {
+                                    setGeneratorPresent(false);
+                                  }}
+                                />
+                                <span className="ml-1">None</span>
+                              </label>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               )}
               <DefaultButton
@@ -909,74 +934,35 @@ export default function VPPFinder() {
           </div>
         </div>
       </div>
-      <style>
-        {`
-          // .deviceSection, .propertySection, .utilitySection, .deviceTitleSection, .thermostatSelection, .batterySelection {
-          //   transition: max-height 0.7s ease, margin-top 0.5s ease;
-          //   overflow: hidden;
-          // }
-          
-          // .thermostatSelection.open, .batterySelection.open {
-          //   max-height: 100px; /* Adjust as needed */
-          //   margin-top: 0.5rem;
-          //   overflow:visible;
-          // }
-          
-          // .deviceTitleSection.open {
-          //   max-height: 100px; /* Adjust as needed */
-          //   margin-top: 1rem;
-          // }
-          
-          // .utilitySection.open {
-          //   max-height: 100px; /* Adjust as needed */
-          //   margin-top: 1rem;
-          //   overflow:visible;
-          // }
-          
-          // .deviceSection.open {
-          //   max-height: 800px; /* Adjust as needed */
-          // }
-          
-          // .propertySection.open {
-          //   max-height: 150px; /* Adjust as needed */
-          //   margin-top: 1rem;
-          // }
-          
-          // .closed {
-          //  // max-height: 0px;
-          // }
-          .propertySection , .utilitySection, .deviceTitleSection,  .thermostatSelection, .batterySelection, .deviceSection {
-            display: grid;
-            grid-template-rows: 0fr;
-            transition: grid-template-rows 0.7s ease,  margin 0.7s ease;
-          
-                    }
 
-                    .propertySection > div, .utilitySection > div, .thermostatSelection > div , .batterySelection > div, .deviceSection > div, .propertySection > div, .deviceTitleSection > div {
-                      overflow:hidden
-                    }
-
-          .open {
-            grid-template-rows: 1fr;
-            margin-top: 0.5rem;
-
-          }
-
-          .deviceTitleSection.open, .propertySection.open, .utilitySection.open {
-            margin-top: 1rem ;
-          }
-
-          .thermostatSelection.open, .batterySelection.open {
-            margin-top: 0.25rem ;
-            margin-bottom: 0.75rem;
-          }
-
-.closed {
-  overflow:hidden
-}
-
-        `}
-      </style>
+      {isClient && (
+        <style>
+          {`
+              .propertySection, .utilitySection, .deviceTitleSection, .thermostatSelection, .batterySelection, .deviceSection {
+                display: grid;
+                grid-template-rows: 0fr;
+                transition: grid-template-rows 0.7s ease, margin 0.7s ease;
+              }
+              .open {
+                grid-template-rows: 1fr;
+                margin-top: 0.5rem;
+              }
+              .propertySection > div, .utilitySection > div, .thermostatSelection > div , .batterySelection > div, .deviceSection > div, .propertySection > div, .deviceTitleSection > div {
+                overflow:hidden
+              }
+              .deviceTitleSection.open, .propertySection.open, .utilitySection.open {
+                margin-top: 1rem;
+              }
+              .thermostatSelection.open, .batterySelection.open {
+                margin-top: 0.25rem;
+                margin-bottom: 0.75rem;
+              }
+              .closed {
+                overflow: hidden;
+              }
+            `}
+        </style>
+      )}
     </>
   );
 }
