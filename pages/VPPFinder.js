@@ -161,6 +161,7 @@ export default function VPPFinder() {
     setUtility(newUtility);
     setUtilityError('');
     setDevicesVisible(true);
+    openSelectorBackgroundOverflowVisible();
     setTableVisible(false);
   };
 
@@ -348,35 +349,59 @@ export default function VPPFinder() {
     setUtility('');
   }, [stateRegion, sectorOption]);
 
-  const [utilitySelectorVisible, setUtilitySelectorVisible] = useState(false);
-  const [thermostatSelectorVisible, setThermostatSelectorVisible] =
-    useState(false);
-  const [batterySelectorVisible, setBatterySelectorVisible] = useState(false);
-
   const [utilitySelectorOverflow, setUtilitySelectorOverflow] =
     useState('hidden');
+  const openUtilitySelector = () => {
+    // Set timeout for overflow change
+    setTimeout(() => setUtilitySelectorOverflow('visible'), 700); // 0.5s for transition + s delay
+  };
+
   const [thermostatSelectorOverflow, setThermostatSelectorOverflow] =
     useState('hidden');
+  const openThermostatSelector = () => {
+    // Set timeout for overflow change
+    setTimeout(() => setThermostatSelectorOverflow('visible'), 700); // 0.5s for transition + s delay
+  };
+  const closeThermostatSelector = () => {
+    // Set timeout for overflow change
+    setThermostatSelectorOverflow('hidden');
+  };
+
   const [batterySelectorOverflow, setBatterySelectorOverflow] =
     useState('hidden');
-
-  const openUtilitySelector = () => {
-    setUtilitySelectorVisible(true);
+  const openBatterySelector = () => {
     // Set timeout for overflow change
-    setTimeout(() => setUtilitySelectorOverflow('visible'), 1500); // 0.5s for transition + s delay
+    setTimeout(() => setBatterySelectorOverflow('visible'), 700); // 0.5s for transition + s delay
+  };
+  const closeBatterySelector = () => {
+    // Set timeout for overflow change
+    setBatterySelectorOverflow('hidden');
   };
 
-  const openThermostatSelector = () => {
-    setThermostatSelectorVisible(true);
+  const [selectorTimeoutID, setSelectorTimeoutID] = useState(null); // use this to prevent multiple timeouts occuring at once
+  const [
+    selectorBackgroundOverflowVisible,
+    setSelectorBackgroundOverflowVisible,
+  ] = useState('hidden');
+  const openSelectorBackgroundOverflowVisible = () => {
     // Set timeout for overflow change
-    setTimeout(() => setThermostatSelectorOverflow('visible'), 1500); // 0.5s for transition + s delay
-  };
-
-  useEffect(() => {
-    if (!thermostatSelectorVisible) {
-      setThermostatSelectorOverflow('hidden');
+    if (selectorTimeoutID) {
+      clearTimeout(selectorTimeoutID);
     }
-  }, [thermostatSelectorVisible]);
+    const id = setTimeout(
+      () => setSelectorBackgroundOverflowVisible('visible'),
+      700
+    );
+    setSelectorTimeoutID(id);
+  };
+  const closeSelectorBackgroundOverflowVisible = () => {
+    // Set timeout for overflow change
+    if (selectorTimeoutID) {
+      clearTimeout(selectorTimeoutID);
+      setSelectorTimeoutID(null);
+    }
+    setSelectorBackgroundOverflowVisible('hidden');
+  };
 
   return (
     <>
@@ -412,10 +437,10 @@ export default function VPPFinder() {
 
               <div
                 className={`  propertySection ${
-                  propertyTypeVisible ? ' open' : ' closed'
+                  propertyTypeVisible ? 'open' : ' closed'
                 }`}
               >
-                <div className="flex gap-x-3 mt-2">
+                <div className="flex gap-x-3 mt-0">
                   <div className="font-semibold w-1/3">Property Type:</div>
                   <div className="w-2/3">
                     <div>
@@ -494,9 +519,7 @@ export default function VPPFinder() {
                 }`}
               >
                 <div
-                  className={`flex gap-x-3 items-center  ${
-                    utilityVisible ? 'open ' : 'closed'
-                  }`}
+                  className={`flex gap-x-3 items-center  `}
                   style={{ overflow: utilitySelectorOverflow }}
                 >
                   <div className="font-semibold w-1/3">Utility/CCA:</div>
@@ -521,8 +544,8 @@ export default function VPPFinder() {
               {Utility.value != 'Unavailable' && (
                 <div className={`block gap-x-3 items-top `}>
                   <div
-                    className={`flex gap-x-0 mt-2 justify-center items-center overflow-hidden  w-full deviceTitleSection ${
-                      devicesVisible ? 'open' : 'closed'
+                    className={`flex gap-x-0 justify-center items-center overflow-hidden  w-full deviceTitleSection ${
+                      devicesVisible ? 'open ' : 'closed'
                     }`}
                   >
                     <div className="flex gap-x-0 justify-center items-center">
@@ -532,7 +555,10 @@ export default function VPPFinder() {
                       {deviceSectionOpen ? (
                         <div
                           className="flex items-center  text-main"
-                          onClick={() => toggleDeviceSection()}
+                          onClick={() => {
+                            toggleDeviceSection();
+                            closeSelectorBackgroundOverflowVisible();
+                          }}
                         >
                           <svg
                             className="fill-current h-8 w-8"
@@ -545,7 +571,10 @@ export default function VPPFinder() {
                       ) : (
                         <div
                           className="flex items-center  text-main -rotate-90"
-                          onClick={() => toggleDeviceSection()}
+                          onClick={() => {
+                            toggleDeviceSection();
+                            openSelectorBackgroundOverflowVisible();
+                          }}
                         >
                           <svg
                             className="fill-current h-8 w-8"
@@ -561,75 +590,14 @@ export default function VPPFinder() {
                   <div
                     className={` block deviceSection ${
                       deviceSectionOpen && devicesVisible ? ' open' : 'closed'
-                    } ${
-                      deviceSelectionMenuIsOpen && deviceSectionOpen
-                        ? 'open'
-                        : ''
-                    }
-                    `}
+                    }`}
                   >
-                    <div>
+                    <div
+                      className={`selectorSection  `}
+                      style={{ overflow: selectorBackgroundOverflowVisible }}
+                    >
                       {/* Smart Thermostat */}
-                      {/* <div className="mt-2">
-                        <p className="mb-0 font-medium">Smart Thermostat</p>
-                        <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                          <label className="flex items-center">
-                            <input
-                              type="radio"
-                              name="thermostat"
-                              value="thermostatPresent"
-                              checked={thermostatPresent === true}
-                              onChange={() => {
-                                setThermostatPresent(true);
-                                openThermostatSelector();
-
-                                getDevices('Thermostats');
-                              }}
-                            />
-                            <span className="ml-2">Yes</span>
-                          </label>
-
-                          <label className="flex items-center ">
-                            <input
-                              type="radio"
-                              name="thermostat"
-                              value="noThermostatPresent"
-                              checked={thermostatPresent === false}
-                              onChange={() => {
-                                setThermostatPresent(false);
-
-                                handleNoneChangeThermostat();
-                                setThermostatSelectionError('');
-                              }}
-                            />
-                            <span className="ml-1">None</span>
-                          </label>
-                        </div>
-                        <div
-                          className={` thermostatSelection ${
-                            batteryPresent ? 'open' : 'closed'
-                          } `}
-                        >
-                          <div
-                            className={`w-full ${
-                              batteryPresent ? 'deviceSelectMenuOpen' : 'closed'
-                            } 
-                        `}
-                            style={{ overflow: thermostatSelectorOverflow }}
-                          >
-                            <MultiSelector
-                              optionsList={thermostatOptions}
-                              selectedOptions={selectedThermostats}
-                              setSelectedOptions={setSelectedThermostats}
-                              placeholderOpenText="Search"
-                              placeholderClosedText="Add thermostats..."
-                              menuIsOpen={thermostatMenuIsOpen}
-                              setMenuIsOpen={setThermostatMenuIsOpen}
-                            />
-                          </div>
-                        </div>
-                      </div> */}
-                      <div className="mt-2">
+                      <div className="mt-0">
                         <p className="mb-0 font-medium">Smart Thermostat</p>
                         <div className="flex gap-x-3 gap-y-1 flex-wrap">
                           <label className="flex items-center">
@@ -657,24 +625,21 @@ export default function VPPFinder() {
                                 setThermostatPresent(false);
                                 handleNoneChangeThermostat();
                                 setThermostatSelectionError('');
+                                checkEligibility();
+                                closeThermostatSelector();
                               }}
                             />
                             <span className="ml-1">None</span>
                           </label>
                         </div>
-
                         <div
-                          className={` thermostatSelection ${
+                          className={` thermostatSelection  ${
                             thermostatPresent ? 'open' : 'closed'
                           } `}
                         >
                           <div
-                            className={`w-full ${
-                              thermostatPresent
-                                ? 'deviceSelectMenuOpen'
-                                : 'closed'
-                            } 
-                        `}
+                            className={`w-full
+                    `}
                             style={{ overflow: thermostatSelectorOverflow }}
                           >
                             <MultiSelector
@@ -707,6 +672,7 @@ export default function VPPFinder() {
                               checked={batteryPresent === true}
                               onChange={() => {
                                 setBatteryPresent(true);
+                                openBatterySelector();
                                 getDevices('Batteries');
                               }}
                             />
@@ -722,6 +688,7 @@ export default function VPPFinder() {
                               onChange={() => {
                                 setBatteryPresent(false);
                                 handleNoneChangeBattery();
+                                closeBatterySelector();
                                 setBatterySelectionError('');
                               }}
                             />
@@ -735,10 +702,9 @@ export default function VPPFinder() {
                           } `}
                         >
                           <div
-                            className={`w-full ${
-                              batteryPresent ? 'deviceSelectMenuOpen' : 'closed'
-                            } 
-                        `}
+                            className={`w-full
+                    `}
+                            style={{ overflow: batterySelectorOverflow }}
                           >
                             <MultiSelector
                               optionsList={batteryOptions}
@@ -946,47 +912,68 @@ export default function VPPFinder() {
       <style>
         {`
           // .deviceSection, .propertySection, .utilitySection, .deviceTitleSection, .thermostatSelection, .batterySelection {
-          //   transition: max-height 1.5s ease, margin-top 1.5s ease;
+          //   transition: max-height 0.7s ease, margin-top 0.5s ease;
           //   overflow: hidden;
           // }
-
-          // .thermostatSelection {
-          //   transition: max-height 1.5s ease, margin-top 1.5s ease;
-          //   overflow: hidden;
+          
+          // .thermostatSelection.open, .batterySelection.open {
+          //   max-height: 100px; /* Adjust as needed */
+          //   margin-top: 0.5rem;
+          //   overflow:visible;
           // }
-
+          
+          // .deviceTitleSection.open {
+          //   max-height: 100px; /* Adjust as needed */
+          //   margin-top: 1rem;
+          // }
+          
+          // .utilitySection.open {
+          //   max-height: 100px; /* Adjust as needed */
+          //   margin-top: 1rem;
+          //   overflow:visible;
+          // }
+          
+          // .deviceSection.open {
+          //   max-height: 800px; /* Adjust as needed */
+          // }
+          
+          // .propertySection.open {
+          //   max-height: 150px; /* Adjust as needed */
+          //   margin-top: 1rem;
+          // }
+          
+          // .closed {
+          //  // max-height: 0px;
+          // }
           .propertySection , .utilitySection, .deviceTitleSection,  .thermostatSelection, .batterySelection, .deviceSection {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.7s ease;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.7s ease,  margin 0.7s ease;
+          
+                    }
 
-          }
+                    .propertySection > div, .utilitySection > div, .thermostatSelection > div , .batterySelection > div, .deviceSection > div, .propertySection > div, .deviceTitleSection > div {
+                      overflow:hidden
+                    }
 
-          .propertySection > div, .utilitySection > div, .thermostatSelection > div , .batterySelection > div, .deviceSection > div, .propertySection > div, .deviceTitleSection > div {
-            overflow:hidden
-          }
-
-         .open {
+          .open {
             grid-template-rows: 1fr;
-           //overflow:visible !important
+            margin-top: 0.5rem;
+
           }
 
-          .deviceSelectMenuOpen {
-            overflow:visible !important
+          .deviceTitleSection.open, .propertySection.open, .utilitySection.open {
+            margin-top: 1rem ;
           }
-          
-          
 
-          
- 
-          
-          .closed {
+          .thermostatSelection.open, .batterySelection.open {
+            margin-top: 0.25rem ;
+            margin-bottom: 0.75rem;
           }
-          
 
-
-
-
+.closed {
+  overflow:hidden
+}
 
         `}
       </style>
