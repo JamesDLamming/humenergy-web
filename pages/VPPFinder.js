@@ -77,12 +77,18 @@ export default function VPPFinder() {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [thermostatMenuIsOpen, setThermostatMenuIsOpen] = useState(false);
   const [batteryMenuIsOpen, setBatteryMenuIsOpen] = useState(false);
+  const [heatpumpMenuIsOpen, setHeatpumpMenuIsOpen] = useState(false);
+  const [waterheaterMenuIsOpen, setWaterheaterMenuIsOpen] = useState(false);
+  const [solarMenuIsOpen, setSolarMenuIsOpen] = useState(false);
+  const [EVMenuIsOpen, setEVMenuIsOpen] = useState(false);
+  const [generatorMenuIsOpen, setGeneratorMenuIsOpen] = useState(false);
 
   useEffect(() => {
     // Set deviceSelectionMenuIsOpen to true if either menu is open
-    const isAnyDeviceMenuOpen = thermostatMenuIsOpen || batteryMenuIsOpen;
+    const isAnyDeviceMenuOpen =
+      thermostatMenuIsOpen || batteryMenuIsOpen || heatpumpMenuIsOpen;
     setDeviceSelectionMenuIsOpen(isAnyDeviceMenuOpen);
-  }, [thermostatMenuIsOpen, batteryMenuIsOpen]);
+  }, [thermostatMenuIsOpen, batteryMenuIsOpen, heatpumpMenuIsOpen]);
 
   const [batteryPresent, setBatteryPresent] = useState(false);
   const [waterheaterPresent, setWaterheaterPresent] = useState(false);
@@ -103,6 +109,13 @@ export default function VPPFinder() {
   const [propertyTypeError, setPropertyTypeError] = useState('');
   const [batterySelectionError, setBatterySelectionError] = useState('');
   const [thermostatSelectionError, setThermostatSelectionError] = useState('');
+  const [heatpumpSelectionError, setHeatpumpSelectionError] = useState('');
+  const [waterheaterSelectionError, setWaterheaterSelectionError] =
+    useState('');
+
+  const [solarSelectionError, setSolarSelectionError] = useState('');
+  const [EVSelectionError, setEVSelectionError] = useState('');
+  const [generatorSelectionError, setGeneratorSelectionError] = useState('');
 
   const [sectorOption, setSectorOption] = useState('');
 
@@ -111,9 +124,11 @@ export default function VPPFinder() {
   const [selectedSolar, setSelectedSolar] = useState([]);
   const [selectedEVChargers, setSelectedEVChargers] = useState([]);
   const [selectedEVs, setSelectedEVs] = useState([]);
+
+  const [selectedGenerators, setSelectedGenerators] = useState([]);
   const [selectedV2G, setSelectedV2G] = useState([]);
-  const [selectedWaterHeaters, setSelectedWaterHeaters] = useState([]);
-  const [selectedHeatPump, setSelectedHeatpump] = useState([]);
+  const [selectedWaterheaters, setSelectedWaterheaters] = useState([]);
+  const [selectedHeatpumps, setSelectedHeatpumps] = useState([]);
 
   const [thermostatOptions, setThermostatOptions] = useState([
     { value: '', label: '' },
@@ -125,7 +140,7 @@ export default function VPPFinder() {
   const [evChargerOptions, setEVChargerOptions] = useState([
     { value: '', label: '' },
   ]);
-  const [evOptions, setEVOptions] = useState([{ value: '', label: '' }]);
+  const [EVOptions, setEVOptions] = useState([{ value: '', label: '' }]);
   const [v2gOptions, setV2GOptions] = useState([{ value: '', label: '' }]);
   const [waterheaterOptions, setWaterheaterOptions] = useState([
     { value: '', label: '' },
@@ -170,8 +185,6 @@ export default function VPPFinder() {
   }
 
   const getDevices = async (deviceType) => {
-    console.log(deviceType);
-
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/get-devices`,
@@ -200,16 +213,16 @@ export default function VPPFinder() {
     EVChargers: setEVChargerOptions,
     EVs: setEVOptions,
     V2G: setV2GOptions,
-    WaterHeaters: setWaterheaterOptions,
-    Heatpump: setHeatpumpOptions,
-    Generator: setGeneratorOptions,
+    'Water Heaters': setWaterheaterOptions,
+    Heatpumps: setHeatpumpOptions,
+    Generators: setGeneratorOptions,
   };
 
   function setDeviceData(deviceType, data) {
     if (deviceUpdateMap[deviceType]) {
       deviceUpdateMap[deviceType](data);
     } else {
-      throw new Error('Function to update ${deviceType} not found');
+      throw new Error(`Function to update ${deviceType} not found`);
     }
   }
 
@@ -326,6 +339,55 @@ export default function VPPFinder() {
       setBatterySelectionError(''); // Reset error
     }
 
+    if (
+      heatpumpPresent &&
+      Object.values(selectedHeatpumps).every((element) => element === false)
+    ) {
+      setHeatpumpSelectionError('Please add a heatpump');
+      isError = true;
+    } else {
+      setHeatpumpSelectionError(''); // Reset error
+    }
+
+    if (
+      waterheaterPresent &&
+      Object.values(selectedWaterheaters).every((element) => element === false)
+    ) {
+      setWaterheaterSelectionError('Please add a water heater');
+      isError = true;
+    } else {
+      setWaterheaterSelectionError(''); // Reset error
+    }
+
+    if (
+      solarPresent &&
+      Object.values(selectedSolar).every((element) => element === false)
+    ) {
+      setSolarSelectionError('Please add a solar device');
+      isError = true;
+    } else {
+      setSolarSelectionError(''); // Reset error
+    }
+
+    if (
+      EVPresent &&
+      Object.values(selectedEVs).every((element) => element === false)
+    ) {
+      setEVSelectionError('Please add an electric vehicle');
+      isError = true;
+    } else {
+      setEVSelectionError(''); // Reset error
+    }
+    if (
+      generatorPresent &&
+      Object.values(selectedGenerators).every((element) => element === false)
+    ) {
+      setGeneratorSelectionError('Please add a generator');
+      isError = true;
+    } else {
+      setGeneratorSelectionError(''); // Reset error
+    }
+
     if (isError) {
       return; // Prevent form submission if there's any error
     }
@@ -343,6 +405,23 @@ export default function VPPFinder() {
 
   const handleNoneChangeBattery = () => {
     setSelectedBatteries([]);
+  };
+  const handleNoneChangeHeatpump = () => {
+    setSelectedHeatpumps([]);
+  };
+
+  const handleNoneChangeWaterheater = () => {
+    setSelectedWaterheaters([]);
+  };
+
+  const handleNoneChangeSolar = () => {
+    setSelectedSolar([]);
+  };
+  const handleNoneChangeEV = () => {
+    setSelectedEVs([]);
+  };
+  const handleNoneChangeGenerator = () => {
+    setSelectedGenerators([]);
   };
 
   useEffect(() => {
@@ -376,6 +455,59 @@ export default function VPPFinder() {
   const closeBatterySelector = () => {
     // Set timeout for overflow change
     setBatterySelectorOverflow('hidden');
+  };
+
+  const [heatpumpSelectorOverflow, setHeatpumpSelectorOverflow] =
+    useState('hidden');
+  const openHeatpumpSelector = () => {
+    // Set timeout for overflow change
+    setTimeout(() => setHeatpumpSelectorOverflow('visible'), 700); // 0.5s for transition + s delay
+  };
+  const closeHeatpumpSelector = () => {
+    // Set timeout for overflow change
+    setHeatpumpSelectorOverflow('hidden');
+  };
+
+  const [waterheaterSelectorOverflow, setWaterheaterSelectorOverflow] =
+    useState('hidden');
+  const openWaterheaterSelector = () => {
+    // Set timeout for overflow change
+    setTimeout(() => setWaterheaterSelectorOverflow('visible'), 700); // 0.5s for transition + s delay
+  };
+  const closeWaterheaterSelector = () => {
+    // Set timeout for overflow change
+    setWaterheaterSelectorOverflow('hidden');
+  };
+
+  const [solarSelectorOverflow, setSolarSelectorOverflow] = useState('hidden');
+  const openSolarSelector = () => {
+    // Set timeout for overflow change
+    setTimeout(() => setSolarSelectorOverflow('visible'), 700); // 0.5s for transition + s delay
+  };
+  const closeSolarSelector = () => {
+    // Set timeout for overflow change
+    setSolarSelectorOverflow('hidden');
+  };
+
+  const [EVSelectorOverflow, setEVSelectorOverflow] = useState('hidden');
+  const openEVSelector = () => {
+    // Set timeout for overflow change
+    setTimeout(() => setEVSelectorOverflow('visible'), 700); // 0.5s for transition + s delay
+  };
+  const closeEVSelector = () => {
+    // Set timeout for overflow change
+    setEVSelectorOverflow('hidden');
+  };
+
+  const [generatorSelectorOverflow, setGeneratorSelectorOverflow] =
+    useState('hidden');
+  const openGeneratorSelector = () => {
+    // Set timeout for overflow change
+    setTimeout(() => setGeneratorSelectorOverflow('visible'), 700); // 0.5s for transition + s delay
+  };
+  const closeGeneratorSelector = () => {
+    // Set timeout for overflow change
+    setGeneratorSelectorOverflow('hidden');
   };
 
   const [selectorTimeoutID, setSelectorTimeoutID] = useState(null); // use this to prevent multiple timeouts occuring at once
@@ -677,7 +809,6 @@ export default function VPPFinder() {
                               </div>
                             </div>
                           </div>
-
                           {thermostatSelectionError && (
                             <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
                               {thermostatSelectionError}
@@ -741,7 +872,6 @@ export default function VPPFinder() {
                               </div>
                             </div>
                           </div>
-
                           {batterySelectionError && (
                             <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
                               {batterySelectionError}
@@ -759,6 +889,12 @@ export default function VPPFinder() {
                                   checked={heatpumpPresent === true}
                                   onChange={() => {
                                     setHeatpumpPresent(true);
+                                    openHeatpumpSelector();
+                                    getDevices('Heatpumps');
+                                    console.log(
+                                      'heatpump options: ',
+                                      heatpumpOptions
+                                    );
                                   }}
                                 />
                                 <span className="ml-2">Yes</span>
@@ -772,12 +908,42 @@ export default function VPPFinder() {
                                   checked={heatpumpPresent === false}
                                   onChange={() => {
                                     setHeatpumpPresent(false);
+                                    handleNoneChangeHeatpump();
+                                    closeHeatpumpSelector();
+                                    setHeatpumpSelectionError('');
                                   }}
                                 />
                                 <span className="ml-1">None</span>
                               </label>
                             </div>
+
+                            <div
+                              className={` heatpumpSelection ${
+                                heatpumpPresent ? 'open' : 'closed'
+                              } `}
+                            >
+                              <div
+                                className={`w-full
+                    `}
+                                style={{ overflow: heatpumpSelectorOverflow }}
+                              >
+                                <MultiSelector
+                                  optionsList={heatpumpOptions}
+                                  selectedOptions={selectedHeatpumps}
+                                  setSelectedOptions={setSelectedHeatpumps}
+                                  placeholderOpenText="Search"
+                                  placeholderClosedText="Add heatpumps..."
+                                  menuIsOpen={heatpumpMenuIsOpen}
+                                  setMenuIsOpen={setHeatpumpMenuIsOpen}
+                                />
+                              </div>
+                            </div>
                           </div>
+                          {heatpumpSelectionError && (
+                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                              {heatpumpSelectionError}
+                            </div>
+                          )}{' '}
                           {/*water heater*/}
                           <div className="mt-2">
                             <p className="mb-0 font-medium">
@@ -792,6 +958,8 @@ export default function VPPFinder() {
                                   checked={waterheaterPresent === true}
                                   onChange={() => {
                                     setWaterheaterPresent(true);
+                                    openWaterheaterSelector();
+                                    getDevices('Water Heaters');
                                   }}
                                 />
                                 <span className="ml-2">Yes</span>
@@ -805,12 +973,43 @@ export default function VPPFinder() {
                                   checked={waterheaterPresent === false}
                                   onChange={() => {
                                     setWaterheaterPresent(false);
+                                    handleNoneChangeWaterheater();
+                                    closeWaterheaterSelector();
+                                    setWaterheaterSelectionError('');
                                   }}
                                 />
                                 <span className="ml-1">None</span>
                               </label>
                             </div>
+                            <div
+                              className={` waterheaterSelection ${
+                                waterheaterPresent ? 'open' : 'closed'
+                              } `}
+                            >
+                              <div
+                                className={`w-full
+                    `}
+                                style={{
+                                  overflow: waterheaterSelectorOverflow,
+                                }}
+                              >
+                                <MultiSelector
+                                  optionsList={waterheaterOptions}
+                                  selectedOptions={selectedWaterheaters}
+                                  setSelectedOptions={setSelectedWaterheaters}
+                                  placeholderOpenText="Search"
+                                  placeholderClosedText="Add electric water heaters..."
+                                  menuIsOpen={waterheaterMenuIsOpen}
+                                  setMenuIsOpen={setWaterheaterMenuIsOpen}
+                                />
+                              </div>
+                            </div>
                           </div>
+                          {waterheaterSelectionError && (
+                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                              {waterheaterSelectionError}
+                            </div>
+                          )}
                           {/*solar*/}
                           <div className="mt-2">
                             <p className="mb-0 font-medium">Solar</p>
@@ -823,6 +1022,8 @@ export default function VPPFinder() {
                                   checked={solarPresent === true}
                                   onChange={() => {
                                     setSolarPresent(true);
+                                    openSolarSelector();
+                                    getDevices('Solar');
                                   }}
                                 />
                                 <span className="ml-2">Yes</span>
@@ -836,12 +1037,41 @@ export default function VPPFinder() {
                                   checked={solarPresent === false}
                                   onChange={() => {
                                     setSolarPresent(false);
+                                    handleNoneChangeSolar();
+                                    closeSolarSelector();
+                                    setSolarSelectionError('');
                                   }}
                                 />
                                 <span className="ml-1">None</span>
                               </label>
                             </div>
+                            <div
+                              className={` solarSelection ${
+                                solarPresent ? 'open' : 'closed'
+                              } `}
+                            >
+                              <div
+                                className={`w-full
+                    `}
+                                style={{ overflow: solarSelectorOverflow }}
+                              >
+                                <MultiSelector
+                                  optionsList={solarOptions}
+                                  selectedOptions={selectedSolar}
+                                  setSelectedOptions={setSelectedSolar}
+                                  placeholderOpenText="Search"
+                                  placeholderClosedText="Add solar..."
+                                  menuIsOpen={solarMenuIsOpen}
+                                  setMenuIsOpen={setSolarMenuIsOpen}
+                                />
+                              </div>
+                            </div>
                           </div>
+                          {solarSelectionError && (
+                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                              {solarSelectionError}
+                            </div>
+                          )}{' '}
                           {/*EV*/}
                           <div className="mt-2">
                             <p className="mb-0 font-medium">Electric Vehicle</p>
@@ -854,6 +1084,8 @@ export default function VPPFinder() {
                                   checked={EVPresent === true}
                                   onChange={() => {
                                     setEVPresent(true);
+                                    openEVSelector();
+                                    getDevices('EVs');
                                   }}
                                 />
                                 <span className="ml-2">Yes</span>
@@ -867,12 +1099,41 @@ export default function VPPFinder() {
                                   checked={EVPresent === false}
                                   onChange={() => {
                                     setEVPresent(false);
+                                    handleNoneChangeEV();
+                                    closeEVSelector();
+                                    setEVSelectionError('');
                                   }}
                                 />
                                 <span className="ml-1">None</span>
                               </label>
                             </div>
+                            <div
+                              className={` EVSelection ${
+                                EVPresent ? 'open' : 'closed'
+                              } `}
+                            >
+                              <div
+                                className={`w-full
+                    `}
+                                style={{ overflow: EVSelectorOverflow }}
+                              >
+                                <MultiSelector
+                                  optionsList={EVOptions}
+                                  selectedOptions={selectedEVs}
+                                  setSelectedOptions={setSelectedEVs}
+                                  placeholderOpenText="Search"
+                                  placeholderClosedText="Add EV..."
+                                  menuIsOpen={EVMenuIsOpen}
+                                  setMenuIsOpen={setEVMenuIsOpen}
+                                />
+                              </div>
+                            </div>
                           </div>
+                          {EVSelectionError && (
+                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                              {EVSelectionError}
+                            </div>
+                          )}{' '}
                           {/*generator*/}
                           <div className="mt-2">
                             <p className="mb-0 font-medium">Generator</p>
@@ -885,6 +1146,8 @@ export default function VPPFinder() {
                                   checked={generatorPresent === true}
                                   onChange={() => {
                                     setGeneratorPresent(true);
+                                    openGeneratorSelector();
+                                    getDevices('Generators');
                                   }}
                                 />
                                 <span className="ml-2">Yes</span>
@@ -898,12 +1161,41 @@ export default function VPPFinder() {
                                   checked={generatorPresent === false}
                                   onChange={() => {
                                     setGeneratorPresent(false);
+                                    handleNoneChangeGenerator();
+                                    closeGeneratorSelector();
+                                    setGeneratorSelectionError('');
                                   }}
                                 />
                                 <span className="ml-1">None</span>
                               </label>
                             </div>
+                            <div
+                              className={` generatorSelection ${
+                                generatorPresent ? 'open' : 'closed'
+                              } `}
+                            >
+                              <div
+                                className={`w-full
+                    `}
+                                style={{ overflow: generatorSelectorOverflow }}
+                              >
+                                <MultiSelector
+                                  optionsList={generatorOptions}
+                                  selectedOptions={selectedGenerators}
+                                  setSelectedOptions={setSelectedGenerators}
+                                  placeholderOpenText="Search"
+                                  placeholderClosedText="Add generators..."
+                                  menuIsOpen={generatorMenuIsOpen}
+                                  setMenuIsOpen={setGeneratorMenuIsOpen}
+                                />
+                              </div>
+                            </div>
                           </div>
+                          {generatorSelectionError && (
+                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                              {generatorSelectionError}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -938,7 +1230,7 @@ export default function VPPFinder() {
       {isClient && (
         <style>
           {`
-              .propertySection, .utilitySection, .deviceTitleSection, .thermostatSelection, .batterySelection, .deviceSection {
+              .propertySection, .utilitySection, .deviceTitleSection, .thermostatSelection, .batterySelection, .heatpumpSelection,  .waterheaterSelection, .solarSelection, .EVSelection, .generatorSelection, .deviceSection {
                 display: grid;
                 grid-template-rows: 0fr;
                 transition: grid-template-rows 0.7s ease, margin 0.7s ease;
@@ -947,13 +1239,13 @@ export default function VPPFinder() {
                 grid-template-rows: 1fr;
                 margin-top: 0.5rem;
               }
-              .propertySection > div, .utilitySection > div, .thermostatSelection > div , .batterySelection > div, .deviceSection > div, .propertySection > div, .deviceTitleSection > div {
+              .propertySection > div, .utilitySection > div, .thermostatSelection > div , .batterySelection > div,  .heatpumpSelection > div ,  .waterheaterSelection > div, .solarSelection > div, .EVSelection > div, .generatorSelection > div, .deviceSection > div, .propertySection > div, .deviceTitleSection > div {
                 overflow:hidden
               }
               .deviceTitleSection.open, .propertySection.open, .utilitySection.open {
                 margin-top: 1rem;
               }
-              .thermostatSelection.open, .batterySelection.open {
+              .thermostatSelection.open, .batterySelection.open, .heatpumpSelection.open, .waterheaterSelection.open. .solarSelection.open, .EVSelection.open, .generatorSelection.open {
                 margin-top: 0.25rem;
                 margin-bottom: 0.75rem;
               }
