@@ -378,16 +378,28 @@ export default function VPPFinder() {
     setBatterySelectorOverflow('hidden');
   };
 
+  const [selectorTimeoutID, setSelectorTimeoutID] = useState(null); // use this to prevent multiple timeouts occuring at once
   const [
     selectorBackgroundOverflowVisible,
     setSelectorBackgroundOverflowVisible,
   ] = useState('hidden');
   const openSelectorBackgroundOverflowVisible = () => {
     // Set timeout for overflow change
-    setTimeout(() => setSelectorBackgroundOverflowVisible('visible'), 700); // 0.5s for transition + s delay
+    if (selectorTimeoutID) {
+      clearTimeout(selectorTimeoutID);
+    }
+    const id = setTimeout(
+      () => setSelectorBackgroundOverflowVisible('visible'),
+      700
+    );
+    setSelectorTimeoutID(id);
   };
   const closeSelectorBackgroundOverflowVisible = () => {
     // Set timeout for overflow change
+    if (selectorTimeoutID) {
+      clearTimeout(selectorTimeoutID);
+      setSelectorTimeoutID(null);
+    }
     setSelectorBackgroundOverflowVisible('hidden');
   };
 
