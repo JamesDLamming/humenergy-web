@@ -9,13 +9,19 @@ async function checkEligibility(req, res) {
       Utility,
       thermostatPresent,
       batteryPresent,
-      selectionsThermostat,
-      selectionsBattery,
+
       heatpumpPresent,
       waterheaterPresent,
       solarPresent,
       EVPresent,
       generatorPresent,
+      selectedThermostats,
+      selectedBatteries,
+      selectedHeatpumps,
+      selectedWaterheaters,
+      selectedSolar,
+      selectedEVs,
+      selectedGenerators,
     } = req.body;
 
     const doc = await accessSpreadsheet();
@@ -37,7 +43,7 @@ async function checkEligibility(req, res) {
       ? (thermostat = 'Thermostats')
       : (thermostat = '');
     batteryPresent === true ? (battery = 'Batteries') : (battery = '');
-    selectionsBattery.some((item) => item.value === 'TeslaPowerwall') === true
+    selectedBatteries.some((item) => item.value === 'TeslaPowerwall') === true
       ? (powerwall = 'Powerwall')
       : (powerwall = '');
 
