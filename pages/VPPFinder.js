@@ -258,6 +258,8 @@ export default function VPPFinder() {
 
   const checkEligibility = async () => {
     try {
+      closeSelectorBackgroundOverflowVisible();
+
       setLoading(true); //start loading
 
       const response = await fetch(
@@ -713,7 +715,7 @@ export default function VPPFinder() {
                     }`}
                   >
                     <div
-                      className={`flex gap-x-0 justify-center items-center overflow-hidden  w-full deviceTitleSection ${
+                      className={`flex gap-x-0 justify-center items-center   w-full deviceTitleSection ${
                         devicesVisible && Utility.value != 'Unavailable'
                           ? 'open '
                           : 'closed'
@@ -1277,7 +1279,7 @@ export default function VPPFinder() {
                 grid-template-rows: 1fr;
                 margin-top: 0.5rem;
               }
-              .propertySection > div, .utilitySection > div, .thermostatSelection > div , .batterySelection > div,  .heatpumpSelection > div ,  .waterheaterSelection > div, .solarSelection > div, .EVSelection > div, .generatorSelection > div, .deviceSection > div, .propertySection > div, .deviceTitleSection > div, .addDevicesSection > div {
+              .propertySection > div, .utilitySection > div, .thermostatSelection > div , .batterySelection > div,  .heatpumpSelection > div ,  .waterheaterSelection > div, .solarSelection > div, .EVSelection > div, .generatorSelection > div, .deviceSection > div, .propertySection > div, .deviceTitleSection > div {
                 overflow:hidden
               }
               .deviceTitleSection.open, .propertySection.open, .utilitySection.open {
