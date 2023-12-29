@@ -168,6 +168,8 @@ export default function VPPFinder() {
     setStateError('');
     setTableVisible(false);
     getUtilities(newState.value, sectorOption);
+    setDeviceSectionOpen(false);
+    closeSelectorBackgroundOverflowVisible();
   };
 
   const handleUtilitySelectionChange = (option) => {
@@ -176,7 +178,8 @@ export default function VPPFinder() {
     setUtility(newUtility);
     setUtilityError('');
     setDevicesVisible(true);
-    openSelectorBackgroundOverflowVisible();
+    setDeviceSectionOpen(false);
+    closeSelectorBackgroundOverflowVisible();
     setTableVisible(false);
   };
 
@@ -292,7 +295,6 @@ export default function VPPFinder() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     let isError = false; // Flag to indicate if there's any error
 
     if (
@@ -584,7 +586,7 @@ export default function VPPFinder() {
                       <div className="font-semibold w-1/3">Property Type:</div>
                       <div className="w-2/3">
                         <div>
-                          <label className="flex items-baseline">
+                          <label className="flex items-center">
                             <input
                               type="radio"
                               name="propertyType"
@@ -603,13 +605,18 @@ export default function VPPFinder() {
                                 );
                                 setUtilityVisible(true);
                                 openUtilitySelector();
+                                setDeviceSectionOpen(false);
+
+                                closeSelectorBackgroundOverflowVisible();
                               }}
                             />
-                            <span className="ml-2">Residential</span>
+                            <span className="ml-2  mt-[0.5px]">
+                              Residential
+                            </span>
                           </label>
                         </div>
                         <div>
-                          <label className="flex items-baseline">
+                          <label className="flex items-center">
                             <input
                               type="radio"
                               name="propertyType"
@@ -626,13 +633,18 @@ export default function VPPFinder() {
                                 setUtilityVisible(true);
                                 setTableVisible(false);
                                 openUtilitySelector();
+                                setDeviceSectionOpen(false);
+
+                                closeSelectorBackgroundOverflowVisible();
                               }}
                             />
-                            <span className="ml-2">Multi-family</span>
+                            <span className="ml-2 mt-[0.5px] ">
+                              Multi-family
+                            </span>
                           </label>
                         </div>
                         <div>
-                          <label className="flex items-baseline">
+                          <label className="flex items-center">
                             <input
                               type="radio"
                               name="propertyType"
@@ -649,12 +661,15 @@ export default function VPPFinder() {
                                 setUtilityVisible(true);
                                 setTableVisible(false);
                                 openUtilitySelector();
+                                setDeviceSectionOpen(false);
+
+                                closeSelectorBackgroundOverflowVisible();
                               }}
                             />
-                            <span className="ml-2">C&I</span>
+                            <span className="ml-2  mt-[0.5px]">C&I</span>
                           </label>
                         </div>
-                      </div>{' '}
+                      </div>
                     </div>
                   </div>
 
@@ -754,7 +769,7 @@ export default function VPPFinder() {
                           {/* Smart Thermostat */}
                           <div className="mt-0">
                             <p className="mb-0 font-medium">Smart Thermostat</p>
-                            <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                            <div className="flex gap-x-3 gap-y-1 flex-wrap items-center">
                               <label className="flex items-center">
                                 <input
                                   type="radio"
@@ -767,7 +782,7 @@ export default function VPPFinder() {
                                     getDevices('Thermostats');
                                   }}
                                 />
-                                <span className="ml-2">Yes</span>
+                                <span className="ml-1">Yes</span>
                               </label>
 
                               <label className="flex items-center ">
@@ -800,7 +815,10 @@ export default function VPPFinder() {
                                 <MultiSelector
                                   optionsList={thermostatOptions}
                                   selectedOptions={selectedThermostats}
-                                  setSelectedOptions={setSelectedThermostats}
+                                  setSelectedOptions={(options) => {
+                                    setSelectedThermostats(options);
+                                    setThermostatSelectionError('');
+                                  }}
                                   placeholderOpenText="Search"
                                   placeholderClosedText="Add thermostats..."
                                   menuIsOpen={thermostatMenuIsOpen}
@@ -810,14 +828,14 @@ export default function VPPFinder() {
                             </div>
                           </div>
                           {thermostatSelectionError && (
-                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                            <div className="text-red-500 -mt-2 mb-0 text-sm text-right">
                               {thermostatSelectionError}
                             </div>
                           )}
                           {/*batteries*/}
                           <div className="mt-2">
                             <p className="mb-0 font-medium">Battery</p>
-                            <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                            <div className="flex gap-x-3 gap-y-1 flex-wrap items-center">
                               <label className="flex items-center">
                                 <input
                                   type="radio"
@@ -830,7 +848,7 @@ export default function VPPFinder() {
                                     getDevices('Batteries');
                                   }}
                                 />
-                                <span className="ml-2">Yes</span>
+                                <span className="ml-1">Yes</span>
                               </label>
 
                               <label className="flex items-center ">
@@ -863,7 +881,10 @@ export default function VPPFinder() {
                                 <MultiSelector
                                   optionsList={batteryOptions}
                                   selectedOptions={selectedBatteries}
-                                  setSelectedOptions={setSelectedBatteries}
+                                  setSelectedOptions={(options) => {
+                                    setSelectedBatteries(options);
+                                    setBatterySelectionError('');
+                                  }}
                                   placeholderOpenText="Search"
                                   placeholderClosedText="Add batteries..."
                                   menuIsOpen={batteryMenuIsOpen}
@@ -873,7 +894,7 @@ export default function VPPFinder() {
                             </div>
                           </div>
                           {batterySelectionError && (
-                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                            <div className="text-red-500 -mt-2 mb-0 text-sm text-right">
                               {batterySelectionError}
                             </div>
                           )}
@@ -897,7 +918,7 @@ export default function VPPFinder() {
                                     );
                                   }}
                                 />
-                                <span className="ml-2">Yes</span>
+                                <span className="ml-1">Yes</span>
                               </label>
 
                               <label className="flex items-center">
@@ -930,7 +951,10 @@ export default function VPPFinder() {
                                 <MultiSelector
                                   optionsList={heatpumpOptions}
                                   selectedOptions={selectedHeatpumps}
-                                  setSelectedOptions={setSelectedHeatpumps}
+                                  setSelectedOptions={(options) => {
+                                    setSelectedHeatpumps(options);
+                                    setHeatpumpSelectionError('');
+                                  }}
                                   placeholderOpenText="Search"
                                   placeholderClosedText="Add heatpumps..."
                                   menuIsOpen={heatpumpMenuIsOpen}
@@ -940,7 +964,7 @@ export default function VPPFinder() {
                             </div>
                           </div>
                           {heatpumpSelectionError && (
-                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                            <div className="text-red-500 -mt-2 mb-0 text-sm text-right">
                               {heatpumpSelectionError}
                             </div>
                           )}{' '}
@@ -962,7 +986,7 @@ export default function VPPFinder() {
                                     getDevices('Water Heaters');
                                   }}
                                 />
-                                <span className="ml-2">Yes</span>
+                                <span className="ml-1">Yes</span>
                               </label>
 
                               <label className="flex items-center">
@@ -996,7 +1020,10 @@ export default function VPPFinder() {
                                 <MultiSelector
                                   optionsList={waterheaterOptions}
                                   selectedOptions={selectedWaterheaters}
-                                  setSelectedOptions={setSelectedWaterheaters}
+                                  setSelectedOptions={(options) => {
+                                    setSelectedWaterheaters(options);
+                                    setWaterheaterSelectionError('');
+                                  }}
                                   placeholderOpenText="Search"
                                   placeholderClosedText="Add electric water heaters..."
                                   menuIsOpen={waterheaterMenuIsOpen}
@@ -1006,7 +1033,7 @@ export default function VPPFinder() {
                             </div>
                           </div>
                           {waterheaterSelectionError && (
-                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                            <div className="text-red-500 -mt-2 mb-0 text-sm text-right">
                               {waterheaterSelectionError}
                             </div>
                           )}
@@ -1014,7 +1041,7 @@ export default function VPPFinder() {
                           <div className="mt-2">
                             <p className="mb-0 font-medium">Solar</p>
                             <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                              <label className="">
+                              <label className="flex items-center">
                                 <input
                                   type="radio"
                                   name="solarPresent"
@@ -1026,10 +1053,10 @@ export default function VPPFinder() {
                                     getDevices('Solar');
                                   }}
                                 />
-                                <span className="ml-2">Yes</span>
+                                <span className="ml-1">Yes</span>
                               </label>
 
-                              <label className="flex items-baseline">
+                              <label className="flex items-center">
                                 <input
                                   type="radio"
                                   name="solar"
@@ -1058,7 +1085,10 @@ export default function VPPFinder() {
                                 <MultiSelector
                                   optionsList={solarOptions}
                                   selectedOptions={selectedSolar}
-                                  setSelectedOptions={setSelectedSolar}
+                                  setSelectedOptions={(options) => {
+                                    setSelectedSolar(options);
+                                    setSolarSelectionError('');
+                                  }}
                                   placeholderOpenText="Search"
                                   placeholderClosedText="Add solar..."
                                   menuIsOpen={solarMenuIsOpen}
@@ -1068,7 +1098,7 @@ export default function VPPFinder() {
                             </div>
                           </div>
                           {solarSelectionError && (
-                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                            <div className="text-red-500 -mt-2 mb-0 text-sm text-right">
                               {solarSelectionError}
                             </div>
                           )}{' '}
@@ -1076,7 +1106,7 @@ export default function VPPFinder() {
                           <div className="mt-2">
                             <p className="mb-0 font-medium">Electric Vehicle</p>
                             <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                              <label className="">
+                              <label className="flex items-center">
                                 <input
                                   type="radio"
                                   name="EVPresent"
@@ -1088,10 +1118,10 @@ export default function VPPFinder() {
                                     getDevices('EVs');
                                   }}
                                 />
-                                <span className="ml-2">Yes</span>
+                                <span className="ml-1">Yes</span>
                               </label>
 
-                              <label className="flex items-baseline">
+                              <label className="flex items-center">
                                 <input
                                   type="radio"
                                   name="EV"
@@ -1120,7 +1150,10 @@ export default function VPPFinder() {
                                 <MultiSelector
                                   optionsList={EVOptions}
                                   selectedOptions={selectedEVs}
-                                  setSelectedOptions={setSelectedEVs}
+                                  setSelectedOptions={(options) => {
+                                    setSelectedEVs(options);
+                                    setEVSelectionError('');
+                                  }}
                                   placeholderOpenText="Search"
                                   placeholderClosedText="Add EV..."
                                   menuIsOpen={EVMenuIsOpen}
@@ -1130,7 +1163,7 @@ export default function VPPFinder() {
                             </div>
                           </div>
                           {EVSelectionError && (
-                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                            <div className="text-red-500 -mt-2 mb-0 text-sm text-right">
                               {EVSelectionError}
                             </div>
                           )}{' '}
@@ -1138,7 +1171,7 @@ export default function VPPFinder() {
                           <div className="mt-2">
                             <p className="mb-0 font-medium">Generator</p>
                             <div className="flex gap-x-3 gap-y-1 flex-wrap">
-                              <label className="">
+                              <label className="flex items-center">
                                 <input
                                   type="radio"
                                   name="generatorPresent"
@@ -1150,10 +1183,10 @@ export default function VPPFinder() {
                                     getDevices('Generators');
                                   }}
                                 />
-                                <span className="ml-2">Yes</span>
+                                <span className="ml-1">Yes</span>
                               </label>
 
-                              <label className="flex items-baseline">
+                              <label className="flex items-center">
                                 <input
                                   type="radio"
                                   name="generator"
@@ -1182,7 +1215,10 @@ export default function VPPFinder() {
                                 <MultiSelector
                                   optionsList={generatorOptions}
                                   selectedOptions={selectedGenerators}
-                                  setSelectedOptions={setSelectedGenerators}
+                                  setSelectedOptions={(options) => {
+                                    setSelectedGenerators(options);
+                                    setGeneratorSelectionError('');
+                                  }}
                                   placeholderOpenText="Search"
                                   placeholderClosedText="Add generators..."
                                   menuIsOpen={generatorMenuIsOpen}
@@ -1192,7 +1228,7 @@ export default function VPPFinder() {
                             </div>
                           </div>
                           {generatorSelectionError && (
-                            <div className="text-red-500 mt-1 -mb-2 text-sm text-right">
+                            <div className="text-red-500 -mt-2 mb-0 text-sm text-right">
                               {generatorSelectionError}
                             </div>
                           )}
@@ -1245,8 +1281,8 @@ export default function VPPFinder() {
               .deviceTitleSection.open, .propertySection.open, .utilitySection.open {
                 margin-top: 1rem;
               }
-              .thermostatSelection.open, .batterySelection.open, .heatpumpSelection.open, .waterheaterSelection.open. .solarSelection.open, .EVSelection.open, .generatorSelection.open {
-                margin-top: 0.25rem;
+              .thermostatSelection.open, .batterySelection.open, .heatpumpSelection.open, .waterheaterSelection.open, .solarSelection.open, .EVSelection.open, .generatorSelection.open {
+                margin-top: 0.25rem !important;
                 margin-bottom: 0.75rem;
               }
               .closed {
