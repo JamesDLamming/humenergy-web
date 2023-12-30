@@ -2,7 +2,20 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import DefaultButton from './DefaultButton';
 
-const navLinks = [{ href: '/earn', label: 'Earn' }];
+const navLinks = [
+  {
+    href: '/',
+    label: 'Manage',
+    comingSoon: true,
+  },
+  {
+    href: '/',
+    label: 'Save',
+    comingSoon: true,
+  },
+  { href: '/earn', label: 'Earn' },
+  { href: '/about', label: 'About' },
+];
 
 const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,12 +43,20 @@ const Nav = () => {
           </a>
           {/* Links */}
           <div className="hidden items-center lg:flex lg:gap-x-12">
-            <Link href="/earn" className="font-bold font-inter text-main">
-              Earn
-            </Link>
-            <Link href="/about" className="font-bold font-inter text-main">
-              About
-            </Link>
+            {navLinks.map(({ key, href, label, comingSoon }) => (
+              <li className="flex" key={key}>
+                <Link
+                  href={href}
+                  className="block font-bold font-inter text-center text-main w-full"
+                >
+                  <span>{label}</span>
+                  {comingSoon && (
+                    <span className="block text-xs">(Coming Soon)</span>
+                  )}
+                </Link>
+              </li>
+            ))}
+
             <DefaultButton>Login</DefaultButton>
           </div>
           {/* hamburger */}
@@ -57,18 +78,20 @@ const Nav = () => {
         <div className="mobileMenu open shadow-sm">
           <div className="absolute w-screen items-center flex-1 justify-center shadow-sm text-center space-y-2 z-50 bg-white  pt-2 pb-6 lg:hidden">
             {/* Mobile Links */}
-            <Link
-              href="/earn"
-              className="block font-bold font-inter text-main w-full"
-            >
-              Earn
-            </Link>
-            <Link
-              href="/about"
-              className="block font-bold font-inter text-main w-full"
-            >
-              About
-            </Link>
+            {navLinks.map(({ key, label, href, comingSoon }) => (
+              <li className="flex" key={key}>
+                <Link
+                  href={href}
+                  className="block font-bold font-inter text-main w-full"
+                >
+                  <span>{label}</span>
+                  {comingSoon && (
+                    <span className="block text-xs">(Coming Soon)</span>
+                  )}
+                </Link>
+              </li>
+            ))}
+
             <DefaultButton>Login</DefaultButton>
           </div>
         </div>

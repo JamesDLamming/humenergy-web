@@ -17,7 +17,7 @@ export default function earn() {
       <div className="bg-bgMain overflow-hidden ">
         <section
           id="hero"
-          className="overflow-hidden lg:relative py-12 sm:py-20 md:py-24 lg:py-32"
+          className="overflow-hidden lg:relative py-12 sm:py-20 md:py-24 lg:py-32 bg-gradient-to-br from-mainSecondary to-main"
           sectionname="hero"
           sectionlabel="Hero"
           sortorder="0"
@@ -25,7 +25,7 @@ export default function earn() {
           <div className="max-w-xl px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-3 lg:gap-24 relative z-10">
             <div className="relative z-[1] col-span-2">
               <div className="mt-6  sm:max-w-2xl">
-                <h1 className="text-3xl font-black tracking-tight text-main sm:text-5xl xl:text-6xl  relative">
+                <h1 className="text-3xl font-black tracking-tight text-bgMain sm:text-5xl xl:text-6xl  relative">
                   Make money from your{' '}
                   <span className="min-w-[250px]  inline-block">
                     <TypeAnimation
@@ -50,7 +50,7 @@ export default function earn() {
                   </span>
                 </h1>
 
-                <h2 className="font-regular font-cabin mt-6 text-lg text-mainSecondary sm:text-xl  relative">
+                <h2 className="font-regular font-cabin mt-6 text-lg text-bgMain sm:text-xl  relative">
                   Connect your energy devices into Virtual Power Plants and
                   other utility programs. Earn money from them while you sleep,
                   without impacting how you live your life
@@ -60,6 +60,7 @@ export default function earn() {
               <div className="mt-10 space-y-4">
                 <DefaultButton
                   onClick={() => (window.location.href = '/VPPFinder')}
+                  className="!text-main"
                 >
                   Find local programs
                 </DefaultButton>

@@ -10,108 +10,43 @@ const Hero = () => {
     <div className="section-spacing">
       <section
         id="hero"
-        className=" lg:relative pt-12 sm:pt-20 md:pt-24 lg:pt-32"
+        className=" lg:relative py-12 sm:py-20 md:py-24 lg:py-32 bg-gradient-to-br from-main from-50% to-accent"
         sectionname="hero"
         sectionlabel="Hero"
         sortorder="0"
       >
-        <div className="max-w-xl px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24 relative z-10 mb-20">
+        <div className="max-w-xl px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24 relative z-10">
           <div className="relative z-[1]">
             <div className="">
               <div className="mt-6 sm:max-w-xl">
-                <h1 className="text-3xl font-black tracking-tight text-main sm:text-5xl xl:text-6xl  relative">
+                <h1 className="text-3xl font-black tracking-tight text-accent sm:text-5xl xl:text-6xl  relative">
                   Take control of your energy
                 </h1>
-                <h2 className=" font-cabin mt-6 text-lg text-mainSecondary sm:text-xl  relative">
-                  Manage and optimize your energy consumption with Hum Energy,
-                  the user-friendly app designed to help you save money and
-                  reduce your environmental footprint
+                <h2 className=" font-cabin mt-6 text-lg text-bgMain sm:text-xl  relative">
+                  Manage and optimize your energy use with Hum Energy, the app
+                  that helps you save money on your bills, earn money from your
+                  devices, and reduce your environmental footprint; all without
+                  lifting a finger.
                 </h2>
               </div>
             </div>
-            <div className="mt-10 space-y-4">
-              <DefaultButton onClick={() => setModalVisibility(true)}>
-                Join the waitlist
-              </DefaultButton>
-            </div>
-            <div className="ratings mt-6 relative" data-testid="ratings">
-              <div className="flex items-center gap-3 divide-x divide-gray-300 text-center sm:text-left">
-                <div className="flex flex-wrap flex-shrink-0">
-                  <img
-                    src="/stars.svg"
-                    className="w-5 h-5 text-yellow-400"
-                  ></img>
-                  <img
-                    src="/stars.svg"
-                    className="w-5 h-5 text-yellow-400"
-                  ></img>
-                  <img
-                    src="/stars.svg"
-                    className="w-5 h-5 text-yellow-400"
-                  ></img>
-                  <img
-                    src="/stars.svg"
-                    className="w-5 h-5 text-yellow-400"
-                  ></img>
-                  <img
-                    src="/stars.svg"
-                    className="w-5 h-5 text-yellow-400"
-                  ></img>
-                </div>
-                <div className="min-w-0 py-1 text-xs sm:text-sm  pl-3">
-                  Energy monitoring
-                </div>
-                <div className="min-w-0 py-1 text-xs sm:text-sm  pl-3">
-                  Personalized tips
-                </div>
+            <div className="mt-10 items-center flex flex-wrap gap-4">
+              <div>
+                <DefaultButton
+                  onClick={() => (window.location.href = '/earn')}
+                  className="!text-main"
+                >
+                  Start earning money
+                </DefaultButton>
               </div>
-            </div>
-          </div>
-        </div>
-        <div className="sm:pl-6">
-          <div className="pt-12 sm:relative sm:mt-12 sm:pt-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 z-20">
-            <div className="hidden sm:block">
-              <div className="absolute inset-y-0 w-screen left-1/2 bg-main min-h-[500px] rounded-l-3xl lg:left-80 lg:right-0 lg:w-full"></div>
-              <svg
-                className="absolute -mr-3 top-8 right-1/2 lg:m-0 lg:left-0"
-                width="404"
-                height="392"
-                fill="none"
-                viewBox="0 0 404 392"
-              >
-                <defs>
-                  <pattern
-                    id="837c3e70-6c3a-44e6-8854-cc48c737b659"
-                    x="0"
-                    y="0"
-                    width="20"
-                    height="20"
-                    patternUnits="userSpaceOnUse"
-                  >
-                    <rect
-                      x="0"
-                      y="0"
-                      width="4"
-                      height="4"
-                      className="text-accent"
-                      fill="currentColor"
-                    ></rect>
-                  </pattern>
-                </defs>
-                <rect
-                  width="404"
-                  height="392"
-                  fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"
-                ></rect>
-              </svg>
-            </div>
-
-            <div className="relative pl-4 ml-auto sm:max-w-4xl sm:px-0 lg:h-full lg:max-w-none lg:flex lg:items-center xl:pl-12 ">
-              <img
-                className="w-full rounded-l-3xl lg:w-auto 2xl:h-full 2xl:max-w-none 2xl:rounded-3xl"
-                src="https://images.unsplash.com/photo-1490730141103-6cac27aaab94?crop=entropy&amp;cs=tinysrgb&amp;fit=max&amp;fm=jpg&amp;ixid=M3wzMzczODV8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDE3MTAzODl8&amp;ixlib=rb-4.0.3&amp;q=80&amp;w=1080"
-                alt="Hum Energy"
-              ></img>
+              <div>
+                <DefaultButton
+                  onClick={() => setModalVisibility(true)}
+                  className="bg-gray-200 border-2 border-main !text-main "
+                >
+                  Join the waitlist
+                </DefaultButton>
+              </div>
             </div>
           </div>
         </div>
