@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Nav from '../components/Nav';
 import Hero from '../components/Hero';
 import SEO from '../components/SEO';
+import Footer from '../components/Footer';
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <div className="bg-bgMain min-h-screen overflow-hidden">
         <Nav></Nav>
         <Hero></Hero>
+        <Footer />
       </div>
     </>
   );

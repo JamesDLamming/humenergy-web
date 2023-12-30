@@ -5,6 +5,7 @@ import { TypeAnimation } from 'react-type-animation';
 import DefaultButton from '../components/DefaultButton';
 import Modal from '../components/Modal';
 import SignupForm from '../components/SignupForm';
+import Footer from '../components/Footer';
 
 export default function earn() {
   const [modalVisibility, setModalVisibility] = useState(false);
@@ -80,6 +81,7 @@ export default function earn() {
           onFormSubmitted={() => setModalVisibility(false)}
         ></SignupForm>
       </Modal>
+      <Footer />
     </>
   );
 }

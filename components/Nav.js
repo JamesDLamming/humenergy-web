@@ -46,7 +46,7 @@ const Nav = () => {
             <Link href="/earn" className="font-bold font-inter text-main">
               Earn
             </Link>
-            <Link href="/" className="font-bold font-inter text-main">
+            <Link href="/about" className="font-bold font-inter text-main">
               About
             </Link>
             <DefaultButton>Login</DefaultButton>

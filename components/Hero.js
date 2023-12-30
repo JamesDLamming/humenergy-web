@@ -20,7 +20,7 @@ const Hero = () => {
             <div className="">
               <div className="mt-6 sm:max-w-xl">
                 <h1 className="text-3xl font-black tracking-tight text-main sm:text-5xl xl:text-6xl  relative">
-                  Take control of your home energy
+                  Take control of your energy
                 </h1>
                 <h2 className=" font-cabin mt-6 text-lg text-mainSecondary sm:text-xl  relative">
                   Manage and optimize your energy consumption with Hum Energy,
@@ -31,8 +31,8 @@ const Hero = () => {
             </div>
             <div className="mt-10 space-y-4">
               <DefaultButton onClick={() => setModalVisibility(true)}>
-                Join the Waitlist
-              </DefaultButton>{' '}
+                Join the waitlist
+              </DefaultButton>
             </div>
             <div className="ratings mt-6 relative" data-testid="ratings">
               <div className="flex items-center gap-3 divide-x divide-gray-300 text-center sm:text-left">
