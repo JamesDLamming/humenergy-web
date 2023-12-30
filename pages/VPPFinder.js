@@ -6,6 +6,7 @@ import VPPFinderOutput from '../components/VPPFinderOutput';
 
 import MultiSelector from '../components/MultiSelector';
 import SingleSelector from '../components/SingleSelector';
+import Footer from '../components/Footer';
 
 require('dotenv').config();
 
@@ -556,7 +557,6 @@ export default function VPPFinder() {
       <SEO title="Hum Energy - VPP finder" />
       <div className="bg-bgMain overflow-hidden min-h-screen">
         <Nav></Nav>
-        <div className="w-full"></div>
 
         <div className="max-w-xl flex flex-col items-center px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
           <div className="p-4 px-8 w-full sm:w-96 rounded-lg shadow-sm bg-white text-main  mt-10">
@@ -1300,6 +1300,8 @@ export default function VPPFinder() {
             `}
         </style>
       )}
+
+      <Footer />
     </>
   );
 }
