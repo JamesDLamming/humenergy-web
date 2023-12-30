@@ -13,12 +13,11 @@ export default function earn() {
   return (
     <>
       <SEO title="Hum Energy - Earn" />
-
-      <div className="bg-bgMain overflow-hidden min-h-screen">
-        <Nav></Nav>
+      <Nav></Nav>
+      <div className="bg-bgMain overflow-hidden ">
         <section
           id="hero"
-          className="overflow-hidden lg:relative pt-12 sm:pt-20 md:pt-24 lg:pt-32"
+          className="overflow-hidden lg:relative py-12 sm:py-20 md:py-24 lg:py-32"
           sectionname="hero"
           sectionlabel="Hero"
           sortorder="0"
