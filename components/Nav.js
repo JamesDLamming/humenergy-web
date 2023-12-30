@@ -65,7 +65,7 @@ const Nav = () => {
             Earn
           </Link>
           <Link
-            href="/"
+            href="/about"
             className="block font-bold font-inter text-main w-full"
           >
             About
