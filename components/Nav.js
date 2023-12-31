@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import DefaultButton from './DefaultButton';
+import { Loadable } from 'next/dist/server/future/route-modules/app-page/vendored/contexts/entrypoints';
 
 const navLinks = [
   {
@@ -43,8 +44,8 @@ const Nav = () => {
           </a>
           {/* Links */}
           <div className="hidden items-center lg:flex lg:gap-x-12">
-            {navLinks.map(({ key, href, label, comingSoon }) => (
-              <li className="flex" key={key}>
+            {navLinks.map(({ href, label, comingSoon }, index) => (
+              <li className="flex" key={index}>
                 <Link
                   href={href}
                   className="block font-bold font-inter text-center text-main w-full"
@@ -78,8 +79,8 @@ const Nav = () => {
         <div className="mobileMenu open shadow-sm">
           <div className="absolute w-screen items-center flex-1 justify-center shadow-sm text-center space-y-2 z-50 bg-white  pt-2 pb-6 lg:hidden">
             {/* Mobile Links */}
-            {navLinks.map(({ key, label, href, comingSoon }) => (
-              <li className="flex" key={key}>
+            {navLinks.map(({ label, href, comingSoon }, index) => (
+              <li className="flex" key={index}>
                 <Link
                   href={href}
                   className="block font-bold font-inter text-main w-full"

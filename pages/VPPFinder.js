@@ -515,14 +515,16 @@ export default function VPPFinder() {
               <div className="mt-2 flex gap-x-3 items-center">
                 <div className="w-1/3 font-semibold">State:</div>
                 <div className="w-2/3">
-                  <SingleSelector
-                    optionsList={states}
-                    selectedOption={stateRegion}
-                    onOptionSelected={handleStateSelectionChange}
-                    menuIsOpen={menuIsOpen}
-                    setMenuIsOpen={setMenuIsOpen}
-                    placeholderClosedText="Select State"
-                  ></SingleSelector>
+                  {isClient && (
+                    <SingleSelector
+                      optionsList={states}
+                      selectedOption={stateRegion}
+                      onOptionSelected={handleStateSelectionChange}
+                      menuIsOpen={menuIsOpen}
+                      setMenuIsOpen={setMenuIsOpen}
+                      placeholderClosedText="Select State"
+                    ></SingleSelector>
+                  )}
                 </div>
               </div>
               {stateError && (
