@@ -23,11 +23,13 @@ async function getUtilities(req, res) {
         const utilityName = row.get('Utility/CCA');
         return { Utility: utilityName, Value: utilityName };
       })
+      //de-duplicate
       .filter(
         (item, index, self) =>
           item.Utility &&
           self.findIndex((u) => u.Utility === item.Utility) === index
       )
+      //sort
       .sort((a, b) => a.Utility.localeCompare(b.Utility));
 
     utilityList.push({

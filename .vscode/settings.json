@@ -3,5 +3,8 @@
   "editor.formatOnSave": true,
   // Optionally, you can add more settings for Prettier:
   "prettier.singleQuote": true,
-  "prettier.trailingComma": "es5"
+  "prettier.trailingComma": "es5",
+  "files.associations": {
+    "*.js": "javascriptreact"
+  }
 }

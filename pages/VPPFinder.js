@@ -138,10 +138,10 @@ export default function VPPFinder() {
     setUtility({ value: '', label: '' });
   }
 
-  const getDevices = async (deviceType) => {
+  const getManufacturers = async (deviceType) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/get-devices`,
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/get-manufacturers`,
         {
           method: 'POST',
           headers: {
@@ -152,7 +152,6 @@ export default function VPPFinder() {
       );
       const jsonResponse = await response.json();
 
-      console.log(jsonResponse);
       setDeviceData(deviceType, jsonResponse);
       // Reset the Utility state every time new utility data is fetched
     } catch (error) {
@@ -740,7 +739,7 @@ export default function VPPFinder() {
                                 onChange={() => {
                                   setThermostatPresent(true);
                                   openThermostatSelector();
-                                  getDevices('Thermostats');
+                                  getManufacturers('Thermostats');
                                   openSelectorBackgroundOverflowVisible();
                                 }}
                               />
@@ -807,7 +806,7 @@ export default function VPPFinder() {
                                 onChange={() => {
                                   setBatteryPresent(true);
                                   openBatterySelector();
-                                  getDevices('Batteries');
+                                  getManufacturers('Batteries');
                                   openSelectorBackgroundOverflowVisible();
                                 }}
                               />
@@ -874,7 +873,7 @@ export default function VPPFinder() {
                                 onChange={() => {
                                   setSolarPresent(true);
                                   openSolarSelector();
-                                  getDevices('Solar');
+                                  getManufacturers('Solar');
                                   openSelectorBackgroundOverflowVisible();
                                 }}
                               />
@@ -940,7 +939,7 @@ export default function VPPFinder() {
                                 onChange={() => {
                                   setEVPresent(true);
                                   openEVSelector();
-                                  getDevices('EVs');
+                                  getManufacturers('EVs');
                                   openSelectorBackgroundOverflowVisible();
                                 }}
                               />
@@ -1006,7 +1005,7 @@ export default function VPPFinder() {
                                 onChange={() => {
                                   setHeatpumpPresent(true);
                                   openHeatpumpSelector();
-                                  getDevices('Heatpumps');
+                                  getManufacturers('Heatpumps');
                                   openSelectorBackgroundOverflowVisible();
                                 }}
                               />
@@ -1075,7 +1074,7 @@ export default function VPPFinder() {
                                 onChange={() => {
                                   setWaterheaterPresent(true);
                                   openWaterheaterSelector();
-                                  getDevices('Water Heaters');
+                                  getManufacturers('Water Heaters');
                                   openSelectorBackgroundOverflowVisible();
                                 }}
                               />
@@ -1143,7 +1142,7 @@ export default function VPPFinder() {
                                 onChange={() => {
                                   setGeneratorPresent(true);
                                   openGeneratorSelector();
-                                  getDevices('Generators');
+                                  getManufacturers('Generators');
                                   openSelectorBackgroundOverflowVisible();
                                 }}
                               />
