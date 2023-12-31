@@ -9,9 +9,11 @@ export default function Home() {
     <>
       <SEO title="Hum Energy" />
 
-      <div className="bg-bgMain min-h-screen overflow-hidden">
+      <div className="page-container bg-bgMain flex flex-col min-h-screen overflow-hidden">
         <Nav></Nav>
-        <Hero></Hero>
+        <div className="main-content flex-grow">
+          <Hero></Hero>
+        </div>
         <Footer />
       </div>
     </>

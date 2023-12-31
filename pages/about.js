@@ -8,9 +8,9 @@ const AboutUsPage = () => {
     <>
       <SEO title="About Hum Energy" />
 
-      <div className="bg-bgMain min-h-screen overflow-hidden">
+      <div className="page-container bg-bgMain flex flex-col min-h-screen overflow-hidden">
         <Nav></Nav>
-        <div className="about mx-4">
+        <div className="main-content about mx-4 flex-grow">
           <div
             className="max-w-xl px-4 align-center mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-4xl shadow-2xl text-bgMain bg-gradient-to-b from-main to-mainSecondary  py-4 rounded-lg my-10
             "

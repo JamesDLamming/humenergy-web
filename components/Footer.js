@@ -8,7 +8,7 @@ const Footer = () => {
 
   return (
     <>
-      <div className="relative isolate z-50 bg-white h-auto">
+      <div className="relative isolate bg-white h-auto">
         <footer className="print:hidden" aria-labelledby="footerHeading">
           <h2 id="footerHeading" className="sr-only">
             Footer

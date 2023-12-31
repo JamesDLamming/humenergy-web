@@ -7,62 +7,12 @@ import VPPFinderOutput from '../components/VPPFinderOutput';
 import MultiSelector from '../components/MultiSelector';
 import SingleSelector from '../components/SingleSelector';
 import Footer from '../components/Footer';
+import statesTwoLetter from '../models/statesTwoLetter';
 
 require('dotenv').config();
 
 export default function VPPFinder() {
-  const states = [
-    { value: 'AL', label: 'AL' },
-    { value: 'AK', label: 'AK' },
-    { value: 'AR', label: 'AR' },
-    { value: 'AZ', label: 'AZ' },
-    { value: 'CA', label: 'CA' },
-    { value: 'CO', label: 'CO' },
-    { value: 'CT', label: 'CT' },
-    { value: 'DE', label: 'DE' },
-    { value: 'FL', label: 'FL' },
-    { value: 'GA', label: 'GA' },
-    { value: 'HI', label: 'HI' },
-    { value: 'IA', label: 'IA' },
-    { value: 'ID', label: 'ID' },
-    { value: 'IL', label: 'IL' },
-    { value: 'IN', label: 'IN' },
-    { value: 'KS', label: 'KS' },
-    { value: 'KY', label: 'KY' },
-    { value: 'LA', label: 'LA' },
-    { value: 'MA', label: 'MA' },
-    { value: 'MD', label: 'MD' },
-    { value: 'ME', label: 'ME' },
-    { value: 'MI', label: 'MI' },
-    { value: 'MN', label: 'MN' },
-    { value: 'MO', label: 'MO' },
-    { value: 'MS', label: 'MS' },
-    { value: 'MT', label: 'MT' },
-    { value: 'NC', label: 'NC' },
-    { value: 'ND', label: 'ND' },
-    { value: 'NE', label: 'NE' },
-    { value: 'NH', label: 'NH' },
-    { value: 'NJ', label: 'NJ' },
-    { value: 'NM', label: 'NM' },
-    { value: 'NV', label: 'NV' },
-    { value: 'NY', label: 'NY' },
-    { value: 'OH', label: 'OH' },
-    { value: 'OK', label: 'OK' },
-    { value: 'OR', label: 'OR' },
-    { value: 'PA', label: 'PA' },
-    { value: 'RI', label: 'RI' },
-    { value: 'SC', label: 'SC' },
-    { value: 'SD', label: 'SD' },
-    { value: 'TN', label: 'TN' },
-    { value: 'TX', label: 'TX' },
-    { value: 'UT', label: 'UT' },
-    { value: 'VA', label: 'VA' },
-    { value: 'VT', label: 'VT' },
-    { value: 'WA', label: 'WA' },
-    { value: 'WI', label: 'WI' },
-    { value: 'WV', label: 'WV' },
-    { value: 'WY', label: 'WY' },
-  ];
+  const states = statesTwoLetter;
   const [programData, setProgramData] = useState([]);
   const [utilityData, setUtilityData] = useState('');
   const [tableVisible, setTableVisible] = useState(false);
@@ -555,10 +505,9 @@ export default function VPPFinder() {
   return (
     <>
       <SEO title="Hum Energy - VPP finder" />
-      <div className="bg-bgMain overflow-hidden min-h-screen">
+      <div className="page-container bg-bgMain flex flex-col min-h-screen overflow-hidden ">
         <Nav></Nav>
-
-        <div className="max-w-xl flex flex-col items-center px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
+        <div className="main-content max-w-xl flex flex-col items-center px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl flex-grow">
           <div className="p-4 px-8 w-full sm:w-96 rounded-lg shadow-sm bg-white text-main  mt-10">
             <div className="text-xl pb-2 font-black items-center text-center ">
               Enter your details
@@ -716,7 +665,9 @@ export default function VPPFinder() {
                   )}
                   <div
                     className={`block gap-x-3 items-top addDevicesSection ${
-                      Utility.value != 'Unavailable' ? 'open' : 'closed'
+                      Utility.value != 'Unavailable' && devicesVisible
+                        ? 'open'
+                        : 'closed'
                     }`}
                   >
                     <div
@@ -790,6 +741,7 @@ export default function VPPFinder() {
                                   setThermostatPresent(true);
                                   openThermostatSelector();
                                   getDevices('Thermostats');
+                                  openSelectorBackgroundOverflowVisible();
                                 }}
                               />
                               <span className="ml-1">Yes</span>
@@ -856,6 +808,7 @@ export default function VPPFinder() {
                                   setBatteryPresent(true);
                                   openBatterySelector();
                                   getDevices('Batteries');
+                                  openSelectorBackgroundOverflowVisible();
                                 }}
                               />
                               <span className="ml-1">Yes</span>
@@ -922,6 +875,7 @@ export default function VPPFinder() {
                                   setSolarPresent(true);
                                   openSolarSelector();
                                   getDevices('Solar');
+                                  openSelectorBackgroundOverflowVisible();
                                 }}
                               />
                               <span className="ml-1">Yes</span>
@@ -987,6 +941,7 @@ export default function VPPFinder() {
                                   setEVPresent(true);
                                   openEVSelector();
                                   getDevices('EVs');
+                                  openSelectorBackgroundOverflowVisible();
                                 }}
                               />
                               <span className="ml-1">Yes</span>
@@ -1052,10 +1007,7 @@ export default function VPPFinder() {
                                   setHeatpumpPresent(true);
                                   openHeatpumpSelector();
                                   getDevices('Heatpumps');
-                                  console.log(
-                                    'heatpump options: ',
-                                    heatpumpOptions
-                                  );
+                                  openSelectorBackgroundOverflowVisible();
                                 }}
                               />
                               <span className="ml-1">Yes</span>
@@ -1124,6 +1076,7 @@ export default function VPPFinder() {
                                   setWaterheaterPresent(true);
                                   openWaterheaterSelector();
                                   getDevices('Water Heaters');
+                                  openSelectorBackgroundOverflowVisible();
                                 }}
                               />
                               <span className="ml-1">Yes</span>
@@ -1191,6 +1144,7 @@ export default function VPPFinder() {
                                   setGeneratorPresent(true);
                                   openGeneratorSelector();
                                   getDevices('Generators');
+                                  openSelectorBackgroundOverflowVisible();
                                 }}
                               />
                               <span className="ml-1">Yes</span>
@@ -1251,7 +1205,7 @@ export default function VPPFinder() {
                 type="submit"
                 className={
                   Utility.value != 'Unavailable'
-                    ? 'mt-4 w-full'
+                    ? 'mt-6 w-full'
                     : 'mt-6 w-full !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none'
                 }
               >
@@ -1270,6 +1224,7 @@ export default function VPPFinder() {
             />
           </div>
         </div>
+        <Footer />
       </div>
 
       {isClient && (
@@ -1300,8 +1255,6 @@ export default function VPPFinder() {
             `}
         </style>
       )}
-
-      <Footer />
     </>
   );
 }

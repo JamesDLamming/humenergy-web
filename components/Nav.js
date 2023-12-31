@@ -4,12 +4,12 @@ import DefaultButton from './DefaultButton';
 
 const navLinks = [
   {
-    href: '/',
+    href: '',
     label: 'Manage',
     comingSoon: true,
   },
   {
-    href: '/',
+    href: '',
     label: 'Save',
     comingSoon: true,
   },
