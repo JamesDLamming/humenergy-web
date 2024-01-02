@@ -507,7 +507,7 @@ export default function VPPFinder() {
       <SEO title="Hum Energy - VPP finder" />
       <div className="page-container bg-bgMain flex flex-col  min-h-screen overflow-hidden ">
         <Nav></Nav>
-        <div className="main-content max-w-xl flex flex-col ustify-center  px-4 mx-2 sm:mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl flex-grow">
+        <div className="main-content max-w-xl flex flex-col px-4 mx-2 sm:mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl flex-grow">
           <div className="p-4 px-6 sm:px-8 w-full sm:w-[28rem] mx-auto rounded-lg shadow-sm bg-white text-main  mt-10">
             <div className="text-xl pb-2 font-black items-center text-center ">
               Enter your details
@@ -656,7 +656,7 @@ export default function VPPFinder() {
                           onMouseEnter={() => setShowTooltip(true)}
                           onMouseLeave={() => setShowTooltip(false)}
                         >
-                          <div class="cursor-pointer flex items-center justify-center align-middle sm:text-center">
+                          <div className="cursor-pointer flex items-center justify-center align-middle sm:text-center">
                             <InfoOutlinedIcon fontSize="20" />
                           </div>
                           {showTooltip && (
@@ -1241,7 +1241,7 @@ export default function VPPFinder() {
               </DefaultButton>
             </form>
           </div>
-          <div className="mt-10 flex-col flex w-full items-center ">
+          <div className="my-10 flex-col flex w-full items-center ">
             {loading && <div className="loading-icon">Loading...</div>}
 
             <VPPFinderOutput

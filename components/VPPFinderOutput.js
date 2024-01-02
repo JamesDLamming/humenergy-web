@@ -10,7 +10,7 @@ function VPPFinderOutput({ data, visible }) {
   }
   if (!data || data.length === 0) {
     return (
-      <div className="w-full sm:w-11/12 lg:w-3/4">
+      <div className="w-full ">
         <div className="text-xl pb-2 font-black items-center  ">
           Programs you may be eligible for:
         </div>
@@ -27,7 +27,7 @@ function VPPFinderOutput({ data, visible }) {
     window.open(url, '_blank').focus(); // This will navigate to the specified URL
   };
   return (
-    <div className="w-full sm:w-11/12 lg:w-3/4">
+    <div className="w-full ">
       <div className="text-xl pb-2 font-black items-center  ">
         Programs you may be eligible for:
       </div>
