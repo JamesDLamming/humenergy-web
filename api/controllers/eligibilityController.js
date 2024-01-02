@@ -104,6 +104,7 @@ async function checkEligibility(req, res) {
           'DERs needed': row.get('DERs'),
           'Utility/CCA': row.get('Utility/CCA'),
           'Image URL': row.get('Image URL'),
+          'Self-enrollment': row.get('Self-enrollment'),
           Enrollment: row.get('Enrolling?'),
           Status: row.get('Status'),
           tag: row.tag,

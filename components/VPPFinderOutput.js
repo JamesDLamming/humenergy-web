@@ -65,12 +65,21 @@ function VPPFinderOutput({ data, visible }) {
                 )}
               </div>
 
-              {row['Enrollment'] === 'Yes' ? (
+              {row['Enrollment'] === 'Yes' &&
+              row['Self-enrollment'] === 'Yes' ? (
                 <DefaultButton
                   className="w-auto px-2 py-0 mt-2 sm:hidden"
                   onClick={() => handleSignUpClick(row['Program URL'])}
                 >
                   Sign Up
+                </DefaultButton>
+              ) : row['Enrollment'] === 'Yes' &&
+                row['Self-enrollment'] === 'No' ? (
+                <DefaultButton
+                  className="w-auto px-2 py-0 mt-2 sm:hidden"
+                  onClick={() => handleSignUpClick(row['Program URL'])}
+                >
+                  Learn More
                 </DefaultButton>
               ) : row['Enrollment'] != 'Yes' && row['Status'] === 'Active' ? (
                 <DefaultButton className="w-auto px-2 py-0 mt-2 sm:hidden !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none ">
@@ -93,12 +102,20 @@ function VPPFinderOutput({ data, visible }) {
               ) : null}
             </div>
 
-            {row['Enrollment'] === 'Yes' ? (
+            {row['Enrollment'] === 'Yes' && row['Self-enrollment'] === 'Yes' ? (
               <DefaultButton
                 className="hidden sm:w-1/4 mx-4 px-4 py-2 sm:block"
                 onClick={() => handleSignUpClick(row['Program URL'])}
               >
                 Sign Up
+              </DefaultButton>
+            ) : row['Enrollment'] === 'Yes' &&
+              row['Self-enrollment'] === 'No' ? (
+              <DefaultButton
+                className="hidden sm:w-1/4 mx-4 px-4 py-2 sm:block"
+                onClick={() => handleSignUpClick(row['Program URL'])}
+              >
+                Learn More
               </DefaultButton>
             ) : row['Enrollment'] != 'Yes' && row['Status'] === 'Active' ? (
               <DefaultButton className="hidden sm:w-1/4 mx-4 sm:block px-4 py-2 !text-main  bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none ">
@@ -166,12 +183,21 @@ function VPPFinderOutput({ data, visible }) {
                 )}
               </div>
 
-              {row['Enrollment'] === 'Yes' ? (
+              {row['Enrollment'] === 'Yes' &&
+              row['Self-enrollment'] === 'Yes' ? (
                 <DefaultButton
                   className="w-auto px-2 py-0 mt-2 sm:hidden"
                   onClick={() => handleSignUpClick(row['Program URL'])}
                 >
                   Sign Up
+                </DefaultButton>
+              ) : row['Enrollment'] === 'Yes' &&
+                row['Self-enrollment'] === 'No' ? (
+                <DefaultButton
+                  className="w-auto px-2 py-0 mt-2 sm:hidden"
+                  onClick={() => handleSignUpClick(row['Program URL'])}
+                >
+                  Learn More
                 </DefaultButton>
               ) : row['Enrollment'] != 'Yes' && row['Status'] === 'Active' ? (
                 <DefaultButton className="w-auto px-2 py-0 mt-2 sm:hidden !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none ">
@@ -194,12 +220,20 @@ function VPPFinderOutput({ data, visible }) {
               ) : null}
             </div>
 
-            {row['Enrollment'] === 'Yes' ? (
+            {row['Enrollment'] === 'Yes' && row['Self-enrollment'] === 'Yes' ? (
               <DefaultButton
                 className="hidden sm:w-1/4 mx-4 px-4 py-2 sm:block"
                 onClick={() => handleSignUpClick(row['Program URL'])}
               >
                 Sign Up
+              </DefaultButton>
+            ) : row['Enrollment'] === 'Yes' &&
+              row['Self-enrollment'] === 'No' ? (
+              <DefaultButton
+                className="hidden sm:w-1/4 mx-4 px-4 py-2 sm:block"
+                onClick={() => handleSignUpClick(row['Program URL'])}
+              >
+                Learn More
               </DefaultButton>
             ) : row['Enrollment'] != 'Yes' && row['Status'] === 'Active' ? (
               <DefaultButton className="hidden sm:w-1/4 mx-4 sm:block px-4 py-2 !text-main  bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none ">
