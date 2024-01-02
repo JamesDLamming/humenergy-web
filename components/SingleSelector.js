@@ -164,7 +164,7 @@ const SingleSelector = ({
         onChange={onOptionSelected}
         styles={customStyles}
         isClearable={isClearable}
-        className={`basic-single !rounded-lg !shadow-sm border-gray-400 hover:border-gray-500 ${props.className} leading-tight focus:outline-none focus:shadow-outline`}
+        className={`basic-single !w-full !rounded-lg !shadow-sm border-gray-400 hover:border-gray-500 ${props.className} leading-tight focus:outline-none focus:shadow-outline`}
         classNamePrefix="select"
         placeholder={menuIsOpen ? placeholderOpenText : placeholderClosedText}
         onMenuOpen={() => setMenuIsOpen(true)}

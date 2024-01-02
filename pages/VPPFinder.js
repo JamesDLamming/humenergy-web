@@ -3,7 +3,7 @@ import Nav from '../components/Nav';
 import SEO from '../components/SEO';
 import DefaultButton from '../components/DefaultButton';
 import VPPFinderOutput from '../components/VPPFinderOutput';
-
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import MultiSelector from '../components/MultiSelector';
 import SingleSelector from '../components/SingleSelector';
 import Footer from '../components/Footer';
@@ -104,6 +104,7 @@ export default function VPPFinder() {
   ]);
 
   const [stateError, setStateError] = useState('');
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const [deviceSectionOpen, setDeviceSectionOpen] = useState(true);
   const toggleDeviceSection = () => {
@@ -506,15 +507,15 @@ export default function VPPFinder() {
       <SEO title="Hum Energy - VPP finder" />
       <div className="page-container bg-bgMain flex flex-col min-h-screen overflow-hidden ">
         <Nav></Nav>
-        <div className="main-content max-w-xl flex flex-col items-center px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl flex-grow">
-          <div className="p-4 px-8 w-full sm:w-96 rounded-lg shadow-sm bg-white text-main  mt-10">
+        <div className="main-content max-w-xl flex flex-col items-center px-4 mx-2 sm:mx-4  sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl flex-grow">
+          <div className="p-4 px-6 sm:px-8 w-full sm:w-[28rem] rounded-lg shadow-sm bg-white text-main  mt-10">
             <div className="text-xl pb-2 font-black items-center text-center ">
               Enter your details
             </div>
             <form onSubmit={handleSubmit}>
-              <div className="mt-2 flex gap-x-3 items-center">
-                <div className="w-1/3 font-semibold">State:</div>
-                <div className="w-2/3">
+              <div className="mt-2  sm:flex gap-x-3 items-center">
+                <div className="sm:w-1/3 font-semibold">State:</div>
+                <div className="mt-2 sm:mt-0 sm:w-2/3">
                   {isClient && (
                     <SingleSelector
                       optionsList={states}
@@ -637,16 +638,37 @@ export default function VPPFinder() {
                   )}
 
                   <label
-                    className={`  utilitySection  ${
+                    className={`utilitySection ${
                       utilityVisible ? 'open' : 'closed'
                     }`}
                   >
                     <div
-                      className={`flex gap-x-3 items-center  `}
+                      className={`sm:flex gap-x-3 items-center`}
                       style={{ overflow: utilitySelectorOverflow }}
                     >
-                      <div className="font-semibold w-1/3">Utility/CCA:</div>
-                      <div className="w-2/3 !overflow-visible">
+                      <div className=" sm:w-1/3 flex gap-x-2 items-center">
+                        <span className="font-semibold">Utility/CCA:</span>
+                        <div
+                          className="relative"
+                          onClick={() => setShowTooltip(!showTooltip)}
+                          onMouseEnter={() => setShowTooltip(true)}
+                          onMouseLeave={() => setShowTooltip(false)}
+                        >
+                          <div class="cursor-pointer flex items-center justify-center align-middle sm:text-center">
+                            <InfoOutlinedIcon fontSize="20" />
+                          </div>
+                          {showTooltip && (
+                            <div
+                              className="absolute bg-white border border-gray-300 p-2 rounded-md shadow-lg text-sm -translate-x-1/2 z-10 w-48"
+                              style={{ top: '100%', left: '50%' }}
+                            >
+                              If you don't see your CCA, please select the
+                              underlying utility
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="mt-2 sm:mt-0 sm:w-2/3 overflow-visible ">
                         <SingleSelector
                           optionsList={utilityData}
                           selectedOption={Utility}
@@ -659,6 +681,7 @@ export default function VPPFinder() {
                       </div>
                     </div>
                   </label>
+
                   {utilityError && (
                     <div className="text-red-500 mt-2 -mb-2 text-sm text-right">
                       {utilityError}
