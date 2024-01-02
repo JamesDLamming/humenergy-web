@@ -540,9 +540,11 @@ export default function VPPFinder() {
                       propertyTypeVisible ? 'open' : ' closed'
                     }`}
                   >
-                    <div className="flex gap-x-3 mt-0">
-                      <div className="font-semibold w-1/3">Property Type:</div>
-                      <div className="w-2/3">
+                    <div className="sm:flex gap-x-3 mt-0">
+                      <div className="font-semibold sm:w-1/3">
+                        Property Type:
+                      </div>
+                      <div className="mt-2 sm:mt-0 sm:w-2/3 ">
                         <div>
                           <label className="flex items-center">
                             <input
