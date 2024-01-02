@@ -505,10 +505,10 @@ export default function VPPFinder() {
   return (
     <>
       <SEO title="Hum Energy - VPP finder" />
-      <div className="page-container bg-bgMain flex flex-col min-h-screen overflow-hidden ">
+      <div className="page-container bg-bgMain flex flex-col  min-h-screen overflow-hidden ">
         <Nav></Nav>
-        <div className="main-content max-w-xl flex flex-col items-center px-4 mx-2 sm:mx-4  sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl flex-grow">
-          <div className="p-4 px-6 sm:px-8 w-full sm:w-[28rem] rounded-lg shadow-sm bg-white text-main  mt-10">
+        <div className="main-content max-w-xl flex flex-col ustify-center  px-4 mx-2 sm:mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl flex-grow">
+          <div className="p-4 px-6 sm:px-8 w-full sm:w-[28rem] mx-auto rounded-lg shadow-sm bg-white text-main  mt-10">
             <div className="text-xl pb-2 font-black items-center text-center ">
               Enter your details
             </div>
