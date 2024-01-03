@@ -507,7 +507,7 @@ export default function VPPFinder() {
       <SEO title="Hum Energy - VPP finder" />
       <div className="page-container bg-bgMain flex flex-col  min-h-screen overflow-hidden ">
         <Nav></Nav>
-        <div className="flex flex-col items-center w-full flex-grow">
+        <div className="content-container flex flex-col items-center w-full flex-grow ">
           <div className="main-content flex flex-col px-4 mx-2 w-full items-center sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl ">
             <div className="p-4 px-6 sm:px-8 w-full sm:w-[28rem] mx-auto rounded-lg shadow-sm bg-white text-main  mt-10">
               <div className="text-xl pb-2 font-black items-center text-center ">

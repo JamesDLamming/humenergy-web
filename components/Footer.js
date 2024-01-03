@@ -1,11 +1,7 @@
-import Modal from './Modal';
-import SignupForm from './SignupForm';
-import DefaultButton from './DefaultButton';
 import React, { useState } from 'react';
+import SignupBox from './SignupBox';
 
 const Footer = () => {
-  const [modalVisibility, setModalVisibility] = useState(false);
-
   return (
     <>
       <div className="relative isolate bg-white h-auto">
@@ -37,21 +33,9 @@ const Footer = () => {
               </div>
 
               <div className="items-top">
-                <DefaultButton onClick={() => setModalVisibility(true)}>
-                  Join the waitlist
-                </DefaultButton>
+                <SignupBox></SignupBox>
               </div>
-              <Modal
-                visible={modalVisibility}
-                onCancel={() => setModalVisibility(false)}
-                buttonText="Submit"
-                hideButton
-              >
-                <SignupForm
-                  isInModal={true}
-                  onFormSubmitted={() => setModalVisibility(false)}
-                ></SignupForm>
-              </Modal>
+
               <div className="flex space-x-6 mt-6">
                 <a
                   href="https://twitter.com/humenergyapp"
@@ -113,21 +97,8 @@ const Footer = () => {
               </div>
 
               <div className="items-top">
-                <DefaultButton onClick={() => setModalVisibility(true)}>
-                  Join the waitlist
-                </DefaultButton>
+                <SignupBox></SignupBox>
               </div>
-              <Modal
-                visible={modalVisibility}
-                onCancel={() => setModalVisibility(false)}
-                buttonText="Submit"
-                hideButton
-              >
-                <SignupForm
-                  isInModal={true}
-                  onFormSubmitted={() => setModalVisibility(false)}
-                ></SignupForm>
-              </Modal>
             </div>
             <div className="hidden sm:flex space-x-6 mt-6 ">
               <a
