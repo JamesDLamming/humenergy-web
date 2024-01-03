@@ -1,7 +1,7 @@
 import React from 'react';
 import DefaultButton from './DefaultButton';
 
-function VPPFinderOutput({ data, visible }) {
+function ProgramFinderOutput({ data, visible }) {
   const eligibleRows = data.filter((row) => row.tag === 'Eligible');
   const ineligibleRows = data.filter((row) => row.tag === 'Ineligible');
 
@@ -267,4 +267,4 @@ function VPPFinderOutput({ data, visible }) {
   );
 }
 
-export default VPPFinderOutput;
+export default ProgramFinderOutput;

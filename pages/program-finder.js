@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Nav from '../components/Nav';
 import SEO from '../components/SEO';
 import DefaultButton from '../components/DefaultButton';
-import VPPFinderOutput from '../components/VPPFinderOutput';
+import ProgramFinderOutput from '../components/ProgramFinderOutput';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import MultiSelector from '../components/MultiSelector';
 import SingleSelector from '../components/SingleSelector';
@@ -11,7 +11,7 @@ import statesTwoLetter from '../models/statesTwoLetter';
 
 require('dotenv').config();
 
-export default function VPPFinder() {
+export default function ProgramFinder() {
   const states = statesTwoLetter;
   const [programData, setProgramData] = useState([]);
   const [utilityData, setUtilityData] = useState('');
@@ -504,7 +504,7 @@ export default function VPPFinder() {
 
   return (
     <>
-      <SEO title="Hum Energy - VPP finder" />
+      <SEO title="Hum Energy - Program finder" />
       <div className="page-container bg-bgMain flex flex-col  min-h-screen overflow-hidden ">
         <Nav></Nav>
         <div className="content-container flex flex-col items-center w-full flex-grow ">
@@ -1231,7 +1231,7 @@ export default function VPPFinder() {
             </div>
             <div className="my-10 flex-col flex w-full max-w-4xl items-center ">
               {loading && <div className="loading-icon">Loading...</div>}
-              <VPPFinderOutput
+              <ProgramFinderOutput
                 data={programData}
                 visible={tableVisible && !loading}
               />

@@ -61,7 +61,7 @@ export default function earn() {
 
                 <div className="mt-10 space-y-4">
                   <DefaultButton
-                    onClick={() => (window.location.href = '/VPPFinder')}
+                    onClick={() => (window.location.href = '/program-finder')}
                     className="!text-main"
                   >
                     Find local programs
