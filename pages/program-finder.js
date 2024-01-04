@@ -19,9 +19,15 @@ export default function ProgramFinder() {
   const [utilityVisible, setUtilityVisible] = useState(false);
   const [propertyTypeVisible, setPropertyTypeVisible] = useState(false);
   const [devicesVisible, setDevicesVisible] = useState(false);
-  const [heatpumpPresent, setHeatpumpPresent] = useState(false);
 
   const [thermostatPresent, setThermostatPresent] = useState(false);
+  const [batteryPresent, setBatteryPresent] = useState(false);
+  const [EVPresent, setEVPresent] = useState(false);
+  const [solarPresent, setSolarPresent] = useState(false);
+  const [heatpumpPresent, setHeatpumpPresent] = useState(false);
+  const [waterheaterPresent, setWaterheaterPresent] = useState(false);
+  const [generatorPresent, setGeneratorPresent] = useState(false);
+  const [centralACPresent, setCentralACPresent] = useState(false);
 
   const [deviceSelectionMenuIsOpen, setDeviceSelectionMenuIsOpen] =
     useState(false);
@@ -40,15 +46,6 @@ export default function ProgramFinder() {
       thermostatMenuIsOpen || batteryMenuIsOpen || heatpumpMenuIsOpen;
     setDeviceSelectionMenuIsOpen(isAnyDeviceMenuOpen);
   }, [thermostatMenuIsOpen, batteryMenuIsOpen, heatpumpMenuIsOpen]);
-
-  const [batteryPresent, setBatteryPresent] = useState(false);
-  const [waterheaterPresent, setWaterheaterPresent] = useState(false);
-
-  const [EVPresent, setEVPresent] = useState(false);
-
-  const [solarPresent, setSolarPresent] = useState(false);
-
-  const [generatorPresent, setGeneratorPresent] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [utilityState, setUtilityState] = useState('');
@@ -232,6 +229,7 @@ export default function ProgramFinder() {
             solarPresent,
             EVPresent,
             generatorPresent,
+            centralACPresent,
             selectedThermostats: selectedThermostats,
             selectedBatteries: selectedBatteries,
             selectedHeatpumps: selectedHeatpumps,
@@ -1152,7 +1150,7 @@ export default function ProgramFinder() {
                               <label className="flex items-center">
                                 <input
                                   type="radio"
-                                  name="generatorPresent"
+                                  name="generator"
                                   value="generatorPresent"
                                   checked={generatorPresent === true}
                                   onChange={() => {
@@ -1210,6 +1208,44 @@ export default function ProgramFinder() {
                               {generatorSelectionError}
                             </div>
                           )}
+                          {/*central AC*/}
+                          <div className="mt-2">
+                            <p className="mb-0 font-medium">
+                              Central A/C System
+                            </p>
+                            <div className="flex gap-x-3 gap-y-1 flex-wrap">
+                              <label className="flex items-center">
+                                <input
+                                  type="radio"
+                                  name="centralAC"
+                                  value="centralACPresent"
+                                  checked={centralACPresent === true}
+                                  onChange={() => {
+                                    setCentralACPresent(true);
+                                    // openGeneratorSelector();
+                                    // getManufacturers('Generators');
+                                    // openSelectorBackgroundOverflowVisible();
+                                  }}
+                                />
+                                <span className="ml-1">Yes</span>
+                              </label>
+                              <label className="flex items-center">
+                                <input
+                                  type="radio"
+                                  name="centralAC"
+                                  value="noCentralACPresent"
+                                  checked={centralACPresent === false}
+                                  onChange={() => {
+                                    setCentralACPresent(false);
+                                    // handleNoneChangeCentralAC();
+                                    // closeGeneratorSelector();
+                                    // setGeneratorSelectionError('');
+                                  }}
+                                />
+                                <span className="ml-1">None</span>
+                              </label>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -15,6 +15,7 @@ async function checkEligibility(req, res) {
       solarPresent,
       EVPresent,
       generatorPresent,
+      centralACPresent,
       selectedThermostats,
       selectedBatteries,
       selectedHeatpumps,
@@ -38,6 +39,7 @@ async function checkEligibility(req, res) {
     let EV = '';
     let solar = '';
     let generator = '';
+    let centralAC = '';
 
     thermostatPresent === true
       ? (thermostat = 'Thermostats')
@@ -54,6 +56,9 @@ async function checkEligibility(req, res) {
     EVPresent === true ? (EV = 'EVs') : (EV = '');
     solarPresent === true ? (solar = 'Solar') : (solar = '');
     generatorPresent === true ? (generator = 'Generators') : (generator = '');
+    centralACPresent === true
+      ? (centralAC = 'Central A/C System')
+      : (centralAC = '');
 
     const derArray = [
       thermostat,
@@ -64,6 +69,7 @@ async function checkEligibility(req, res) {
       EV,
       solar,
       generator,
+      centralAC,
     ];
 
     const filteredRows = rows.filter(
@@ -72,23 +78,27 @@ async function checkEligibility(req, res) {
         (row.get('Sector').includes(sectorOption) ||
           row.get('Sector') === '') &&
         row.get('Status') != 'Ended' &&
-        row.get('Utility/CCA') === Utility
+        row.get('Self-serve') != 'Housing development' &&
+        row.get('Utility/CCA') === Utility &&
+        row.get('Program URL') != ''
     );
 
     const taggedRows = filteredRows.map((row) => {
       // Check if 'DERs' exists and split it into an array, then check if any DER is in derArray
       const derExists =
-        row.get('DERs') &&
-        row
-          .get('DERs')
-          .toLowerCase() // Convert to lowercase
-          .split(', ') // Split by comma and space
-          .map((der) => der.replace(/\s/g, '')) // Remove all spaces from each element
-          .some((der) =>
-            derArray
-              .map((da) => da.toLowerCase().replace(/\s/g, ''))
-              .includes(der)
-          ); // Compare with the processed derArray
+        (row.get('DERs') &&
+          row
+            .get('DERs')
+            .toLowerCase() // Convert to lowercase
+            .split(', ') // Split by comma and space
+            .map((der) => der.replace(/\s/g, '')) // Remove all spaces from each element
+            .some(
+              (der) =>
+                derArray
+                  .map((da) => da.toLowerCase().replace(/\s/g, ''))
+                  .includes(der) // Compare with the processed derArray
+            )) ||
+        row.get('DERs').toLowerCase().replace(/\s/g, '') === 'all';
 
       // Assign 'Eligible' or 'Ineligible' based on the existence of DERs
       row.tag = derExists ? 'Eligible' : 'Ineligible';
@@ -104,8 +114,8 @@ async function checkEligibility(req, res) {
           'DERs needed': row.get('DERs'),
           'Utility/CCA': row.get('Utility/CCA'),
           'Image URL': row.get('Image URL'),
-          'Self-enrollment': row.get('Self-enrollment'),
-          Enrollment: row.get('Enrolling?'),
+          'Self-serve': row.get('Self-serve'),
+          Enrolling: row.get('Enrolling?'),
           Status: row.get('Status'),
           tag: row.tag,
         };
