@@ -7,70 +7,46 @@ async function checkEligibility(req, res) {
       stateRegion,
       sectorOption,
       Utility,
-      thermostatPresent,
-      batteryPresent,
-
-      heatpumpPresent,
-      waterheaterPresent,
-      solarPresent,
-      EVPresent,
-      generatorPresent,
-      centralACPresent,
-      selectedThermostats,
-      selectedBatteries,
-      selectedHeatpumps,
-      selectedWaterheaters,
-      selectedSolar,
-      selectedEVs,
-      selectedGenerators,
+      // Rest of the properties are now dynamic DER selections
     } = req.body;
 
     const doc = await accessSpreadsheet();
-    //const sheet = doc.sheetsByIndex[0]; // or use sheetsById or sheetsByTitle
-    const sheet = doc.sheetsByTitle['VPPs']; // or use sheetsById or sheetsByTitle
-
+    const sheet = doc.sheetsByTitle['VPPs'];
     const rows = await sheet.getRows();
 
-    let thermostat = '';
-    let battery = '';
-    let powerwall = '';
-    let heatpump = '';
-    let waterheater = '';
-    let EV = '';
-    let solar = '';
-    let generator = '';
-    let centralAC = '';
+    // Build an array containing all DER types present in the request
+    const derArray = Object.keys(req.body)
+      .filter(
+        (key) =>
+          key !== 'stateRegion' && key !== 'sectorOption' && key !== 'Utility'
+      )
+      .reduce((acc, key) => {
+        if (req.body[key].length >= 0) {
+          // Assuming each DER key contains an array of selections
+          acc.push(key); // Use a more descriptive label if needed
+        }
+        return acc;
+      }, []);
 
-    thermostatPresent === true
-      ? (thermostat = 'Thermostats')
-      : (thermostat = '');
-    batteryPresent === true ? (battery = 'Batteries') : (battery = '');
-    selectedBatteries.some((item) => item.value === 'TeslaPowerwall') === true
-      ? (powerwall = 'Powerwall')
-      : (powerwall = '');
+    const derSelectedOptions = Object.keys(req.body)
+      .filter(
+        (key) =>
+          key !== 'stateRegion' && key !== 'sectorOption' && key !== 'Utility'
+      )
+      .reduce((acc, key) => {
+        if (req.body[key].length > 0) {
+          // Assuming each DER key contains an array of selections
+          acc[key] = req.body[key]; // Store the selected options for each DER type
+        }
+        return acc;
+      }, []);
+    const derLabels = Object.keys(derSelectedOptions).reduce((acc, key) => {
+      // Extract labels from each selection array
+      acc[key] = derSelectedOptions[key].map((option) => option.label);
+      return acc;
+    }, {});
 
-    heatpumpPresent === true ? (heatpump = 'Heat Pumps') : (heatpump = '');
-    waterheaterPresent === true
-      ? (waterheater = 'Water Heaters')
-      : (waterheater = '');
-    EVPresent === true ? (EV = 'EVs') : (EV = '');
-    solarPresent === true ? (solar = 'Solar') : (solar = '');
-    generatorPresent === true ? (generator = 'Generators') : (generator = '');
-    centralACPresent === true
-      ? (centralAC = 'Central A/C System')
-      : (centralAC = '');
-
-    const derArray = [
-      thermostat,
-      battery,
-      powerwall,
-      heatpump,
-      waterheater,
-      EV,
-      solar,
-      generator,
-      centralAC,
-    ];
+    console.log(derLabels); // use this to enter options into API
 
     const filteredRows = rows.filter(
       (row) =>
@@ -102,11 +78,11 @@ async function checkEligibility(req, res) {
 
       // Assign 'Eligible' or 'Ineligible' based on the existence of DERs
       row.tag = derExists ? 'Eligible' : 'Ineligible';
-
       return row;
     });
+
     res.json(
-      taggedRows.map((row, index) => {
+      taggedRows.map((row) => {
         return {
           'Program Name': row.get('Program Name'),
           'Program URL': row.get('Program URL'),
