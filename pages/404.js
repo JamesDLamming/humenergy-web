@@ -29,14 +29,5 @@ export default function Custom404() {
         <Footer />
       </div>
     </>
-    // <div>
-    //   <Nav />
-    //   <div className="flex items-center justify-center bg-gray-100 flex-grow">
-    //     <div className="text-center">
-
-    //     </div>
-    //   </div>
-    //   <Footer />
-    // </div>
   );
 }

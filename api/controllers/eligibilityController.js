@@ -46,8 +46,6 @@ async function checkEligibility(req, res) {
       return acc;
     }, {});
 
-    console.log(derLabels); // use this to enter options into API
-
     const filteredRows = rows.filter(
       (row) =>
         row.get('State/Region') === stateRegion &&
@@ -79,6 +77,15 @@ async function checkEligibility(req, res) {
       // Assign 'Eligible' or 'Ineligible' based on the existence of DERs
       row.tag = derExists ? 'Eligible' : 'Ineligible';
       return row;
+    });
+
+    // Sort the taggedRows alphabetically by 'Program Name'
+    taggedRows.sort((a, b) => {
+      const nameA = a.get('Program Name').toLowerCase();
+      const nameB = b.get('Program Name').toLowerCase();
+      if (nameA < nameB) return -1;
+      if (nameA > nameB) return 1;
+      return 0;
     });
 
     res.json(

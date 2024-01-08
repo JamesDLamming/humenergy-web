@@ -40,7 +40,7 @@ export default function ProgramFinder() {
 
     {
       id: 'solar',
-      label: 'Solar Systems',
+      label: 'Solar System',
       apiLabel: 'Solar',
       selectType: 'multi',
       placeholderClosedText: 'Add solar...',
@@ -217,17 +217,16 @@ export default function ProgramFinder() {
     });
   };
 
-  const [deviceSelectionMenuIsOpen, setDeviceSelectionMenuIsOpen] =
-    useState(false);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   const [loading, setLoading] = useState(false);
-  const [utilityState, setUtilityState] = useState('');
-  const newStateRegion = useState('');
+
   const [stateRegion, setStateRegion] = useState('');
   const [Utility, setUtility] = useState([{ value: '', label: '' }]);
   const [utilityError, setUtilityError] = useState('');
   const [sectorOption, setSectorOption] = useState('');
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
 
   const [propertyTypeError, setPropertyTypeError] = useState('');
 
@@ -408,6 +407,16 @@ export default function ProgramFinder() {
       setStateError(''); // Reset error
     }
 
+    if (!email.trim()) {
+      setEmailError('Email is required');
+      isError = true;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError('Email is invalid');
+      isError = true;
+    } else {
+      setEmailError('');
+    }
+
     // Utility function to check if DER type is present and selected
     const isDerTypeValid = (derType) => {
       const der = derState[derType.id];
@@ -510,7 +519,7 @@ export default function ProgramFinder() {
               <div className="text-xl pb-2 font-black items-center text-center ">
                 Enter your details
               </div>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} noValidate>
                 <div className="mt-2  sm:flex gap-x-3 items-center">
                   <div className="sm:w-1/3 font-semibold">State:</div>
                   <div className="mt-2 sm:mt-0 sm:w-2/3">
@@ -842,15 +851,65 @@ export default function ProgramFinder() {
                         </div>
                       </div>
                     </div>
+                    <div
+                      className={`block emailSection ${
+                        devicesVisible && Utility.value != 'Unavailable'
+                          ? 'open'
+                          : 'closed'
+                      }`}
+                    >
+                      <div
+                        className={`flex items-center   w-full emailSection ${
+                          devicesVisible && Utility.value != 'Unavailable'
+                            ? 'open '
+                            : 'closed'
+                        }`}
+                      >
+                        <div className="mt-4 ">
+                          <div
+                            className={`py-2 px-4 !rounded-lg !shadow-sm bg-gray-50 text-main border-gray-400 hover:border-gray-500 leading-tight focus:outline-none focus-visible:outline-none focus-visible:shadow-outline focus:shadow-outline border w-full ${
+                              emailError ? 'border-red-500' : ''
+                            }`}
+                          >
+                            <input
+                              type="email"
+                              id="email"
+                              name="email"
+                              className="placeholder-main w-full bg-gray-50 focus:outline-none focus-visible:outline-none focus-visible:shadow-outline focus:shadow-outline"
+                              placeholder="Enter email"
+                              value={email}
+                              onChange={(e) => {
+                                const newEmail = e.target.value;
+                                setEmail(newEmail);
+                                setEmail(e.target.value);
+                                setEmailError('');
+                              }}
+                              required
+                            />
+                          </div>
+                          {emailError && (
+                            <div className="text-red-500 mt-2 mb-0 text-sm text-right">
+                              {emailError}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
+
                 <DefaultButton
                   type="submit"
-                  className={
+                  className={`
+                  submitButton
+                  ${
                     Utility.value != 'Unavailable'
                       ? 'mt-6 w-full'
                       : 'mt-6 w-full !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none'
                   }
+
+                  ${devicesVisible ? '!mt-2' : ''}
+                  `}
                 >
                   {Utility.value != 'Unavailable'
                     ? '   Find local programs'
@@ -873,16 +932,20 @@ export default function ProgramFinder() {
       {isClient && (
         <style>
           {`
-              .propertySection, .utilitySection, .addDevicesSection, .deviceTitleSection, .thermostatSelection, .batterySelection, .heatpumpSelection,  .waterheaterSelection, .solarSelection, .EVSelection, .generatorSelection, .deviceSection {
+              .propertySection, .utilitySection, .addDevicesSection, .deviceTitleSection, .emailSection, .thermostatSelection, .batterySelection, .heatpumpSelection,  .waterheaterSelection, .solarSelection, .EVSelection, .generatorSelection, .deviceSection {
                 display: grid;
                 grid-template-rows: 0fr;
                 transition: grid-template-rows 0.7s ease, margin 0.7s ease;
+              }
+
+              .submitButton{
+                transition: margin 0.7s ease;
               }
               .open {
                 grid-template-rows: 1fr;
                 margin-top: 0.5rem;
               }
-              .propertySection > div, .utilitySection > div, .thermostatSelection > div , .batterySelection > div,  .heatpumpSelection > div ,  .waterheaterSelection > div, .solarSelection > div, .EVSelection > div, .generatorSelection > div, .deviceSection > div, .propertySection > div, .deviceTitleSection > div {
+              .propertySection > div, .utilitySection > div, .thermostatSelection > div , .batterySelection > div,  .heatpumpSelection > div ,  .waterheaterSelection > div, .solarSelection > div, .EVSelection > div, .generatorSelection > div, .deviceSection > div, .propertySection > div, .deviceTitleSection > div, .emailSection > div {
                 overflow:hidden
               }
               .deviceTitleSection.open, .propertySection.open, .utilitySection.open {
