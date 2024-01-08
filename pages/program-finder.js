@@ -40,7 +40,7 @@ export default function ProgramFinder() {
 
     {
       id: 'solar',
-      label: 'Solar System',
+      label: 'Solar Panel System',
       apiLabel: 'Solar',
       selectType: 'multi',
       placeholderClosedText: 'Add solar...',
@@ -463,6 +463,63 @@ export default function ProgramFinder() {
     checkEligibility(stateRegion, sectorOption, Utility);
     setTableVisible(true);
     setDeviceSectionOpen(false);
+    try {
+      await saveFormData();
+    } catch (error) {
+      console.error('Error saving form data:', error);
+    }
+  };
+
+  const saveFormData = async () => {
+    const derSelections = derTypes.reduce((acc, derType) => {
+      if (derState[derType.id].present) {
+        acc[derType.apiLabel] = derState[derType.id].selected.map(
+          (item) => item.label
+        );
+      }
+      return acc;
+    }, {});
+
+    const derSelectedTypes = derTypes.reduce((acc, derType) => {
+      if (derState[derType.id].present) {
+        acc[derType.apiLabel] = derState[derType.id].present;
+      }
+      return acc;
+    }, {});
+
+    const formData = {
+      email: email,
+      state: stateRegion.value,
+      utility: Utility.value,
+      sector: sectorOption,
+      derSelectedTypes: JSON.stringify(derSelectedTypes),
+      derSelectedOptions: JSON.stringify(derSelections),
+    };
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/saveFormData`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      let result = {};
+      if (response.headers.get('content-type')?.includes('application/json')) {
+        result = await response;
+      } else {
+        console.error('Received non-JSON response');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   };
 
   useEffect(() => {
