@@ -7,7 +7,8 @@ async function saveFormData(req, res) {
   const myIP = '::1'; // Replace with your IP address; currently setup for avoiding local host submission requirements
   if (clientIP === myIP) {
     console.log('Form submission from my IP, not saving data.');
-    res.status(200).send('Not saved due to IP match');
+    res.status(200).json('Not saved due to IP match');
+    // res.status(200).json('Not saved due to IP match');
   } else {
     try {
       const doc = await accessSpreadsheet();
