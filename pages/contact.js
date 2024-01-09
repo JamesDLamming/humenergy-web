@@ -16,18 +16,18 @@ const ContactUsPage = () => {
             className="max-w-xl px-4 align-center mx-auto sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-4xl shadow-2xl text-bgMain bg-main  py-4 rounded-lg my-10
             "
           >
-            <header className="text-center my-10">
+            <header className="text-center mt-10 mb-5">
               <h1 className="text-4xl font-bold text-accent">Contact Us</h1>
             </header>
-            <div className="max-w-xl px-4 mx-auto sm:max-w-2xl sm:px-6 lg:px-8 lg:max-w-2xl  relative z-10 mb-10">
-              <ContactForm />
-            </div>
-            <div className=" text-xl mb-3 flex flex-wrap items-center justify-center lg:flex-1 gap-x-2">
+            <div className=" text-xl mb-5 flex flex-wrap items-center justify-center lg:flex-1 gap-x-2">
               <img
                 className="w-auto h-10"
                 src="/HumEnergyLogoSquare-nobackground.svg"
                 alt="Hum Energy logo"
               ></img>
+            </div>
+            <div className="max-w-xl px-4 mx-auto sm:max-w-2xl sm:px-6 lg:px-8 lg:max-w-2xl  relative z-10 mb-10">
+              <ContactForm />
             </div>
           </div>
         </div>

@@ -5,8 +5,8 @@ const emailService = {
   transporter: nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'james@jameslamming.com',
-      pass: 'yuhj lbtm feol cnke',
+      user: process.env.GOOGLE_EMAIL_APP_EMAIL,
+      pass: process.env.GOOGLE_EMAIL_APP_PASSWORD,
     },
   }),
 
