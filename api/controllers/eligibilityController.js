@@ -41,10 +41,9 @@ async function checkEligibility(req, res) {
         return acc;
       }, []);
     const derLabels = Object.keys(derSelectedOptions).reduce((acc, key) => {
-      // Extract labels from each selection array
-      acc[key] = derSelectedOptions[key].map((option) => option.label);
-      return acc;
-    }, {});
+      // Concatenate the labels from each selection array into the accumulator
+      return acc.concat(derSelectedOptions[key].map((option) => option.label));
+    }, []);
 
     const filteredRows = rows.filter(
       (row) =>
@@ -62,6 +61,19 @@ async function checkEligibility(req, res) {
       const derExists =
         (row.get('DERs') &&
           row
+            .get('Eligible Manufacturers')
+            .toLowerCase() // Convert to lowercase
+            .split(', ') // Split by comma and space
+            .map((der) => der.replace(/\s/g, '')) // Remove all spaces from each element
+            .some(
+              (der) =>
+                derLabels
+                  .map((da) => da.toLowerCase().replace(/\s/g, ''))
+                  .includes(der) // Compare with the processed derArray
+            )) ||
+        row.get('DERs').toLowerCase().replace(/\s/g, '') === 'all' ||
+        (row.get('DERs') &&
+          row
             .get('DERs')
             .toLowerCase() // Convert to lowercase
             .split(', ') // Split by comma and space
@@ -71,8 +83,8 @@ async function checkEligibility(req, res) {
                 derArray
                   .map((da) => da.toLowerCase().replace(/\s/g, ''))
                   .includes(der) // Compare with the processed derArray
-            )) ||
-        row.get('DERs').toLowerCase().replace(/\s/g, '') === 'all';
+            ) &&
+          row.get('Eligible Manufacturers') === '');
 
       // Assign 'Eligible' or 'Ineligible' based on the existence of DERs
       row.tag = derExists ? 'Eligible' : 'Ineligible';
@@ -81,10 +93,25 @@ async function checkEligibility(req, res) {
 
     // Sort the taggedRows alphabetically by 'Program Name'
     taggedRows.sort((a, b) => {
+      // Extracting Status and Program Name for both a and b
+      const statusA = a.get('Status').toLowerCase();
+      const statusB = b.get('Status').toLowerCase();
+      const typeA = a.get('Program Type').toLowerCase();
+      const typeB = b.get('Program Type').toLowerCase();
       const nameA = a.get('Program Name').toLowerCase();
       const nameB = b.get('Program Name').toLowerCase();
+
+      // Comparing Status first
+      if (statusA < statusB) return -1;
+      if (statusA > statusB) return 1;
+
+      if (typeA < typeB) return -1;
+      if (typeA > typeB) return 1;
+
+      // If Status are equal, compare by Program Name
       if (nameA < nameB) return -1;
       if (nameA > nameB) return 1;
+
       return 0;
     });
 
@@ -92,6 +119,7 @@ async function checkEligibility(req, res) {
       taggedRows.map((row) => {
         return {
           'Program Name': row.get('Program Name'),
+          'Program Type': row.get('Program Type'),
           'Program URL': row.get('Program URL'),
           'State/Region': row.get('State/Region'),
           'DERs needed': row.get('DERs'),

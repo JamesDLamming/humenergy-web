@@ -59,41 +59,112 @@ function ProgramFinderOutput({ data, visible }) {
                 )}
               </div>
               <div>
-                Eligible devices:{' '}
-                {row['DERs needed'] || (
+                Program Type:{' '}
+                {row['Program Type'] || (
                   <span className="italic">Info Unavailable</span>
                 )}
+              </div>
+              <div>
+                Eligible devices:{' '}
+                {
+                  row['DERs needed'] ? (
+                    row['DERs needed']
+                      .split(',') // Splitting by comma
+                      .map(
+                        (item) =>
+                          item
+                            .trim() // Trimming whitespace from each item
+                            .split(' ') // Splitting each item into words
+                            .map((word) => {
+                              // Check for special patterns like 'A/C'
+                              if (
+                                word === 'A/C' ||
+                                word === 'EV' ||
+                                word === 'EVs'
+                              ) {
+                                return word;
+                              } else {
+                                // Capitalize the first letter of other words
+                                return (
+                                  word.charAt(0).toUpperCase() +
+                                  word.slice(1).toLowerCase()
+                                );
+                              }
+                            })
+                            .join(' ') // Joining the words back together
+                      )
+                      .sort() // Sorting alphabetically
+                      .join(', ') // Joining back with comma and space
+                  ) : (
+                    <span className="italic">Info Unavailable</span>
+                  ) // Fallback if 'DERs needed' is not available
+                }
               </div>
 
               {row['Enrolling'] === 'Yes' &&
               row['Self-serve'] === 'Self-serve' ? (
                 <DefaultButton
-                  className="w-auto px-2 py-0 mt-2 sm:hidden"
+                  className="w-auto px-2 !py-1 sm:py-2 mt-2 sm:hidden"
                   onClick={() => handleSignUpClick(row['Program URL'])}
                 >
                   Sign Up
                 </DefaultButton>
               ) : row['Enrolling'] === 'Yes' &&
-                row['Self-serve'] != 'Self-serve' ? (
-                <DefaultButton
-                  className="w-auto px-2 py-0 mt-2 sm:hidden"
-                  onClick={() => handleSignUpClick(row['Program URL'])}
-                >
-                  Learn More
-                </DefaultButton>
+                (row['Self-serve'] === 'Via developer' ||
+                  row['Self-serve'] === 'Via installer') ? (
+                <div className="sm:hidden">
+                  <p className="italic mb-2 mt-2">
+                    Sign up via developer / installer
+                  </p>
+                  <DefaultButton
+                    className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
+                    onClick={() => handleSignUpClick(row['Program URL'])}
+                  >
+                    Learn More
+                  </DefaultButton>
+                </div>
+              ) : row['Enrolling'] === 'Yes' &&
+                row['Self-serve'] === 'Invite only' ? (
+                <div className="sm:hidden">
+                  <p className="italic mb-2 mt-2">Invite only </p>
+                  <DefaultButton
+                    className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
+                    onClick={() => handleSignUpClick(row['Program URL'])}
+                  >
+                    Learn More
+                  </DefaultButton>
+                </div>
+              ) : row['Enrolling'] === 'Yes' &&
+                ![
+                  'Self-serve',
+                  'Invite only',
+                  'Via developer',
+                  'Via installer',
+                ].includes(row['Self-serve']) ? (
+                <div className="sm:hidden">
+                  <p className="italic mb-2 mt-2">
+                    {`Sign up:  ${row['Self-serve']}`}
+                  </p>
+                  <DefaultButton
+                    className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
+                    onClick={() => handleSignUpClick(row['Program URL'])}
+                  >
+                    Learn More
+                  </DefaultButton>
+                </div>
               ) : row['Enrolling'] != 'Yes' && row['Status'] === 'Active' ? (
-                <DefaultButton className="w-auto px-2 py-0 mt-2 sm:hidden !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none ">
+                <DefaultButton className="w-auto px-2 !py-1 sm:py-2 mt-2 sm:hidden !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none ">
                   Enrollment Closed
                 </DefaultButton>
               ) : row['Status'] === 'Ended' ? (
-                <DefaultButton className="w-auto px-2 py-0 mt-2 sm:hidden !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none">
+                <DefaultButton className="w-auto px-2 !py-1 sm:py-2 mt-2 sm:hidden !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none">
                   Enrollment Closed
                 </DefaultButton>
               ) : row['Status'] === 'Planned' ? (
-                <div className="sm:hidden mt-2">
-                  <p className="italic">Coming Soon</p>
+                <div className="sm:hidden">
+                  <p className="italic mt-2 mb-2">Coming Soon</p>
                   <DefaultButton
-                    className="w-auto px-2 py-0 sm:hidden"
+                    className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
                     onClick={() => handleSignUpClick(row['Program URL'])}
                   >
                     Learn More
@@ -105,32 +176,67 @@ function ProgramFinderOutput({ data, visible }) {
             {row['Enrolling'] === 'Yes' &&
             row['Self-serve'] === 'Self-serve' ? (
               <DefaultButton
-                className="hidden sm:w-1/4 mx-4 px-4 py-2 sm:block"
+                className="hidden sm:w-1/4 mx-4 px-4 py-1 sm:py-2 sm:block"
                 onClick={() => handleSignUpClick(row['Program URL'])}
               >
                 Sign Up
               </DefaultButton>
             ) : row['Enrolling'] === 'Yes' &&
-              row['Self-serve'] != 'Self-serve' ? (
-              <DefaultButton
-                className="hidden sm:w-1/4 mx-4 px-4 py-2 sm:block"
-                onClick={() => handleSignUpClick(row['Program URL'])}
-              >
-                Learn More
-              </DefaultButton>
+              row['Self-serve'] === 'Invite only' ? (
+              <div className="hidden sm:w-1/4 sm:flex flex-col items-center m-4 ">
+                <p className="italic text-center mb-2">Invite only </p>
+                <DefaultButton
+                  className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
+                  onClick={() => handleSignUpClick(row['Program URL'])}
+                >
+                  Learn More
+                </DefaultButton>
+              </div>
+            ) : row['Enrolling'] === 'Yes' &&
+              (row['Self-serve'] === 'Via developer' ||
+                row['Self-serve'] === 'Via installer') ? (
+              <div className="hidden sm:w-1/4 sm:flex flex-col items-center m-4 ">
+                <p className="italic text-center mb-2">
+                  Sign up via developer / installer
+                </p>
+                <DefaultButton
+                  className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
+                  onClick={() => handleSignUpClick(row['Program URL'])}
+                >
+                  Learn More
+                </DefaultButton>
+              </div>
+            ) : row['Enrolling'] === 'Yes' &&
+              ![
+                'Self-serve',
+                'Invite only',
+                'Via developer',
+                'Via installer',
+              ].includes(row['Self-serve']) ? (
+              <div className="hidden sm:w-1/4 sm:flex flex-col items-center m-4 ">
+                <p className="italic text-center mb-2">
+                  Sign up via developer / installer
+                </p>
+                <DefaultButton
+                  className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
+                  onClick={() => handleSignUpClick(row['Program URL'])}
+                >
+                  Learn More
+                </DefaultButton>
+              </div>
             ) : row['Enrolling'] != 'Yes' && row['Status'] === 'Active' ? (
-              <DefaultButton className="hidden sm:w-1/4 mx-4 sm:block px-4 py-2 !text-main  bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none ">
+              <DefaultButton className="hidden sm:w-1/4 mx-4 sm:block px-4 py-1 sm:py-2 !text-main  bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none ">
                 Enrollment Closed
               </DefaultButton>
             ) : row['Status'] === 'Ended' ? (
-              <DefaultButton className="hidden sm:w-1/4 mx-4 sm:block px-4 py-2 !text-main  bg-bgMain hover:!shadow-none hover:!bg-opacity-100  pointer-events-none ">
+              <DefaultButton className="hidden sm:w-1/4 mx-4 sm:block px-4 py-1 sm:py-2 !text-main  bg-bgMain hover:!shadow-none hover:!bg-opacity-100  pointer-events-none ">
                 Enrollment Closed
               </DefaultButton>
             ) : row['Status'] === 'Planned' ? (
               <div className="hidden sm:w-1/4 sm:flex flex-col items-center mx-4 ">
-                <p className="italic">Coming Soon</p>
+                <p className="italic text-center mb-2">Coming Soon</p>
                 <DefaultButton
-                  className="hidden sm:w-full px-4 py-2 sm:block"
+                  className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
                   onClick={() => handleSignUpClick(row['Program URL'])}
                 >
                   Learn More
@@ -158,7 +264,7 @@ function ProgramFinderOutput({ data, visible }) {
           >
             <div
               className="h-auto
-           flex flex-col p-4 w-1/3 sm:w-1/4 items-center align-middle "
+         flex flex-col p-4 w-1/3 sm:w-1/4 items-center align-middle "
               id="imageContainer"
             >
               <img
@@ -178,41 +284,112 @@ function ProgramFinderOutput({ data, visible }) {
                 )}
               </div>
               <div>
-                Eligible devices:{' '}
-                {row['DERs needed'] || (
+                Program Type:{' '}
+                {row['Program Type'] || (
                   <span className="italic">Info Unavailable</span>
                 )}
+              </div>
+              <div>
+                Eligible devices:{' '}
+                {
+                  row['DERs needed'] ? (
+                    row['DERs needed']
+                      .split(',') // Splitting by comma
+                      .map(
+                        (item) =>
+                          item
+                            .trim() // Trimming whitespace from each item
+                            .split(' ') // Splitting each item into words
+                            .map((word) => {
+                              // Check for special patterns like 'A/C'
+                              if (
+                                word === 'A/C' ||
+                                word === 'EV' ||
+                                word === 'EVs'
+                              ) {
+                                return word; // Keep 'A/C' & EV as uppercase
+                              } else {
+                                // Capitalize the first letter of other words
+                                return (
+                                  word.charAt(0).toUpperCase() +
+                                  word.slice(1).toLowerCase()
+                                );
+                              }
+                            })
+                            .join(' ') // Joining the words back together
+                      )
+                      .sort() // Sorting alphabetically
+                      .join(', ') // Joining back with comma and space
+                  ) : (
+                    <span className="italic">Info Unavailable</span>
+                  ) // Fallback if 'DERs needed' is not available
+                }
               </div>
 
               {row['Enrolling'] === 'Yes' &&
               row['Self-serve'] === 'Self-serve' ? (
                 <DefaultButton
-                  className="w-auto px-2 py-0 mt-2 sm:hidden"
+                  className="w-auto px-2 !py-1 sm:py-2 mt-2 sm:hidden"
                   onClick={() => handleSignUpClick(row['Program URL'])}
                 >
                   Sign Up
                 </DefaultButton>
               ) : row['Enrolling'] === 'Yes' &&
-                row['Self-serve'] != 'Self-serve' ? (
-                <DefaultButton
-                  className="w-auto px-2 py-0 mt-2 sm:hidden"
-                  onClick={() => handleSignUpClick(row['Program URL'])}
-                >
-                  Learn More
-                </DefaultButton>
+                (row['Self-serve'] === 'Via developer' ||
+                  row['Self-serve'] === 'Via installer') ? (
+                <div className="sm:hidden">
+                  <p className="italic mb-2 mt-2">
+                    Sign up via developer / installer
+                  </p>
+                  <DefaultButton
+                    className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
+                    onClick={() => handleSignUpClick(row['Program URL'])}
+                  >
+                    Learn More
+                  </DefaultButton>
+                </div>
+              ) : row['Enrolling'] === 'Yes' &&
+                row['Self-serve'] === 'Invite only' ? (
+                <div className="sm:hidden">
+                  <p className="italic mb-2 mt-2">Invite only </p>
+                  <DefaultButton
+                    className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
+                    onClick={() => handleSignUpClick(row['Program URL'])}
+                  >
+                    Learn More
+                  </DefaultButton>
+                </div>
+              ) : row['Enrolling'] === 'Yes' &&
+                ![
+                  'Self-serve',
+                  'Invite only',
+                  'Via developer',
+                  'Via installer',
+                ].includes(row['Self-serve']) ? (
+                <div className="sm:hidden">
+                  <p className="italic mb-2 mt-2">
+                    {`Sign up:  ${row['Self-serve']}`}
+                  </p>
+                  <DefaultButton
+                    className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
+                    onClick={() => handleSignUpClick(row['Program URL'])}
+                  >
+                    Learn More
+                  </DefaultButton>
+                </div>
               ) : row['Enrolling'] != 'Yes' && row['Status'] === 'Active' ? (
-                <DefaultButton className="w-auto px-2 py-0 mt-2 sm:hidden !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none ">
+                <DefaultButton className="w-auto px-2 !py-1 sm:py-2 mt-2 sm:hidden !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none ">
                   Enrollment Closed
                 </DefaultButton>
               ) : row['Status'] === 'Ended' ? (
-                <DefaultButton className="w-auto px-2 py-0 mt-2 sm:hidden !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none">
+                <DefaultButton className="w-auto px-2 !py-1 sm:py-2 mt-2 sm:hidden !text-main bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none">
                   Enrollment Closed
                 </DefaultButton>
               ) : row['Status'] === 'Planned' ? (
-                <div className="sm:hidden mt-2">
-                  <p className="italic">Coming Soon</p>
+                <div className="sm:hidden">
+                  <p className="italic mt-2 mb-2">Coming Soon</p>
                   <DefaultButton
-                    className="w-auto px-2 py-0 sm:hidden"
+                    className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
                     onClick={() => handleSignUpClick(row['Program URL'])}
                   >
                     Learn More
@@ -224,32 +401,67 @@ function ProgramFinderOutput({ data, visible }) {
             {row['Enrolling'] === 'Yes' &&
             row['Self-serve'] === 'Self-serve' ? (
               <DefaultButton
-                className="hidden sm:w-1/4 mx-4 px-4 py-2 sm:block"
+                className="hidden sm:w-1/4 mx-4 px-4 py-1 sm:py-2 sm:block"
                 onClick={() => handleSignUpClick(row['Program URL'])}
               >
                 Sign Up
               </DefaultButton>
             ) : row['Enrolling'] === 'Yes' &&
-              row['Self-serve'] != 'Self-serve' ? (
-              <DefaultButton
-                className="hidden sm:w-1/4 mx-4 px-4 py-2 sm:block"
-                onClick={() => handleSignUpClick(row['Program URL'])}
-              >
-                Learn More
-              </DefaultButton>
+              (row['Self-serve'] === 'Via developer' ||
+                row['Self-serve'] === 'Via installer') ? (
+              <div className="hidden sm:w-1/4 sm:flex flex-col items-center m-4 ">
+                <p className="italic text-center mb-2">
+                  Sign up via developer / installer
+                </p>
+                <DefaultButton
+                  className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
+                  onClick={() => handleSignUpClick(row['Program URL'])}
+                >
+                  Learn More
+                </DefaultButton>
+              </div>
+            ) : row['Enrolling'] === 'Yes' &&
+              row['Self-serve'] === 'Invite only' ? (
+              <div className="hidden sm:w-1/4 sm:flex flex-col items-center m-4 ">
+                <p className="italic text-center mb-2">Invite only </p>
+                <DefaultButton
+                  className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
+                  onClick={() => handleSignUpClick(row['Program URL'])}
+                >
+                  Learn More
+                </DefaultButton>
+              </div>
+            ) : row['Enrolling'] === 'Yes' &&
+              ![
+                'Self-serve',
+                'Invite only',
+                'Via developer',
+                'Via installer',
+              ].includes(row['Self-serve']) ? (
+              <div className="hidden sm:w-1/4 sm:flex flex-col items-center m-4 ">
+                <p className="italic text-center mb-2">
+                  {`Sign up:  ${row['Self-serve']}`}
+                </p>
+                <DefaultButton
+                  className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
+                  onClick={() => handleSignUpClick(row['Program URL'])}
+                >
+                  Learn More
+                </DefaultButton>
+              </div>
             ) : row['Enrolling'] != 'Yes' && row['Status'] === 'Active' ? (
-              <DefaultButton className="hidden sm:w-1/4 mx-4 sm:block px-4 py-2 !text-main  bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none ">
+              <DefaultButton className="hidden sm:w-1/4 mx-4 sm:block px-4 py-1 sm:py-2 !text-main  bg-bgMain hover:!shadow-none hover:!bg-opacity-100 pointer-events-none ">
                 Enrollment Closed
               </DefaultButton>
             ) : row['Status'] === 'Ended' ? (
-              <DefaultButton className="hidden sm:w-1/4 mx-4 sm:block px-4 py-2 !text-main  bg-bgMain hover:!shadow-none hover:!bg-opacity-100  pointer-events-none ">
+              <DefaultButton className="hidden sm:w-1/4 mx-4 sm:block px-4 py-1 sm:py-2 !text-main  bg-bgMain hover:!shadow-none hover:!bg-opacity-100  pointer-events-none ">
                 Enrollment Closed
               </DefaultButton>
             ) : row['Status'] === 'Planned' ? (
               <div className="hidden sm:w-1/4 sm:flex flex-col items-center mx-4 ">
-                <p className="italic">Coming Soon</p>
+                <p className="italic text-center mb-2">Coming Soon</p>
                 <DefaultButton
-                  className="hidden sm:w-full px-4 py-2 sm:block"
+                  className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
                   onClick={() => handleSignUpClick(row['Program URL'])}
                 >
                   Learn More

@@ -57,7 +57,7 @@ export default function ProgramFinder() {
     {
       id: 'heatpump',
       label: 'Heat Pumps',
-      apiLabel: 'Heatpumps',
+      apiLabel: 'Heat Pumps',
       selectType: 'multi',
       placeholderClosedText: 'Add Heat Pump...',
       errorMessageLabel: 'heat pump',
