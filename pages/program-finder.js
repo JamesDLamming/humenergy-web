@@ -24,7 +24,7 @@ export default function ProgramFinder() {
     {
       id: 'thermostat',
       label: 'Smart Thermostats',
-      apiLabel: 'Thermostats',
+      apiLabel: 'Smart Thermostats',
       selectType: 'multi',
       placeholderClosedText: 'Add thermostats...',
       errorMessageLabel: 'thermostat',
