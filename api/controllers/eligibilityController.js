@@ -1,6 +1,38 @@
 const { json } = require('express');
 const { accessSpreadsheet } = require('../services/googleSheetsService');
 
+function organizeDevicesByType(eligibleDevices) {
+  const organizedData = {};
+
+  eligibleDevices.forEach((row) => {
+    const manufacturer = row._rawData[0];
+    const type = row._rawData[1];
+
+    if (!organizedData[type]) {
+      organizedData[type] = new Set();
+    }
+
+    organizedData[type].add(manufacturer);
+  });
+
+  // Convert sets to arrays for a more standard object structure
+  for (const type in organizedData) {
+    organizedData[type] = Array.from(organizedData[type]).sort((a, b) =>
+      a.toLowerCase().localeCompare(b.toLowerCase())
+    );
+  }
+
+  // Sort the types and create a sorted final object
+  const sortedOrganizedData = {};
+  Object.keys(organizedData)
+    .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+    .forEach((sortedType) => {
+      sortedOrganizedData[sortedType] = organizedData[sortedType];
+    });
+
+  return sortedOrganizedData;
+}
+
 async function checkEligibility(req, res) {
   try {
     const {
@@ -11,8 +43,11 @@ async function checkEligibility(req, res) {
     } = req.body;
 
     const doc = await accessSpreadsheet();
-    const sheet = doc.sheetsByTitle['VPPs'];
-    const rows = await sheet.getRows();
+    const sheetPrograms = doc.sheetsByTitle['Programs'];
+    const rowsPrograms = await sheetPrograms.getRows();
+
+    const sheetManufacturers = doc.sheetsByTitle['Manufacturers'];
+    const rowsManufacturers = await sheetManufacturers.getRows();
 
     // Build an array containing all DER types present in the request
     const derArray = Object.keys(req.body)
@@ -45,7 +80,7 @@ async function checkEligibility(req, res) {
       return acc.concat(derSelectedOptions[key].map((option) => option.label));
     }, []);
 
-    const filteredRows = rows.filter(
+    const filteredPrograms = rowsPrograms.filter(
       (row) =>
         row.get('State/Region') === stateRegion &&
         (row.get('Sector').includes(sectorOption) ||
@@ -56,14 +91,45 @@ async function checkEligibility(req, res) {
         row.get('Program URL') != ''
     );
 
-    const taggedRows = filteredRows.map((row) => {
+    const taggedPrograms = filteredPrograms.map((row) => {
+      const eligibleDERTypes = row.get('DERs').toLowerCase().split(', ');
+      const eligibleManufacturers = row
+        .get('Eligible Manufacturers')
+        .toLowerCase() // Convert to lowercase
+        .split(', ');
+
+      let eligibleDevices;
+
+      if (
+        eligibleManufacturers.length === 1 &&
+        eligibleManufacturers[0] === ''
+      ) {
+        eligibleDevices = rowsManufacturers.filter((row) =>
+          eligibleDERTypes.some(
+            (type) => row.get('Type').toLowerCase() === type.toLowerCase()
+          )
+        );
+      } else {
+        eligibleDevices = rowsManufacturers.filter(
+          (row) =>
+            eligibleManufacturers.some(
+              (eligibleManufacturer) =>
+                row.get('Manufacturer').toLowerCase() ===
+                eligibleManufacturer.toLowerCase()
+            ) &&
+            eligibleDERTypes.some(
+              (type) => row.get('Type').toLowerCase() === type.toLowerCase()
+            )
+        );
+      }
+
+      // Assuming 'eligibleDevices' is the array you obtained from the filter
+      const organizedDevices = organizeDevicesByType(eligibleDevices);
+
       // Check if 'DERs' exists and split it into an array, then check if any DER is in derArray
       const derExists =
         (row.get('DERs') &&
-          row
-            .get('Eligible Manufacturers')
-            .toLowerCase() // Convert to lowercase
-            .split(', ') // Split by comma and space
+          eligibleManufacturers
             .map((der) => der.replace(/\s/g, '')) // Remove all spaces from each element
             .some(
               (der) =>
@@ -73,10 +139,7 @@ async function checkEligibility(req, res) {
             )) ||
         row.get('DERs').toLowerCase().replace(/\s/g, '') === 'all' ||
         (row.get('DERs') &&
-          row
-            .get('DERs')
-            .toLowerCase() // Convert to lowercase
-            .split(', ') // Split by comma and space
+          eligibleDERTypes
             .map((der) => der.replace(/\s/g, '')) // Remove all spaces from each element
             .some(
               (der) =>
@@ -88,11 +151,13 @@ async function checkEligibility(req, res) {
 
       // Assign 'Eligible' or 'Ineligible' based on the existence of DERs
       row.tag = derExists ? 'Eligible' : 'Ineligible';
+      row.eligibleDERs = organizedDevices;
+
       return row;
     });
 
     // Sort the taggedRows alphabetically by 'Program Name'
-    taggedRows.sort((a, b) => {
+    taggedPrograms.sort((a, b) => {
       // Extracting Status and Program Name for both a and b
       const statusA = a.get('Status').toLowerCase();
       const statusB = b.get('Status').toLowerCase();
@@ -116,7 +181,7 @@ async function checkEligibility(req, res) {
     });
 
     res.json(
-      taggedRows.map((row) => {
+      taggedPrograms.map((row) => {
         return {
           'Program Name': row.get('Program Name'),
           'Program Type': row.get('Program Type'),
@@ -126,6 +191,8 @@ async function checkEligibility(req, res) {
           'Utility/CCA': row.get('Utility/CCA'),
           'Image URL': row.get('Image URL'),
           'Self-serve': row.get('Self-serve'),
+          'Eligible Manufacturers': row.eligibleDERs,
+          // 'All Eligible DERs': row.het('All Eligible DERs'),
           Enrolling: row.get('Enrolling?'),
           Status: row.get('Status'),
           tag: row.tag,

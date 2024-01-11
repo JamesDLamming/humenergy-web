@@ -6,7 +6,7 @@ async function getUtilities(req, res) {
     const { stateRegion, sectorOption } = req.body;
 
     const doc = await accessSpreadsheet();
-    const sheet = doc.sheetsByTitle['VPPs']; // or use sheetsById or sheetsByTitle
+    const sheet = doc.sheetsByTitle['Programs']; // or use sheetsById or sheetsByTitle
     //const sheet = doc.sheetsByIndex[0]; // or use sheetsById or sheetsByTitle
 
     const rows = await sheet.getRows();

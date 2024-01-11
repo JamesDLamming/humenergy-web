@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DefaultButton from './DefaultButton';
+import Modal from './Modal';
 
 function ProgramFinderOutput({ data, visible }) {
   const eligibleRows = data.filter((row) => row.tag === 'Eligible');
   const ineligibleRows = data.filter((row) => row.tag === 'Ineligible');
+  const [modalVisibility, setModalVisibility] = useState(false);
 
   if (!visible) {
     return null;
@@ -62,6 +64,21 @@ function ProgramFinderOutput({ data, visible }) {
                 Program Type:{' '}
                 {row['Program Type'] || (
                   <span className="italic">Info Unavailable</span>
+                )}
+              </div>
+              <div>
+                Eligible Manufacturers:{' '}
+                {Object.entries(row['Eligible Manufacturers']).map(
+                  ([type, manufacturers]) => (
+                    <div key={type}>
+                      <h2 className="font-bold">{type}</h2>
+                      <ul>
+                        {manufacturers.map((manufacturer) => (
+                          <li key={manufacturer}>{manufacturer}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )
                 )}
               </div>
               <div>
@@ -288,6 +305,29 @@ function ProgramFinderOutput({ data, visible }) {
                 {row['Program Type'] || (
                   <span className="italic">Info Unavailable</span>
                 )}
+              </div>
+              <div onClick={() => setModalVisibility(true)}>
+                Eligible Manufacturers:{' '}
+                <Modal
+                  visible={modalVisibility}
+                  onCancel={() => setModalVisibility(false)}
+                  buttonText="Submit"
+                  hideButton
+                  className="w-screen"
+                >
+                  {Object.entries(row['Eligible Manufacturers']).map(
+                    ([type, manufacturers]) => (
+                      <div key={type}>
+                        <h2 className="font-bold">{type}</h2>
+                        <ul>
+                          {manufacturers.map((manufacturer) => (
+                            <li key={manufacturer}>{manufacturer}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )
+                  )}
+                </Modal>
               </div>
               <div>
                 Eligible devices:{' '}
