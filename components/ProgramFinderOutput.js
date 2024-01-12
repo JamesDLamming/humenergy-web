@@ -63,7 +63,28 @@ function ProgramFinderOutput({ data, visible }) {
                     className="flex gap-x-0 items-center mt-2 cursor-pointer"
                     onClick={() => toggleSection(type)}
                   >
-                    <p className="font-medium text-lg ">{type}</p>
+                    <p className="font-medium text-lg ">
+                      {type
+                        .trim() // Trimming whitespace from each item
+                        .split(' ') // Splitting each item into words
+                        .map((word) => {
+                          // Check for special patterns like 'A/C'
+                          if (
+                            word === 'A/C' ||
+                            word === 'EV' ||
+                            word === 'EVs'
+                          ) {
+                            return word;
+                          } else {
+                            // Capitalize the first letter of other words
+                            return (
+                              word.charAt(0).toUpperCase() +
+                              word.slice(1).toLowerCase()
+                            );
+                          }
+                        })
+                        .join(' ')}
+                    </p>
                     {/* Arrow Icon logic based on sectionOpenState */}
                     <svg
                       className={`fill-current h-6 w-6 transform toggleIcon ${
