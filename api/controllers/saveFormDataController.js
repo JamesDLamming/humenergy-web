@@ -2,7 +2,6 @@ const { json } = require('express');
 const { accessSpreadsheet } = require('../services/googleSheetsService');
 
 async function saveFormData(req, res) {
-  console.log(req.ip);
   const clientIP = req.ip; // or use req.headers['x-forwarded-for'] if behind a proxy
   const myIP = '::1'; // Replace with your IP address; currently setup for avoiding local host submission requirements
   if (clientIP === myIP) {

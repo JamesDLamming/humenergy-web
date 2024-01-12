@@ -1,33 +1,37 @@
 const { json } = require('express');
 const { accessSpreadsheet } = require('../services/googleSheetsService');
 
-function organizeDevicesByType(eligibleDevices) {
-  const organizedData = {};
+function getDeviceData(eligibleDevices) {
+  const deviceData = {};
 
   eligibleDevices.forEach((row) => {
     const manufacturer = row._rawData[0];
     const type = row._rawData[1];
 
-    if (!organizedData[type]) {
-      organizedData[type] = new Set();
+    if (!deviceData[type]) {
+      deviceData[type] = new Set();
     }
 
-    organizedData[type].add(manufacturer);
+    deviceData[type].add(manufacturer);
   });
 
+  return deviceData;
+}
+
+function organizeDevicesByType(deviceData) {
   // Convert sets to arrays for a more standard object structure
-  for (const type in organizedData) {
-    organizedData[type] = Array.from(organizedData[type]).sort((a, b) =>
+  for (const type in deviceData) {
+    deviceData[type] = Array.from(deviceData[type]).sort((a, b) =>
       a.toLowerCase().localeCompare(b.toLowerCase())
     );
   }
 
   // Sort the types and create a sorted final object
   const sortedOrganizedData = {};
-  Object.keys(organizedData)
+  Object.keys(deviceData)
     .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
     .forEach((sortedType) => {
-      sortedOrganizedData[sortedType] = organizedData[sortedType];
+      sortedOrganizedData[sortedType] = deviceData[sortedType];
     });
 
   return sortedOrganizedData;
@@ -99,16 +103,22 @@ async function checkEligibility(req, res) {
         .split(', ');
 
       let eligibleDevices;
+      let eligibleDeviceData = {};
 
       if (
         eligibleManufacturers.length === 1 &&
         eligibleManufacturers[0] === ''
       ) {
-        eligibleDevices = rowsManufacturers.filter((row) =>
-          eligibleDERTypes.some(
-            (type) => row.get('Type').toLowerCase() === type.toLowerCase()
-          )
-        );
+        //If no manufacturer data available
+        row
+          .get('DERs')
+          .split(', ')
+          .forEach((derType) => {
+            if (!eligibleDeviceData[derType]) {
+              eligibleDeviceData[derType] = new Set();
+            }
+            eligibleDeviceData[derType].add('Information not available');
+          });
       } else {
         eligibleDevices = rowsManufacturers.filter(
           (row) =>
@@ -122,11 +132,63 @@ async function checkEligibility(req, res) {
             )
         );
       }
+      let organizedDevices;
+      if (eligibleDevices) {
+        eligibleDeviceData = getDeviceData(eligibleDevices);
+      }
 
-      // Assuming 'eligibleDevices' is the array you obtained from the filter
-      const organizedDevices = organizeDevicesByType(eligibleDevices);
+      organizedDevices = organizeDevicesByType(eligibleDeviceData);
 
-      // Check if 'DERs' exists and split it into an array, then check if any DER is in derArray
+      let deviceTypes = Object.keys(organizedDevices);
+
+      // Find missing DER types with no manufacturer data
+
+      // First, create a normalized (lowercase) version of deviceTypes for comparison
+      const normalizedDeviceTypes = new Set(
+        deviceTypes.map((type) => type.toLowerCase())
+      );
+
+      const missingTypes = row
+        .get('DERs')
+        .split(', ')
+        .filter(
+          (originalType) =>
+            !normalizedDeviceTypes.has(originalType.toLowerCase())
+        );
+      const missingDeviceData = {};
+
+      missingTypes.forEach((derType) => {
+        if (!missingDeviceData[derType]) {
+          missingDeviceData[derType] = new Set();
+        }
+        missingDeviceData[derType].add('Information not available');
+      });
+
+      const mergedDeviceData = {};
+
+      // Merge object1 into mergedObject
+      for (const key in eligibleDeviceData) {
+        if (eligibleDeviceData.hasOwnProperty(key)) {
+          mergedDeviceData[key] = new Set([
+            ...(mergedDeviceData[key] || []),
+            ...eligibleDeviceData[key],
+          ]);
+        }
+      }
+
+      // Merge object2 into mergedObject
+      for (const key in missingDeviceData) {
+        if (missingDeviceData.hasOwnProperty(key)) {
+          mergedDeviceData[key] = new Set([
+            ...(mergedDeviceData[key] || []),
+            ...missingDeviceData[key],
+          ]);
+        }
+      }
+
+      organizedDevices = organizeDevicesByType(mergedDeviceData);
+
+      // Check if device is included in selected options and split it into an array, then check if any DER is in derArray
       const derExists =
         (row.get('DERs') &&
           eligibleManufacturers

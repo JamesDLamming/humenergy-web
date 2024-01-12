@@ -7,6 +7,23 @@ function ProgramFinderOutput({ data, visible }) {
   const ineligibleRows = data.filter((row) => row.tag === 'Ineligible');
   const [modalVisibility, setModalVisibility] = useState(false);
 
+  const [currentRowData, setCurrentRowData] = useState(null); // State to hold current row data for the modal
+
+  // Function to open modal with specific row data
+  const openModalWithRowData = (rowData) => {
+    setCurrentRowData(rowData);
+    setModalVisibility(true);
+  };
+
+  const [sectionOpenState, setSectionOpenState] = useState({});
+
+  const toggleSection = (type) => {
+    setSectionOpenState((prev) => ({
+      ...prev,
+      [type]: !prev[type],
+    }));
+  };
+
   if (!visible) {
     return null;
   }
@@ -30,6 +47,72 @@ function ProgramFinderOutput({ data, visible }) {
   };
   return (
     <div className="w-full ">
+      <Modal
+        visible={modalVisibility}
+        onCancel={() => setModalVisibility(false)}
+        buttonText="Submit"
+        hideButton
+      >
+        <div>
+          <p className="font-bold text-xl">Eligible Devices & Manufacturers</p>
+          {currentRowData &&
+            Object.entries(currentRowData['Eligible Manufacturers']).map(
+              ([type, manufacturers]) => (
+                <div key={type}>
+                  <div
+                    className="flex gap-x-0 items-center mt-2 cursor-pointer"
+                    onClick={() => toggleSection(type)}
+                  >
+                    <p className="font-medium text-lg ">{type}</p>
+                    {/* Arrow Icon logic based on sectionOpenState */}
+                    <svg
+                      className={`fill-current h-6 w-6 transform toggleIcon ${
+                        sectionOpenState[type] ? '' : '-rotate-90'
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M5.516 7.548c.436-.446 1.045-.481 1.576 0L10 10.405l2.908-2.857c.531-.481 1.141-.446 1.576 0 .436.445.408 1.197 0 1.642l-3.417 3.356c-.27.267-.631.408-.997.408s-.728-.141-.997-.408l-3.417-3.356c-.408-.445-.436-1.197 0-1.642z" />
+                    </svg>
+                  </div>
+                  <div
+                    className={`Section ${
+                      sectionOpenState[type] ? 'openToggle' : 'closed'
+                    }`}
+                  >
+                    <div>
+                      <ul>
+                        {manufacturers.map((manufacturer) => (
+                          <li key={manufacturer}>{manufacturer}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )
+            )}
+        </div>
+      </Modal>
+
+      <style>{`.Section {
+                    display: grid;
+                    grid-template-rows: 0fr;
+                    transition: grid-template-rows 0.7s ease, margin 0.7s ease;}
+                    .openToggle {
+                      grid-template-rows: 1fr;
+                      margin-bottom: 0.5rem;
+                    }
+                    .closed {
+                      overflow: hidden;
+                    }
+                    .Section > div {
+                      overflow:hidden
+                    }
+                    .toggleIcon {
+                      transition: all 0.7s ease-out
+                    }
+                  `}</style>
+
       <div className="text-xl pb-2 font-black items-center  ">
         Programs you may be eligible for:
       </div>
@@ -66,9 +149,9 @@ function ProgramFinderOutput({ data, visible }) {
                   <span className="italic">Info Unavailable</span>
                 )}
               </div>
-              <div>
+              <div onClick={() => openModalWithRowData(row)}>
                 Eligible Manufacturers:{' '}
-                {Object.entries(row['Eligible Manufacturers']).map(
+                {/* {Object.entries(row['Eligible Manufacturers']).map(
                   ([type, manufacturers]) => (
                     <div key={type}>
                       <h2 className="font-bold">{type}</h2>
@@ -79,7 +162,7 @@ function ProgramFinderOutput({ data, visible }) {
                       </ul>
                     </div>
                   )
-                )}
+                )} */}
               </div>
               <div>
                 Eligible devices:{' '}
@@ -306,28 +389,8 @@ function ProgramFinderOutput({ data, visible }) {
                   <span className="italic">Info Unavailable</span>
                 )}
               </div>
-              <div onClick={() => setModalVisibility(true)}>
-                Eligible Manufacturers:{' '}
-                <Modal
-                  visible={modalVisibility}
-                  onCancel={() => setModalVisibility(false)}
-                  buttonText="Submit"
-                  hideButton
-                  className="w-screen"
-                >
-                  {Object.entries(row['Eligible Manufacturers']).map(
-                    ([type, manufacturers]) => (
-                      <div key={type}>
-                        <h2 className="font-bold">{type}</h2>
-                        <ul>
-                          {manufacturers.map((manufacturer) => (
-                            <li key={manufacturer}>{manufacturer}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )
-                  )}
-                </Modal>
+              <div onClick={() => openModalWithRowData(row)}>
+                Eligible manufacturers{' '}
               </div>
               <div>
                 Eligible devices:{' '}
