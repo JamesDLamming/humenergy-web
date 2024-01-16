@@ -254,7 +254,7 @@ async function checkEligibility(req, res) {
           'Image URL': row.get('Image URL'),
           'Self-serve': row.get('Self-serve'),
           'Eligible Manufacturers': row.eligibleDERs,
-          // 'All Eligible DERs': row.het('All Eligible DERs'),
+          'New Customers Only': row.get('New Customers Only'),
           Enrolling: row.get('Enrolling?'),
           Status: row.get('Status'),
           tag: row.tag,
