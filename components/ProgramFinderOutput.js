@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import DefaultButton from './DefaultButton';
 import Modal from './Modal';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ReactGA from 'react-ga';
 
 function ProgramFinderOutput({ data, visible }) {
   const eligibleRows = data.filter((row) => row.tag === 'Eligible');
@@ -51,6 +52,18 @@ function ProgramFinderOutput({ data, visible }) {
     }));
   };
 
+  const handleSignUpClick = (event, url, programName) => {
+    const buttonText = event.target.textContent || event.target.innerText;
+
+    ReactGA.event({
+      category: 'User Interaction',
+      action: `Clicked ${buttonText}`,
+      label: `Program: ${programName}`,
+    });
+
+    window.open(url, '_blank').focus();
+  };
+
   if (!visible) {
     return null;
   }
@@ -69,9 +82,6 @@ function ProgramFinderOutput({ data, visible }) {
     );
   }
 
-  const handleSignUpClick = (url) => {
-    window.open(url, '_blank').focus(); // This will navigate to the specified URL
-  };
   return (
     <div className="w-full ">
       <Modal
@@ -161,7 +171,13 @@ function ProgramFinderOutput({ data, visible }) {
             currentRowData['Self-serve'] === 'Self-serve' ? (
               <DefaultButton
                 className="w-full px-2 !py-1 sm:py-2 mt-2 "
-                onClick={() => handleSignUpClick(currentRowData['Program URL'])}
+                onClick={(e) =>
+                  handleSignUpClick(
+                    e,
+                    currentRowData['Program URL'],
+                    currentRowData['Program Name']
+                  )
+                }
               >
                 Sign Up
               </DefaultButton>
@@ -174,8 +190,12 @@ function ProgramFinderOutput({ data, visible }) {
                 </p>
                 <DefaultButton
                   className="w-full px-2 !py-1 sm:py-2 "
-                  onClick={() =>
-                    handleSignUpClick(currentRowData['Program URL'])
+                  onClick={(e) =>
+                    handleSignUpClick(
+                      e,
+                      currentRowData['Program URL'],
+                      currentRowData['Program Name']
+                    )
                   }
                 >
                   Learn More
@@ -187,8 +207,12 @@ function ProgramFinderOutput({ data, visible }) {
                 <p className="italic mb-2 mt-4  text-center">Invite only </p>
                 <DefaultButton
                   className="w-full px-2 !py-1 sm:py-2 "
-                  onClick={() =>
-                    handleSignUpClick(currentRowData['Program URL'])
+                  onClick={(e) =>
+                    handleSignUpClick(
+                      e,
+                      currentRowData['Program URL'],
+                      currentRowData['Program Name']
+                    )
                   }
                 >
                   Learn More
@@ -207,8 +231,12 @@ function ProgramFinderOutput({ data, visible }) {
                 </p>
                 <DefaultButton
                   className="w-full px-2 !py-1 sm:py-2 "
-                  onClick={() =>
-                    handleSignUpClick(currentRowData['Program URL'])
+                  onClick={(e) =>
+                    handleSignUpClick(
+                      e,
+                      currentRowData['Program URL'],
+                      currentRowData['Program Name']
+                    )
                   }
                 >
                   Learn More
@@ -228,8 +256,12 @@ function ProgramFinderOutput({ data, visible }) {
                 <p className="italic mt-4 mb-2  text-center">Coming Soon</p>
                 <DefaultButton
                   className="w-full px-2 !py-1 sm:py-2 "
-                  onClick={() =>
-                    handleSignUpClick(currentRowData['Program URL'])
+                  onClick={(e) =>
+                    handleSignUpClick(
+                      e,
+                      currentRowData['Program URL'],
+                      currentRowData['Program Name']
+                    )
                   }
                 >
                   Learn More
@@ -358,7 +390,13 @@ function ProgramFinderOutput({ data, visible }) {
                   row['Self-serve'] === 'Self-serve' ? (
                     <DefaultButton
                       className="w-auto px-2 !py-1 sm:py-2 mt-2 sm:hidden"
-                      onClick={() => handleSignUpClick(row['Program URL'])}
+                      onClick={(e) =>
+                        handleSignUpClick(
+                          e,
+                          row['Program URL'],
+                          row['Program Name']
+                        )
+                      }
                     >
                       Sign Up
                     </DefaultButton>
@@ -371,7 +409,13 @@ function ProgramFinderOutput({ data, visible }) {
                       </p>
                       <DefaultButton
                         className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
-                        onClick={() => handleSignUpClick(row['Program URL'])}
+                        onClick={(e) =>
+                          handleSignUpClick(
+                            e,
+                            row['Program URL'],
+                            row['Program Name']
+                          )
+                        }
                       >
                         Learn More
                       </DefaultButton>
@@ -382,7 +426,13 @@ function ProgramFinderOutput({ data, visible }) {
                       <p className="italic mb-2 mt-2">Invite only </p>
                       <DefaultButton
                         className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
-                        onClick={() => handleSignUpClick(row['Program URL'])}
+                        onClick={(e) =>
+                          handleSignUpClick(
+                            e,
+                            row['Program URL'],
+                            row['Program Name']
+                          )
+                        }
                       >
                         Learn More
                       </DefaultButton>
@@ -400,7 +450,13 @@ function ProgramFinderOutput({ data, visible }) {
                       </p>
                       <DefaultButton
                         className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
-                        onClick={() => handleSignUpClick(row['Program URL'])}
+                        onClick={(e) =>
+                          handleSignUpClick(
+                            e,
+                            row['Program URL'],
+                            row['Program Name']
+                          )
+                        }
                       >
                         Learn More
                       </DefaultButton>
@@ -419,7 +475,13 @@ function ProgramFinderOutput({ data, visible }) {
                       <p className="italic mt-2 mb-2">Coming Soon</p>
                       <DefaultButton
                         className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
-                        onClick={() => handleSignUpClick(row['Program URL'])}
+                        onClick={(e) =>
+                          handleSignUpClick(
+                            e,
+                            row['Program URL'],
+                            row['Program Name']
+                          )
+                        }
                       >
                         Learn More
                       </DefaultButton>
@@ -431,7 +493,13 @@ function ProgramFinderOutput({ data, visible }) {
                 row['Self-serve'] === 'Self-serve' ? (
                   <DefaultButton
                     className="hidden sm:w-1/4 mx-4 px-4 py-1 sm:py-2 sm:block"
-                    onClick={() => handleSignUpClick(row['Program URL'])}
+                    onClick={(e) =>
+                      handleSignUpClick(
+                        e,
+                        row['Program URL'],
+                        row['Program Name']
+                      )
+                    }
                   >
                     Sign Up
                   </DefaultButton>
@@ -444,7 +512,13 @@ function ProgramFinderOutput({ data, visible }) {
                     </p>
                     <DefaultButton
                       className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
-                      onClick={() => handleSignUpClick(row['Program URL'])}
+                      onClick={(e) =>
+                        handleSignUpClick(
+                          e,
+                          row['Program URL'],
+                          row['Program Name']
+                        )
+                      }
                     >
                       Learn More
                     </DefaultButton>
@@ -455,7 +529,13 @@ function ProgramFinderOutput({ data, visible }) {
                     <p className="italic text-center mb-2">Invite only </p>
                     <DefaultButton
                       className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
-                      onClick={() => handleSignUpClick(row['Program URL'])}
+                      onClick={(e) =>
+                        handleSignUpClick(
+                          e,
+                          row['Program URL'],
+                          row['Program Name']
+                        )
+                      }
                     >
                       Learn More
                     </DefaultButton>
@@ -473,7 +553,13 @@ function ProgramFinderOutput({ data, visible }) {
                     </p>
                     <DefaultButton
                       className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
-                      onClick={() => handleSignUpClick(row['Program URL'])}
+                      onClick={(e) =>
+                        handleSignUpClick(
+                          e,
+                          row['Program URL'],
+                          row['Program Name']
+                        )
+                      }
                     >
                       Learn More
                     </DefaultButton>
@@ -491,7 +577,13 @@ function ProgramFinderOutput({ data, visible }) {
                     <p className="italic text-center mb-2">Coming Soon</p>
                     <DefaultButton
                       className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
-                      onClick={() => handleSignUpClick(row['Program URL'])}
+                      onClick={(e) =>
+                        handleSignUpClick(
+                          e,
+                          row['Program URL'],
+                          row['Program Name']
+                        )
+                      }
                     >
                       Learn More
                     </DefaultButton>
@@ -608,7 +700,13 @@ function ProgramFinderOutput({ data, visible }) {
               row['Self-serve'] === 'Self-serve' ? (
                 <DefaultButton
                   className="w-auto px-2 !py-1 sm:py-2 mt-2 sm:hidden"
-                  onClick={() => handleSignUpClick(row['Program URL'])}
+                  onClick={(e) =>
+                    handleSignUpClick(
+                      e,
+                      row['Program URL'],
+                      row['Program Name']
+                    )
+                  }
                 >
                   Sign Up
                 </DefaultButton>
@@ -621,7 +719,13 @@ function ProgramFinderOutput({ data, visible }) {
                   </p>
                   <DefaultButton
                     className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
-                    onClick={() => handleSignUpClick(row['Program URL'])}
+                    onClick={(e) =>
+                      handleSignUpClick(
+                        e,
+                        row['Program URL'],
+                        row['Program Name']
+                      )
+                    }
                   >
                     Learn More
                   </DefaultButton>
@@ -632,7 +736,13 @@ function ProgramFinderOutput({ data, visible }) {
                   <p className="italic mb-2 mt-2">Invite only </p>
                   <DefaultButton
                     className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
-                    onClick={() => handleSignUpClick(row['Program URL'])}
+                    onClick={(e) =>
+                      handleSignUpClick(
+                        e,
+                        row['Program URL'],
+                        row['Program Name']
+                      )
+                    }
                   >
                     Learn More
                   </DefaultButton>
@@ -650,7 +760,13 @@ function ProgramFinderOutput({ data, visible }) {
                   </p>
                   <DefaultButton
                     className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
-                    onClick={() => handleSignUpClick(row['Program URL'])}
+                    onClick={(e) =>
+                      handleSignUpClick(
+                        e,
+                        row['Program URL'],
+                        row['Program Name']
+                      )
+                    }
                   >
                     Learn More
                   </DefaultButton>
@@ -668,7 +784,13 @@ function ProgramFinderOutput({ data, visible }) {
                   <p className="italic mt-2 mb-2">Coming Soon</p>
                   <DefaultButton
                     className="w-auto px-2 !py-1 sm:py-2 sm:hidden"
-                    onClick={() => handleSignUpClick(row['Program URL'])}
+                    onClick={(e) =>
+                      handleSignUpClick(
+                        e,
+                        row['Program URL'],
+                        row['Program Name']
+                      )
+                    }
                   >
                     Learn More
                   </DefaultButton>
@@ -680,7 +802,9 @@ function ProgramFinderOutput({ data, visible }) {
             row['Self-serve'] === 'Self-serve' ? (
               <DefaultButton
                 className="hidden sm:w-1/4 mx-4 px-4 py-1 sm:py-2 sm:block"
-                onClick={() => handleSignUpClick(row['Program URL'])}
+                onClick={(e) =>
+                  handleSignUpClick(e, row['Program URL'], row['Program Name'])
+                }
               >
                 Sign Up
               </DefaultButton>
@@ -693,7 +817,13 @@ function ProgramFinderOutput({ data, visible }) {
                 </p>
                 <DefaultButton
                   className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
-                  onClick={() => handleSignUpClick(row['Program URL'])}
+                  onClick={(e) =>
+                    handleSignUpClick(
+                      e,
+                      row['Program URL'],
+                      row['Program Name']
+                    )
+                  }
                 >
                   Learn More
                 </DefaultButton>
@@ -704,7 +834,13 @@ function ProgramFinderOutput({ data, visible }) {
                 <p className="italic text-center mb-2">Invite only </p>
                 <DefaultButton
                   className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
-                  onClick={() => handleSignUpClick(row['Program URL'])}
+                  onClick={(e) =>
+                    handleSignUpClick(
+                      e,
+                      row['Program URL'],
+                      row['Program Name']
+                    )
+                  }
                 >
                   Learn More
                 </DefaultButton>
@@ -722,7 +858,13 @@ function ProgramFinderOutput({ data, visible }) {
                 </p>
                 <DefaultButton
                   className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
-                  onClick={() => handleSignUpClick(row['Program URL'])}
+                  onClick={(e) =>
+                    handleSignUpClick(
+                      e,
+                      row['Program URL'],
+                      row['Program Name']
+                    )
+                  }
                 >
                   Learn More
                 </DefaultButton>
@@ -740,7 +882,13 @@ function ProgramFinderOutput({ data, visible }) {
                 <p className="italic text-center mb-2">Coming Soon</p>
                 <DefaultButton
                   className="hidden sm:w-full px-4 py-1 sm:py-2 sm:block"
-                  onClick={() => handleSignUpClick(row['Program URL'])}
+                  onClick={(e) =>
+                    handleSignUpClick(
+                      e,
+                      row['Program URL'],
+                      row['Program Name']
+                    )
+                  }
                 >
                   Learn More
                 </DefaultButton>
