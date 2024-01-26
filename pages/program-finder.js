@@ -55,6 +55,14 @@ export default function ProgramFinder() {
       errorMessageLabel: 'electric vehicle',
     },
     {
+      id: 'EVCharger',
+      label: 'EV Charger',
+      apiLabel: 'EV Chargers',
+      selectType: 'multi',
+      placeholderClosedText: 'Add EV Charger...',
+      errorMessageLabel: 'EV charger',
+    },
+    {
       id: 'heatpump',
       label: 'Heat Pumps',
       apiLabel: 'Heat Pumps',
@@ -132,6 +140,14 @@ export default function ProgramFinder() {
       menuOpen: false,
       errorMessage: '',
     },
+    EVCharger: {
+      present: false,
+      options: [],
+      selected: [],
+      selectorOverflow: 'hidden',
+      menuOpen: false,
+      errorMessage: '',
+    },
     heatpump: {
       present: false,
       options: [],
@@ -173,6 +189,27 @@ export default function ProgramFinder() {
       errorMessage: '',
     },
   });
+
+  // Generate CSS rules for each DER type selection
+  const dynamicDERStyles = derTypes
+    .map(
+      (derType) => `
+    .${derType.id}Selection {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.7s ease, margin 0.7s ease;
+    }
+    .${derType.id}Selection.open {
+      grid-template-rows: 1fr;
+      margin-top: 0.25rem !important;
+      margin-bottom: 0.75rem;
+    }
+    .${derType.id}Selection > div {
+      overflow:hidden
+    }
+  `
+    )
+    .join('');
 
   const setRadioYes = (type) => {
     // Immediately set 'present' to true
@@ -1002,7 +1039,7 @@ export default function ProgramFinder() {
       {isClient && (
         <style>
           {`
-              .propertySection, .utilitySection, .addDevicesSection, .deviceTitleSection, .emailSection, .thermostatSelection, .batterySelection, .heatpumpSelection,  .waterheaterSelection, .solarSelection, .EVSelection, .generatorSelection, .deviceSection {
+              .propertySection, .utilitySection, .addDevicesSection, .deviceTitleSection, .emailSection, .deviceSection {
                 display: grid;
                 grid-template-rows: 0fr;
                 transition: grid-template-rows 0.7s ease, margin 0.7s ease;
@@ -1015,19 +1052,20 @@ export default function ProgramFinder() {
                 grid-template-rows: 1fr;
                 margin-top: 0.5rem;
               }
-              .propertySection > div, .utilitySection > div, .thermostatSelection > div , .batterySelection > div,  .heatpumpSelection > div ,  .waterheaterSelection > div, .solarSelection > div, .EVSelection > div, .generatorSelection > div, .deviceSection > div, .propertySection > div, .deviceTitleSection > div, .emailSection > div {
+              .propertySection > div, .utilitySection > div, .deviceSection > div, .propertySection > div, .deviceTitleSection > div, .emailSection > div {
                 overflow:hidden
               }
               .deviceTitleSection.open, .propertySection.open, .utilitySection.open {
                 margin-top: 1rem;
               }
-              .thermostatSelection.open, .batterySelection.open, .heatpumpSelection.open, .waterheaterSelection.open, .solarSelection.open, .EVSelection.open, .generatorSelection.open {
-                margin-top: 0.25rem !important;
-                margin-bottom: 0.75rem;
-              }
+              // .thermostatSelection.open, .batterySelection.open, .heatpumpSelection.open, .waterheaterSelection.open, .solarSelection.open, .EVSelection.open,  .EVChargerSelection.open, .generatorSelection.open {
+              //   margin-top: 0.25rem !important;
+              //   margin-bottom: 0.75rem;
+              // }
               .closed {
                 overflow: hidden;
               }
+              ${dynamicDERStyles}
             `}
         </style>
       )}
