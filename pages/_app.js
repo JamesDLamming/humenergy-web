@@ -2,6 +2,7 @@ import '../styles/globals.css';
 import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
 import Router from 'next/router';
+import { Analytics } from '@vercel/analytics/react';
 
 ReactGA.initialize('G-5M85BYFVWC');
 
@@ -24,7 +25,12 @@ function MyApp({ Component, pageProps }) {
     };
   }, []);
 
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Component {...pageProps} />
+      <Analytics />
+    </>
+  );
 }
 
 export default MyApp;
