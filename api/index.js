@@ -5,12 +5,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 //routes
-const eligibilityRoutes = require('./routes/eligibilityRoutes');
-const getUtilities = require('./routes/getUtilitiesRoute');
-const getManufacturers = require('./routes/manufacturersRoutes');
-const saveFormData = require('./routes/saveFormDataRoutes');
-const contactFormEmailRoutes = require('./routes/contactFormEmailRoutes');
-const programFormEmailRoutes = require('./routes/programFormEmailRoutes');
+const eligibilityRoutes = require('./routes/routes');
+const getUtilities = require('./routes/routes');
+const getManufacturers = require('./routes/routes');
+const saveFormData = require('./routes/routes');
+const contactFormEmailRoutes = require('./routes/routes');
+const programFormEmailRoutes = require('./routes/routes');
 
 const app = express();
 app.use(express.json());
