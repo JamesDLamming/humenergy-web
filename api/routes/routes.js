@@ -36,4 +36,22 @@ router.post(
 const { saveFormData } = require('../controllers/saveFormDataController');
 router.post('/api/saveFormData', saveFormData);
 
+//plant routes
+const express = require('express');
+const {
+  getPlants,
+  addPlant,
+  updateWaterDate,
+  updatePlant,
+  deletePlant,
+} = require('../controllers/plantController');
+
+router.get('/api/plants', getPlants);
+router.post('/api/plants', addPlant);
+router.put('/api/plants/:id/water', updateWaterDate);
+router.put('/api/plants/:id/edit', updatePlant);
+router.delete('/api/plants:id', deletePlant);
+
+// end
+
 module.exports = router;
