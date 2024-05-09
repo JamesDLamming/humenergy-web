@@ -29,9 +29,4 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-app.use('/', require('./routes/routes'));
-const connectDB = require('../config/db');
-// Connect to Database
-connectDB();
-
 module.exports = app;
