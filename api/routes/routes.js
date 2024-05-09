@@ -44,7 +44,7 @@ const {
   updateWaterDate,
   updatePlant,
   deletePlant,
-} = require('../controllers/plantController');
+} = require('../controllers/saveFormDataController');
 
 router.get('/api/plants', getPlants);
 router.post('/api/plants', addPlant);
