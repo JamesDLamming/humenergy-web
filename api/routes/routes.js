@@ -37,20 +37,21 @@ const { saveFormData } = require('../controllers/saveFormDataController');
 router.post('/api/saveFormData', saveFormData);
 
 //plant routes
-const express = require('express');
-const {
-  getPlants,
-  addPlant,
-  updateWaterDate,
-  updatePlant,
-  deletePlant,
-} = require('../controllers/saveFormDataController');
+// const express = require('express');
+// const {
+//   // getPlants,
+//   addPlant,
+//   updateWaterDate,
+//   updatePlant,
+//   deletePlant,
+// } = require('../controllers/saveFormDataController');
 
+const { getPlants } = require('../controllers/saveFormDataController');
 router.get('/api/plants', getPlants);
-router.post('/api/plants', addPlant);
-router.put('/api/plants/:id/water', updateWaterDate);
-router.put('/api/plants/:id/edit', updatePlant);
-router.delete('/api/plants:id', deletePlant);
+// router.post('/api/plants', addPlant);
+// router.put('/api/plants/:id/water', updateWaterDate);
+// router.put('/api/plants/:id/edit', updatePlant);
+// router.delete('/api/plants:id', deletePlant);
 
 // end
 

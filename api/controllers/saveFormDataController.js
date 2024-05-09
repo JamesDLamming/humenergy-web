@@ -52,14 +52,16 @@ module.exports = { saveFormData };
 const Plant = require('../models/Plant');
 
 // Get all plants
-exports.getPlants = async (req, res) => {
+async function getPlants(req, res) {
+  // exports.getPlants = async (req, res) => {
   try {
     const plants = await Plant.find();
     res.json(plants);
   } catch (err) {
     res.status(500).send('Server Error');
   }
-};
+}
+module.exports = { getPlants };
 
 // Add a new plant
 exports.addPlant = async (req, res) => {
